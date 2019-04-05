@@ -12,6 +12,14 @@ public class Meaning {
         this.definition = definition;
     }
 
+    public String getDefinition() {
+        return definition;
+    }
+
+    public void setDefinition(String definition) {
+        this.definition = definition;
+    }
+
     public boolean isTag_big() {
         return tag_big;
     }
