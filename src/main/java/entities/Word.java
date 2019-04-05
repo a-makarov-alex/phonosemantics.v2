@@ -2,8 +2,11 @@ package entities;
 
 import com.google.gson.Gson;
 
+import java.util.HashMap;
+
 public class Word {
-    private Transcription transcription;
+    private String word;
+    private HashMap<String, Phoneme> transcription; // TODO: String type cause we need "last" position in the transcription
     private Meaning meaning;
     private String language;
     private int length;
@@ -13,15 +16,20 @@ public class Word {
         NOUN, VERB, ADJECTIVE
     }
 
-    public Word(Meaning meaning, Transcription transcription, String language, PartOfSpeech partOfSpeech) {
-        this.meaning = meaning;
-        this.transcription = transcription;
+    public Word(String word, String definition, String language, PartOfSpeech partOfSpeech) {
+        this.word = word;
+        this.meaning = new Meaning(definition);
+        this.transcription = writeAsTranscription(word);
         this.language = language;
         this.partOfSpeech = partOfSpeech;
-        this.length = transcription.getFullForm().length();
+        this.length = word.length();
     }
 
-    public Word() {
+    public Word(String word) {
+        this.word = word;
+        this.transcription = writeAsTranscription(word);
+        this.length = word.length();
+
     }
 
     public Meaning getMeaning() {
@@ -32,13 +40,20 @@ public class Word {
         this.meaning = meaning;
     }
 
-    public Transcription getTranscription() {
+    public String getWord() {
+        return word;
+    }
+
+    public void setWord(String word) {
+        this.word = word;
+    }
+
+    public HashMap<String, Phoneme> getTranscription() {
         return transcription;
     }
 
-    public void setTranscription(Transcription transcription) {
+    public void setTranscription(HashMap<String, Phoneme> transcription) {
         this.transcription = transcription;
-        this.length = transcription.getFullForm().length();
     }
 
     public int getLength() {
@@ -65,5 +80,31 @@ public class Word {
         Gson gson = new Gson();
         String json = gson.toJson(this);
         return json;
+    }
+
+    public int getNumOfPhonemes(char phoneme) {
+        int count = 0;
+
+        // i=1 cause map key starts with 1, not 0
+        // remember: MAP key is String format, not integer.
+        for (int i=1; i <= this.getTranscription().size(); i++) {
+            if (this.getTranscription().get(String.valueOf(i)).getSymbol()== phoneme) {
+                count ++;
+            }
+        }
+        return count;
+    }
+
+    public HashMap<String, Phoneme> writeAsTranscription(String word) {
+        HashMap<String, Phoneme> transcription = new HashMap<String, Phoneme>();
+        char[] phonemes = word.toCharArray();
+
+        for (int i=0; i < phonemes.length; i++) {
+            String position = String.valueOf(i + 1);
+            char symbol = phonemes[i];
+            transcription.put(position, new Phoneme(symbol, i+1));
+        }
+
+        return transcription;
     }
 }

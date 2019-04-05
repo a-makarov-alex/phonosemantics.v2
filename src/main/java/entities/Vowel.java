@@ -1,6 +1,6 @@
 package entities;
 
-public class Vowel extends Sound {
+public class Vowel extends Phoneme {
 
     private String vowel;
     private Height height;

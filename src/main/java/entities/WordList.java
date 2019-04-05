@@ -35,4 +35,17 @@ public class WordList {
         String json = gson.toJson(this);
         return json;
     }
+
+    public Word getWord(String language) {
+        for (Word word : this.wordlist) {
+            if (word.getLanguage().toLowerCase().equals(language.toLowerCase())) {
+                System.out.println("SUCCESS: Word of language " + language +
+                        " with meaning " + this.meaning + " is: " + word.getWord());
+                return word;
+            }
+        }
+        System.out.println("FAILURE: Word of language " + language +
+                " with meaning " + this.meaning + " is not found");
+        return null;
+    }
 }

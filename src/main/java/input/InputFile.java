@@ -1,7 +1,6 @@
 package input;
 
 import entities.Meaning;
-import entities.Transcription;
 import entities.Word;
 import org.apache.poi.ss.usermodel.*;
 
@@ -55,10 +54,9 @@ public class InputFile {
                         System.out.println("Number of rows (languages) " + (i - 1));
                         break;
                     }
-                    Word word = new Word();
+                    Word word = new Word(sheet.getRow(i).getCell(col).getStringCellValue());
                     word.setMeaning(new Meaning(sheet.getRow(0).getCell(col).getStringCellValue()));
                     word.setLanguage(sheet.getRow(i).getCell(0).getStringCellValue());
-                    word.setTranscription(new Transcription(sheet.getRow(i).getCell(col).getStringCellValue()));
 
                     allWordsList.add(word);
                 }
@@ -110,10 +108,9 @@ public class InputFile {
                                 System.out.println("Number of words for " + meaning + " : " + (i - 1));
                                 break;
                             }
-                            Word word = new Word();
+                            Word word = new Word(sheet.getRow(i).getCell(col).getStringCellValue());
                             word.setMeaning(new Meaning(sheet.getRow(0).getCell(col).getStringCellValue()));
                             word.setLanguage(sheet.getRow(i).getCell(0).getStringCellValue());
-                            word.setTranscription(new Transcription(sheet.getRow(i).getCell(col).getStringCellValue()));
 
                             wordlist.add(word);
                         }

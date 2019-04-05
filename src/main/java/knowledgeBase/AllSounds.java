@@ -1,6 +1,6 @@
 package knowledgeBase;
 
-import entities.Sound;
+import entities.Phoneme;
 
 import java.io.File;
 import java.util.HashMap;
@@ -8,7 +8,7 @@ import java.util.HashMap;
 public class AllSounds {
 
     // TODO: maybe change String to unique enum type
-    private static HashMap<String, Sound> allSoundsTable;
+    private static HashMap<String, Phoneme> allSoundsTable;
 
     // TODO: add file from current directory
     private File soundFile = new File("address_here");
