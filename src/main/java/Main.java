@@ -22,6 +22,7 @@ public class Main {
         // TODO: unit tests
         // TODO: do not read empty cells in inputFile and do not count them
         // TODO: write java 1.8 in pom.xml
+        // TODO: make Phoneme an abstract class
 
     }
 

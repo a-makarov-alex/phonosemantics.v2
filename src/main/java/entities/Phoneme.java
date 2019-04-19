@@ -12,6 +12,10 @@ public class Phoneme {
         this.position = position;
     }
 
+    public Phoneme(char symbol) {
+        this.symbol = symbol;
+    }
+
     public Phoneme() {
     }
 
