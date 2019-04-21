@@ -1,29 +1,29 @@
-package entities;
+package entities.phonetics;
 
 public class Phoneme {
-    private char symbol;
+    private String symbol;
     private int position;
     private String soundClass;  //TODO: vowel/consonant
-    private boolean phonation;  // TODO: parameters
+    //private boolean phonation;  // TODO: parameters
 
 
-    public Phoneme(char symbol, int position) {
+    public Phoneme(String symbol, int position) {
         this.symbol = symbol;
         this.position = position;
     }
 
-    public Phoneme(char symbol) {
+    public Phoneme(String symbol) {
         this.symbol = symbol;
     }
 
     public Phoneme() {
     }
 
-    public char getSymbol() {
+    public String getSymbol() {
         return symbol;
     }
 
-    public void setSymbol(char symbol) {
+    public void setSymbol(String symbol) {
         this.symbol = symbol;
     }
 

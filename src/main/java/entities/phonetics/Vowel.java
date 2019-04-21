@@ -1,8 +1,7 @@
-package entities;
+package entities.phonetics;
 
 public class Vowel extends Phoneme {
 
-    //private char vowel; //we have a symbol in a superclass TODO maybe delete field from here
     private Height height;
     private Backness backness;
     private boolean roundedness;
@@ -16,11 +15,11 @@ public class Vowel extends Phoneme {
         BACK, CENTRAL, FRONT
     }
 
-    public Vowel(char symbol) {
+    public Vowel(String symbol) {
         super(symbol);
     }
 
-    public Vowel(char symbol, Height height, Backness backness, boolean roundedness, boolean nasalization) {
+    public Vowel(String symbol, Height height, Backness backness, boolean roundedness, boolean nasalization) {
         super(symbol);
         this.height = height;
         this.backness = backness;
@@ -28,6 +27,7 @@ public class Vowel extends Phoneme {
         this.nasalization = nasalization;
     }
 
+    /********************************** GETTERS AND SETTERS *************************************/
     public Height getHeight() {
         return height;
     }

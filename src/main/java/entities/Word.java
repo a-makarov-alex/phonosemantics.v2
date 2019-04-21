@@ -1,6 +1,7 @@
 package entities;
 
 import com.google.gson.Gson;
+import entities.phonetics.Phoneme;
 
 import java.util.HashMap;
 
@@ -32,49 +33,43 @@ public class Word {
 
     }
 
+
+    /** GETTERS AND SETTERS**/
     public Meaning getMeaning() {
         return meaning;
     }
-
     public void setMeaning(Meaning meaning) {
         this.meaning = meaning;
     }
-
     public String getWord() {
         return word;
     }
-
     public void setWord(String word) {
         this.word = word;
     }
-
     public HashMap<String, Phoneme> getTranscription() {
         return transcription;
     }
-
     public void setTranscription(HashMap<String, Phoneme> transcription) {
         this.transcription = transcription;
     }
-
     public int getLength() {
         return length;
     }
-
     public String getLanguage() {
         return language;
     }
-
     public void setLanguage(String language) {
         this.language = language;
     }
-
     public PartOfSpeech getPartOfSpeech() {
         return partOfSpeech;
     }
-
     public void setPartOfSpeech(PartOfSpeech partOfSpeech) {
         this.partOfSpeech = partOfSpeech;
     }
+
+
 
     public String serialize() {
         Gson gson = new Gson();
@@ -82,7 +77,7 @@ public class Word {
         return json;
     }
 
-    public int getNumOfPhonemes(char phoneme) {
+    public int getNumOfPhonemes(String phoneme) {
         int count = 0;
 
         // i=1 cause map key starts with 1, not 0
@@ -97,11 +92,17 @@ public class Word {
 
     public HashMap<String, Phoneme> writeAsTranscription(String word) {
         HashMap<String, Phoneme> transcription = new HashMap<String, Phoneme>();
-        char[] phonemes = word.toCharArray();
+
+        // TODO this is a dinosaur method....
+        String[] phonemes = new String[word.length()];
+        char[] buffer = word.toCharArray();
+        for (int i=0; i < word.length(); i++) {
+             phonemes[i] = String.valueOf(buffer[i]);
+        }
 
         for (int i=0; i < phonemes.length; i++) {
             String position = String.valueOf(i + 1);
-            char symbol = phonemes[i];
+            String symbol = phonemes[i];
             transcription.put(position, new Phoneme(symbol, i+1));
         }
 
