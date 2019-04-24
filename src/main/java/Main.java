@@ -1,6 +1,7 @@
 import entities.Word;
 import entities.WordList;
 import input.InputFile;
+import knowledgeBase.ConsonantsBank;
 
 public class Main {
 
@@ -11,17 +12,23 @@ public class Main {
 
         // test: get wordlist for some meaning
         WordList wordlist = new WordList(inputFile.getWordList("big"));
-        System.out.println(wordlist.serialize());
+        //System.out.println(wordlist.serialize());
 
         Word word = wordlist.getWord("shoshone");
-        System.out.println("i phonemes in word: " + word.getNumOfPhonemes("i"));
+        //System.out.println("i phonemes in word: " + word.getNumOfPhonemes("i"));
+
+        //word.getTranscriptionFromWord();
+        ConsonantsBank cBank = ConsonantsBank.getInstance();
+        ConsonantsBank cBank1 = ConsonantsBank.getInstance();
+
+        //System.out.println(word.getTranscription().get(0).getSymbol());
+        //System.out.println(word.getTranscriptionAsString());
 
 
         // bug list
         // TODO: fix the problem with /u0027 etc codes instead of symbols
         // TODO: unit tests
         // TODO: do not read empty cells in inputFile and do not count them
-        // TODO: write java 1.8 in pom.xml
         // TODO: make Phoneme an abstract class
         // TODO for some time a new field can be added двусмысленный знак или нет,
         // смысл в том, что многие знаки могут иметь несколько значений

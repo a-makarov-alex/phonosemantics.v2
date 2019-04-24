@@ -2,12 +2,13 @@ package entities;
 
 import com.google.gson.Gson;
 import entities.phonetics.Phoneme;
+import knowledgeBase.ConsonantsBank;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
 public class Word {
     private String word;
-    private HashMap<String, Phoneme> transcription; // TODO: String type cause we need "last" position in the transcription
+    private ArrayList<Phoneme> transcription;
     private Meaning meaning;
     private String language;
     private int length;
@@ -20,7 +21,7 @@ public class Word {
     public Word(String word, String definition, String language, PartOfSpeech partOfSpeech) {
         this.word = word;
         this.meaning = new Meaning(definition);
-        this.transcription = writeAsTranscription(word);
+        this.transcription = this.getTranscriptionFromWord();
         this.language = language;
         this.partOfSpeech = partOfSpeech;
         this.length = word.length();
@@ -28,8 +29,8 @@ public class Word {
 
     public Word(String word) {
         this.word = word;
-        this.transcription = writeAsTranscription(word);
-        this.length = word.length();
+        this.transcription = this.getTranscriptionFromWord();
+        this.length = word.length();    // TODO this is incorrect
 
     }
 
@@ -47,10 +48,10 @@ public class Word {
     public void setWord(String word) {
         this.word = word;
     }
-    public HashMap<String, Phoneme> getTranscription() {
+    public ArrayList<Phoneme> getTranscription() {
         return transcription;
     }
-    public void setTranscription(HashMap<String, Phoneme> transcription) {
+    public void setTranscription(ArrayList<Phoneme> transcription) {
         this.transcription = transcription;
     }
     public int getLength() {
@@ -77,35 +78,63 @@ public class Word {
         return json;
     }
 
+    public String getTranscriptionAsString() {
+        String result = transcription.get(0).getSymbol();
+        if (transcription != null) {
+            for (int i = 1; i < transcription.size(); i++) {
+                result += " - ";
+                result += transcription.get(i).getSymbol();
+                System.out.println(result);
+            }
+        }
+        return result;
+    }
+
     public int getNumOfPhonemes(String phoneme) {
         int count = 0;
-
-        // i=1 cause map key starts with 1, not 0
-        // remember: MAP key is String format, not integer.
-        for (int i=1; i <= this.getTranscription().size(); i++) {
-            if (this.getTranscription().get(String.valueOf(i)).getSymbol()== phoneme) {
+        for (int i=0; i < this.getTranscription().size(); i++) {
+            if (this.getTranscription().get(i).getSymbol().equals(phoneme)) {
                 count ++;
             }
         }
         return count;
     }
 
-    public HashMap<String, Phoneme> writeAsTranscription(String word) {
-        HashMap<String, Phoneme> transcription = new HashMap<String, Phoneme>();
+    public ArrayList<Phoneme> getTranscriptionFromWord() {
+        ArrayList<Phoneme> transcription = new ArrayList<>();
+        String word = this.getWord();
 
-        // TODO this is a dinosaur method....
-        String[] phonemes = new String[word.length()];
-        char[] buffer = word.toCharArray();
-        for (int i=0; i < word.length(); i++) {
-             phonemes[i] = String.valueOf(buffer[i]);
+        if (word != null) {
+
+            // TODO this is a dinosaur method....
+            String[] phonemes = word.split("");
+            ConsonantsBank cBank = ConsonantsBank.getInstance();
+
+            // Phoneme might be a set of 2 symbols.
+            // So we need to check the symbol after the current on every step.
+            for (int i = 0; i < word.length(); i++) {
+
+                // If the symbol is last
+                if (i == word.length() - 1) {
+                    transcription.add(new Phoneme("Last"));
+                } else {
+                    if (phonemes[i+1].equals("h")) {
+                        transcription.add(cBank.find(phonemes[i] + phonemes[i+1]));
+                        i++;
+                    } else {
+                        transcription.add(cBank.find(phonemes[i]));
+                    }
+                }
+            }
+
+            /*for (int i = 0; i < phonemes.length; i++) {
+                String symbol = phonemes[i];
+                transcription.add(new Phoneme(symbol, i + 1));
+            }*/
+
+            return transcription;
+        } else {
+            return null;
         }
-
-        for (int i=0; i < phonemes.length; i++) {
-            String position = String.valueOf(i + 1);
-            String symbol = phonemes[i];
-            transcription.put(position, new Phoneme(symbol, i+1));
-        }
-
-        return transcription;
     }
 }

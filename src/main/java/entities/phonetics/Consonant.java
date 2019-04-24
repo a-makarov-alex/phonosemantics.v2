@@ -20,6 +20,9 @@ public class Consonant extends Phoneme {
     private boolean lateral = false;
 
 
+    /**
+     * ENUMS
+     * **/
     public enum PlaceApproximate {
         LABIAL, CORONAL, DORSAL, LARYNGEAL
     }
@@ -41,8 +44,18 @@ public class Consonant extends Phoneme {
         LATERAL                         // LIQUID
     }
 
+    /**
+     * CONSTRUCTORS
+     * **/
     public Consonant(String symbol, PlacePrecise placePrecise, MannerPricise mannerPricise) {
-        new Consonant(symbol, placePrecise, mannerPricise, false);
+        super(symbol);
+        this.placePrecise = placePrecise;
+        this.mannerPricise = mannerPricise;
+        this.placeApproximate = placeApproximateFromPrecise(placePrecise);
+        this.mannerApproximate = mannerApproximateFromPrecise(mannerPricise);
+        this.voiced = false;
+        // by this point all the flags are marked
+
     }
 
     public Consonant(String symbol, PlacePrecise placePrecise, MannerPricise mannerPricise, boolean voiced) {
@@ -89,7 +102,9 @@ public class Consonant extends Phoneme {
         }
     }
 
-    /** GETTERS FOR MAIN FIELDS **/
+    /**
+     * GETTERS FOR MAIN FIELDS
+     * **/
     public PlaceApproximate getPlaceApproximate() {
         return placeApproximate;
     }
@@ -109,7 +124,9 @@ public class Consonant extends Phoneme {
         return longCons;
     }
 
-    /** GETTERS FOR FLAGS**/
+    /**
+     * GETTERS FOR FLAGS
+     * **/
     public boolean isStop() {
         return stop;
     }

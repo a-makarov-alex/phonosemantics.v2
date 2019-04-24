@@ -2,6 +2,7 @@ package knowledgeBase;
 
 
 import entities.phonetics.Consonant;
+import entities.phonetics.Phoneme;
 import entities.phonetics.Vowel;
 
 import java.util.HashMap;
@@ -18,19 +19,24 @@ public class ConsonantsBank {
 
     public static ConsonantsBank getInstance() {
         if (instance == null) {
+            System.out.println("NEW ONE");
             instance = new ConsonantsBank();
         }
         return instance;
     }
 
-    private HashMap<String, Consonant> allConsonantsTable = new HashMap<String, Consonant>();
+    private HashMap<String, Consonant> allConsonantsTable;
 
     public ConsonantsBank() {
-        getInstance().fillConsonantsTable();
+        this.allConsonantsTable = new HashMap<>();
+        this.fillConsonantsTable();
     }
 
     private void fillConsonantsTable() {
-        HashMap<String, Consonant> table = instance.allConsonantsTable;
+        HashMap<String, Consonant> table = this.allConsonantsTable;
+
+        System.out.println(table.toString());
+        System.out.println(this.allConsonantsTable.toString());
 
         // TODO all the affricates
         // TODO all the diacritics
@@ -75,8 +81,17 @@ public class ConsonantsBank {
         table.put("ŋ", new Consonant("ŋ", Consonant.PlacePrecise.VELAR, Consonant.MannerPricise.NASAL, true));
         table.put("ɴ", new Consonant("ɴ", Consonant.PlacePrecise.UVULAR, Consonant.MannerPricise.NASAL, true));
 
+        // TODO test!!!
+        table.put("ch", new Consonant("ch", Consonant.PlacePrecise.UVULAR, Consonant.MannerPricise.NASAL, true));
+
+    }
+
+    public Consonant find(String requestedSymbol) {
+        return allConsonantsTable.get(requestedSymbol);
+    }
 
 
-
+    public HashMap<String, Consonant> getAllConsonantsTable() {
+        return allConsonantsTable;
     }
 }
