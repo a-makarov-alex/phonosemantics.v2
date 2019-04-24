@@ -1,7 +1,7 @@
 import entities.Word;
 import entities.WordList;
 import input.InputFile;
-import knowledgeBase.ConsonantsBank;
+import knowledgeBase.SoundsBank;
 
 public class Main {
 
@@ -18,8 +18,7 @@ public class Main {
         //System.out.println("i phonemes in word: " + word.getNumOfPhonemes("i"));
 
         //word.getTranscriptionFromWord();
-        ConsonantsBank cBank = ConsonantsBank.getInstance();
-        ConsonantsBank cBank1 = ConsonantsBank.getInstance();
+        SoundsBank cBank = SoundsBank.getInstance();
 
         //System.out.println(word.getTranscription().get(0).getSymbol());
         //System.out.println(word.getTranscriptionAsString());

@@ -2,7 +2,7 @@ package entities;
 
 import com.google.gson.Gson;
 import entities.phonetics.Phoneme;
-import knowledgeBase.ConsonantsBank;
+import knowledgeBase.SoundsBank;
 
 import java.util.ArrayList;
 
@@ -103,34 +103,55 @@ public class Word {
     public ArrayList<Phoneme> getTranscriptionFromWord() {
         ArrayList<Phoneme> transcription = new ArrayList<>();
         String word = this.getWord();
+        System.out.println("Word: " + word);
 
         if (word != null) {
-
-            // TODO this is a dinosaur method....
             String[] phonemes = word.split("");
-            ConsonantsBank cBank = ConsonantsBank.getInstance();
+            SoundsBank cBank = SoundsBank.getInstance();
 
             // Phoneme might be a set of 2 symbols.
             // So we need to check the symbol after the current on every step.
             for (int i = 0; i < word.length(); i++) {
 
-                // If the symbol is last
+                // For last symbol
                 if (i == word.length() - 1) {
-                    transcription.add(new Phoneme("Last"));
+                    Phoneme ph = cBank.find(phonemes[i]);
+                    transcription.add(ph);
+
                 } else {
-                    if (phonemes[i+1].equals("h")) {
-                        transcription.add(cBank.find(phonemes[i] + phonemes[i+1]));
+
+                    // For 2-graph phoneme
+                    Phoneme ph = cBank.find(phonemes[i] + phonemes[i+1]);
+                    if (ph != null) {
+                        transcription.add(ph);
                         i++;
                     } else {
-                        transcription.add(cBank.find(phonemes[i]));
+
+                        // For 1-graph phoneme
+                        ph = cBank.find(phonemes[i]);
+                        if (ph != null) {
+                            transcription.add(ph);
+                        } else {
+
+                            // Empty phoneme
+                            transcription.add(null);
+                            System.out.println("  Phoneme " + phonemes[i] + " is not found in sounds bank");
+                        }
                     }
                 }
             }
 
-            /*for (int i = 0; i < phonemes.length; i++) {
-                String symbol = phonemes[i];
-                transcription.add(new Phoneme(symbol, i + 1));
-            }*/
+            // Print transcription to console
+            System.out.print("Transcription: ");
+            for (Phoneme p : transcription) {
+                if (p != null) {
+                    System.out.print(p.getSymbol() + " ");
+                } else {
+                    System.out.print("_ ");
+                }
+            }
+            System.out.println("");
+            System.out.println("");
 
             return transcription;
         } else {

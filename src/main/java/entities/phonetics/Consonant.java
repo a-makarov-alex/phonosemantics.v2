@@ -48,7 +48,7 @@ public class Consonant extends Phoneme {
      * CONSTRUCTORS
      * **/
     public Consonant(String symbol, PlacePrecise placePrecise, MannerPricise mannerPricise) {
-        super(symbol);
+        super(symbol, SoundClass.CONSONANT);
         this.placePrecise = placePrecise;
         this.mannerPricise = mannerPricise;
         this.placeApproximate = placeApproximateFromPrecise(placePrecise);
@@ -59,7 +59,7 @@ public class Consonant extends Phoneme {
     }
 
     public Consonant(String symbol, PlacePrecise placePrecise, MannerPricise mannerPricise, boolean voiced) {
-        super(symbol);
+        super(symbol, SoundClass.CONSONANT);
         this.placePrecise = placePrecise;
         this.mannerPricise = mannerPricise;
         this.placeApproximate = placeApproximateFromPrecise(placePrecise);

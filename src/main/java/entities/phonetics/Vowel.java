@@ -15,47 +15,41 @@ public class Vowel extends Phoneme {
         BACK, CENTRAL, FRONT
     }
 
-    public Vowel(String symbol) {
-        super(symbol);
-    }
-
+    /**
+     * CONSTRUCTORS
+     * **/
     public Vowel(String symbol, Height height, Backness backness, boolean roundedness, boolean nasalization) {
-        super(symbol);
+        super(symbol, SoundClass.VOWEL);
         this.height = height;
         this.backness = backness;
         this.roundedness = roundedness;
         this.nasalization = nasalization;
     }
 
-    /********************************** GETTERS AND SETTERS *************************************/
+    /**
+     *  GETTERS AND SETTERS
+     *  **/
     public Height getHeight() {
         return height;
     }
-
     public void setHeight(Height height) {
         this.height = height;
     }
-
     public Backness getBackness() {
         return backness;
     }
-
     public void setBackness(Backness backness) {
         this.backness = backness;
     }
-
     public boolean isRoundedness() {
         return roundedness;
     }
-
     public void setRoundedness(boolean roundedness) {
         this.roundedness = roundedness;
     }
-
     public boolean isNasalization() {
         return nasalization;
     }
-
     public void setNasalization(boolean nasalization) {
         this.nasalization = nasalization;
     }

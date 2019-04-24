@@ -9,37 +9,44 @@ import java.util.HashMap;
 
 /************ Singleton class
  *
- * Provides a table with all the vowels and its parameters
+ * Provides a table with all the vowels and consonants and its parameters
  * Every vowel is an object of Vowel class
+ * Every consonant is an object of Consonant class
  *
  * *********************/
-public class ConsonantsBank {
+public class SoundsBank {
 
-    private static ConsonantsBank instance;
+    private HashMap<String, Phoneme> allConsonantsTable;
 
-    public static ConsonantsBank getInstance() {
+    public HashMap<String, Phoneme> getAllConsonantsTable() {
+        return allConsonantsTable;
+    }
+
+    /**
+     * SINGLETON
+     * **/
+    private static SoundsBank instance;
+
+    public static SoundsBank getInstance() {
         if (instance == null) {
-            System.out.println("NEW ONE");
-            instance = new ConsonantsBank();
+            instance = new SoundsBank();
         }
         return instance;
     }
 
-    private HashMap<String, Consonant> allConsonantsTable;
-
-    public ConsonantsBank() {
+    /**
+     * CONSTRUCTOR
+     * **/
+    public SoundsBank() {
         this.allConsonantsTable = new HashMap<>();
-        this.fillConsonantsTable();
-    }
-
-    private void fillConsonantsTable() {
-        HashMap<String, Consonant> table = this.allConsonantsTable;
-
-        System.out.println(table.toString());
-        System.out.println(this.allConsonantsTable.toString());
-
+        addConsonants();
+        addVowels();
         // TODO all the affricates
         // TODO all the diacritics
+    }
+
+    private void addConsonants() {
+        HashMap<String, Phoneme> table = this.allConsonantsTable;
 
         // consonants
         // STOPS
@@ -80,18 +87,46 @@ public class ConsonantsBank {
         table.put("ɲ", new Consonant("ɲ", Consonant.PlacePrecise.PALATAL, Consonant.MannerPricise.NASAL, true));
         table.put("ŋ", new Consonant("ŋ", Consonant.PlacePrecise.VELAR, Consonant.MannerPricise.NASAL, true));
         table.put("ɴ", new Consonant("ɴ", Consonant.PlacePrecise.UVULAR, Consonant.MannerPricise.NASAL, true));
-
-        // TODO test!!!
-        table.put("ch", new Consonant("ch", Consonant.PlacePrecise.UVULAR, Consonant.MannerPricise.NASAL, true));
-
     }
 
-    public Consonant find(String requestedSymbol) {
+    private void addVowels() {
+        HashMap<String, Phoneme> table = this.allConsonantsTable;
+
+        //vowels
+        //front
+        table.put("i", new Vowel("i", Vowel.Height.CLOSE, Vowel.Backness.FRONT, false,false));
+        table.put("y", new Vowel("y", Vowel.Height.CLOSE, Vowel.Backness.FRONT, true, false));
+        table.put("e", new Vowel("e", Vowel.Height.CLOSE_MID, Vowel.Backness.FRONT, false, false));
+        table.put("ø", new Vowel("ø", Vowel.Height.CLOSE_MID, Vowel.Backness.FRONT, true, false));
+        table.put("ɛ", new Vowel("ɛ", Vowel.Height.OPEN_MID, Vowel.Backness.FRONT, false, false));
+        table.put("œ", new Vowel("œ", Vowel.Height.OPEN_MID, Vowel.Backness.FRONT, true, false));
+        table.put("æ", new Vowel("æ", Vowel.Height.NEAR_OPEN, Vowel.Backness.FRONT, false, false));
+        table.put("a", new Vowel("a", Vowel.Height.OPEN, Vowel.Backness.FRONT, false, false));
+        table.put("ɶ", new Vowel("ɶ", Vowel.Height.OPEN, Vowel.Backness.FRONT, true, false));
+
+        // central
+        table.put("ɨ", new Vowel("ɨ", Vowel.Height.CLOSE, Vowel.Backness.CENTRAL, false, false));
+        table.put("ʉ", new Vowel("ʉ", Vowel.Height.CLOSE, Vowel.Backness.CENTRAL, true, false));
+        table.put("ɘ", new Vowel("ɘ", Vowel.Height.CLOSE_MID, Vowel.Backness.CENTRAL, false, false));
+        table.put("ɵ", new Vowel("ɵ", Vowel.Height.CLOSE_MID, Vowel.Backness.CENTRAL, true, false));
+        table.put("ə", new Vowel("ə", Vowel.Height.MID, Vowel.Backness.CENTRAL, false, false));
+        table.put("ɜ", new Vowel("ɜ", Vowel.Height.OPEN_MID, Vowel.Backness.CENTRAL, false, false));
+        table.put("ɞ", new Vowel("ɞ", Vowel.Height.OPEN_MID, Vowel.Backness.CENTRAL, true, false));
+        table.put("ä", new Vowel("ä", Vowel.Height.OPEN, Vowel.Backness.CENTRAL, false, false));
+
+        // back
+        table.put("ɯ", new Vowel("ɯ", Vowel.Height.CLOSE, Vowel.Backness.BACK, false, false));
+        table.put("u", new Vowel("u", Vowel.Height.CLOSE, Vowel.Backness.BACK, true, false));
+        table.put("ʊ", new Vowel("ʊ", Vowel.Height.NEAR_CLOSE, Vowel.Backness.BACK, true, false));
+        table.put("ɤ", new Vowel("ɤ", Vowel.Height.CLOSE_MID, Vowel.Backness.BACK, false, false));
+        table.put("o", new Vowel("o", Vowel.Height.CLOSE_MID, Vowel.Backness.BACK, true, false));
+        table.put("ʌ", new Vowel("ʌ", Vowel.Height.OPEN_MID, Vowel.Backness.BACK, false, false));
+        table.put("ɔ", new Vowel("ɔ", Vowel.Height.OPEN_MID, Vowel.Backness.BACK, true, false));
+        table.put("ɑ", new Vowel("ɑ", Vowel.Height.OPEN, Vowel.Backness.BACK, false, false));
+        table.put("ɒ", new Vowel("ɒ", Vowel.Height.OPEN, Vowel.Backness.BACK, true, false));
+    }
+
+    public Phoneme find(String requestedSymbol) {
         return allConsonantsTable.get(requestedSymbol);
-    }
-
-
-    public HashMap<String, Consonant> getAllConsonantsTable() {
-        return allConsonantsTable;
     }
 }

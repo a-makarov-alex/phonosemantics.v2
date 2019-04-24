@@ -2,11 +2,16 @@ package entities.phonetics;
 
 public class Phoneme {
     private String symbol;
-    private String soundClass;  //TODO: vowel/consonant
+    private SoundClass soundClass;
+
+    public enum SoundClass {
+        VOWEL, CONSONANT
+    }
 
 
-    public Phoneme(String symbol, int position) {
+    public Phoneme(String symbol, SoundClass soundClass) {
         this.symbol = symbol;
+        this.soundClass = soundClass;
     }
 
     public Phoneme(String symbol) {
@@ -15,7 +20,6 @@ public class Phoneme {
 
     public Phoneme() {
     }
-
 
     public String getSymbol() {
         return symbol;
