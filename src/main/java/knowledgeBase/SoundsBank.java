@@ -52,11 +52,21 @@ public class SoundsBank {
         // STOPS
         table.put("p", new Consonant("p", Consonant.PlacePrecise.BILABIAL, Consonant.MannerPricise.STOP));
         table.put("b", new Consonant("b", Consonant.PlacePrecise.BILABIAL, Consonant.MannerPricise.STOP, true));
+        table.put("p̪", new Consonant("p̪", Consonant.PlacePrecise.LABIODENTAL, Consonant.MannerPricise.STOP));
+        table.put("b̪", new Consonant("b̪", Consonant.PlacePrecise.LABIODENTAL, Consonant.MannerPricise.STOP, true));
+        //table.put("t̼̪", new Consonant("t̼", Consonant.PlacePrecise.LABIODENTAL, Consonant.MannerPricise.STOP));
+        //table.put("d̼̪", new Consonant("d̼̪", Consonant.PlacePrecise.LABIODENTAL, Consonant.MannerPricise.STOP, true));
         table.put("t", new Consonant("t", Consonant.PlacePrecise.ALVEOLAR, Consonant.MannerPricise.STOP));
         table.put("d", new Consonant("d", Consonant.PlacePrecise.ALVEOLAR, Consonant.MannerPricise.STOP, true));
+        table.put("ʈ", new Consonant("ʈ", Consonant.PlacePrecise.RETROFLEX, Consonant.MannerPricise.STOP));
+        table.put("ɖ", new Consonant("ɖ", Consonant.PlacePrecise.RETROFLEX, Consonant.MannerPricise.STOP, true));
+        table.put("c", new Consonant("c", Consonant.PlacePrecise.PALATAL, Consonant.MannerPricise.STOP));
+        table.put("ɟ", new Consonant("ɟ", Consonant.PlacePrecise.PALATAL, Consonant.MannerPricise.STOP, true));
         table.put("k", new Consonant("k", Consonant.PlacePrecise.VELAR, Consonant.MannerPricise.STOP));
         table.put("g", new Consonant("g", Consonant.PlacePrecise.VELAR, Consonant.MannerPricise.STOP, true));
         table.put("q", new Consonant("q", Consonant.PlacePrecise.UVULAR, Consonant.MannerPricise.STOP));
+        table.put("ɢ", new Consonant("ɢ", Consonant.PlacePrecise.UVULAR, Consonant.MannerPricise.STOP, true));
+        table.put("ʡ", new Consonant("ʡ", Consonant.PlacePrecise.EPIGLOTTAL, Consonant.MannerPricise.STOP));
         table.put("ʔ", new Consonant("ʔ", Consonant.PlacePrecise.GLOTTAL, Consonant.MannerPricise.STOP));
 
         // FRICATIVES
@@ -67,6 +77,10 @@ public class SoundsBank {
         // TODO подтвердить характериситки š
         table.put("š", new Consonant("š", Consonant.PlacePrecise.POSTALVEOLAR, Consonant.MannerPricise.SIBILANT));
         table.put("ʒ", new Consonant("ʒ", Consonant.PlacePrecise.POSTALVEOLAR, Consonant.MannerPricise.SIBILANT, true));
+        table.put("ʂ", new Consonant("ʂ", Consonant.PlacePrecise.RETROFLEX, Consonant.MannerPricise.SIBILANT));
+        table.put("ʐ", new Consonant("ʐ", Consonant.PlacePrecise.RETROFLEX, Consonant.MannerPricise.SIBILANT, true));
+        table.put("ɕ", new Consonant("ɕ", Consonant.PlacePrecise.PALATAL, Consonant.MannerPricise.SIBILANT));
+        table.put("ʑ", new Consonant("ʑ", Consonant.PlacePrecise.PALATAL, Consonant.MannerPricise.SIBILANT, true));
 
         // NON_SIBILANTS
         table.put("ɸ", new Consonant("ɸ", Consonant.PlacePrecise.BILABIAL, Consonant.MannerPricise.FRICATIVE));
@@ -75,9 +89,16 @@ public class SoundsBank {
         table.put("v", new Consonant("v", Consonant.PlacePrecise.LABIODENTAL, Consonant.MannerPricise.FRICATIVE, true));
         table.put("θ", new Consonant("θ", Consonant.PlacePrecise.DENTAL, Consonant.MannerPricise.FRICATIVE));
         table.put("ð", new Consonant("ð", Consonant.PlacePrecise.DENTAL, Consonant.MannerPricise.FRICATIVE, true));
+        table.put("ç", new Consonant("ç", Consonant.PlacePrecise.PALATAL, Consonant.MannerPricise.FRICATIVE));
+        table.put("ʝ", new Consonant("ʝ", Consonant.PlacePrecise.PALATAL, Consonant.MannerPricise.FRICATIVE, true));
         table.put("x", new Consonant("x", Consonant.PlacePrecise.VELAR, Consonant.MannerPricise.FRICATIVE));
         table.put("ɣ", new Consonant("ɣ", Consonant.PlacePrecise.VELAR, Consonant.MannerPricise.FRICATIVE, true));
+        table.put("χ", new Consonant("χ", Consonant.PlacePrecise.UVULAR, Consonant.MannerPricise.FRICATIVE));
+        table.put("ʁ", new Consonant("ʁ", Consonant.PlacePrecise.UVULAR, Consonant.MannerPricise.FRICATIVE, true));
+        table.put("ħ", new Consonant("ħ", Consonant.PlacePrecise.EPIGLOTTAL, Consonant.MannerPricise.FRICATIVE));
+        table.put("ʕ", new Consonant("ʕ", Consonant.PlacePrecise.EPIGLOTTAL, Consonant.MannerPricise.FRICATIVE, true));
         table.put("h", new Consonant("h", Consonant.PlacePrecise.GLOTTAL, Consonant.MannerPricise.FRICATIVE));
+        table.put("ɦ", new Consonant("ɦ", Consonant.PlacePrecise.GLOTTAL, Consonant.MannerPricise.FRICATIVE, true));
 
         // SONORANT
         // NASAL
@@ -87,6 +108,13 @@ public class SoundsBank {
         table.put("ɲ", new Consonant("ɲ", Consonant.PlacePrecise.PALATAL, Consonant.MannerPricise.NASAL, true));
         table.put("ŋ", new Consonant("ŋ", Consonant.PlacePrecise.VELAR, Consonant.MannerPricise.NASAL, true));
         table.put("ɴ", new Consonant("ɴ", Consonant.PlacePrecise.UVULAR, Consonant.MannerPricise.NASAL, true));
+
+        // TRILL
+        table.put("r", new Consonant("r", Consonant.PlacePrecise.ALVEOLAR, Consonant.MannerPricise.TRILL, true));
+        table.put("ʀ", new Consonant("ʀ", Consonant.PlacePrecise.UVULAR, Consonant.MannerPricise.TRILL, true));
+        table.put("ʢ", new Consonant("ʢ", Consonant.PlacePrecise.EPIGLOTTAL, Consonant.MannerPricise.TRILL, true));
+
+        // APPROXIMANT
     }
 
     private void addVowels() {
@@ -124,6 +152,23 @@ public class SoundsBank {
         table.put("ɔ", new Vowel("ɔ", Vowel.Height.OPEN_MID, Vowel.Backness.BACK, true, false));
         table.put("ɑ", new Vowel("ɑ", Vowel.Height.OPEN, Vowel.Backness.BACK, false, false));
         table.put("ɒ", new Vowel("ɒ", Vowel.Height.OPEN, Vowel.Backness.BACK, true, false));
+    }
+
+    private void addAffricates() {
+        HashMap<String, Phoneme> table = this.allConsonantsTable;
+
+        //vowels
+        //front
+        table.put("ts", new Consonant("ts", Consonant.PlacePrecise.ALVEOLAR, Consonant.MannerPricise.SIBILANT_AFFRICATE, false));
+        table.put("dz", new Consonant("dz", Consonant.PlacePrecise.ALVEOLAR, Consonant.MannerPricise.SIBILANT_AFFRICATE, true));
+        table.put("ʈʂ", new Consonant("ʈʂ", Consonant.PlacePrecise.RETROFLEX, Consonant.MannerPricise.SIBILANT_AFFRICATE, false));
+        table.put("ɖʐ", new Consonant("ɖʐ", Consonant.PlacePrecise.RETROFLEX, Consonant.MannerPricise.SIBILANT_AFFRICATE, true));
+        table.put("tɕ", new Consonant("tɕ", Consonant.PlacePrecise.PALATAL, Consonant.MannerPricise.SIBILANT_AFFRICATE, false));
+        table.put("dʑ", new Consonant("dʑ", Consonant.PlacePrecise.PALATAL, Consonant.MannerPricise.SIBILANT_AFFRICATE, true));
+
+
+
+
     }
 
     public Phoneme find(String requestedSymbol) {

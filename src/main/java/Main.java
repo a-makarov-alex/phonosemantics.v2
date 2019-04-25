@@ -25,10 +25,11 @@ public class Main {
 
 
         // bug list
+        // TODO: standartization of phonemes transcription: sh => ʃ
         // TODO: fix the problem with /u0027 etc codes instead of symbols
         // TODO: unit tests
         // TODO: do not read empty cells in inputFile and do not count them
-        // TODO: make Phoneme an abstract class
+        // TODO: reference to readWordList from readAllWordLists in InputFile class
         // TODO for some time a new field can be added двусмысленный знак или нет,
         // смысл в том, что многие знаки могут иметь несколько значений
         // такой шаг позволит в будущем заняться более подробным изучением отдельных знаков

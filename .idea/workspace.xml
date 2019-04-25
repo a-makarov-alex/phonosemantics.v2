@@ -2,15 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e58d30ed-a6ea-4021-9940-2c129a4ff7c6" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/entities/Word.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entities/Word.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/entities/phonetics/Consonant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entities/phonetics/Consonant.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/entities/phonetics/Phoneme.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entities/phonetics/Phoneme.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/entities/phonetics/Vowel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/entities/phonetics/Vowel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/knowledgeBase/ConsonantsBank.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/knowledgeBase/SoundsBank.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/knowledgeBase/VowelsBank.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/input/Input.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/input/Input.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/input/InputFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/input/InputFile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/knowledgeBase/SoundsBank.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/knowledgeBase/SoundsBank.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -37,10 +33,23 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="252">
-              <caret line="20" column="52" selection-start-line="20" selection-start-column="52" selection-end-line="20" selection-end-column="52" />
+            <state relative-caret-position="172">
+              <caret line="30" column="7" lean-forward="true" selection-start-line="30" selection-start-column="7" selection-end-line="30" selection-end-column="7" />
               <folding>
                 <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/input/InputFile.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="89">
+              <caret line="108" column="100" selection-start-line="108" selection-start-column="100" selection-end-line="108" selection-end-column="100" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#2705#2711#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -55,11 +64,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/entities/Word.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="82">
-              <caret line="147" column="12" selection-start-line="147" selection-start-column="12" selection-end-line="147" selection-end-column="12" />
+            <state relative-caret-position="106">
+              <caret line="118" column="42" selection-start-line="118" selection-start-column="42" selection-end-line="118" selection-end-column="42" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -70,13 +79,12 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/knowledgeBase/SoundsBank.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="235">
-              <caret line="130" column="5" selection-start-line="130" selection-start-column="5" selection-end-line="130" selection-end-column="5" />
+            <state relative-caret-position="214">
+              <caret line="116" column="22" selection-start-line="116" selection-start-column="22" selection-end-line="116" selection-end-column="22" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="method#addConsonants#0;class#ConsonantsBank#0" />
                 <element signature="method#addVowels#0;class#ConsonantsBank#0" />
-                <element signature="e#7322#7323#0" expanded="true" />
+                <element signature="e#11017#11018#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -85,8 +93,25 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/entities/phonetics/Consonant.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="61" column="42" selection-start-line="61" selection-start-column="42" selection-end-line="61" selection-end-column="42" />
+            <state relative-caret-position="-680">
+              <caret line="42" column="19" selection-start-line="42" selection-start-column="19" selection-end-line="42" selection-end-column="19" />
+              <folding>
+                <element signature="e#4264#4265#0" expanded="true" />
+                <element signature="e#4343#4344#0" expanded="true" />
+                <element signature="e#4437#4438#0" expanded="true" />
+                <element signature="e#4519#4520#0" expanded="true" />
+                <element signature="e#4580#4581#0" expanded="true" />
+                <element signature="e#4645#4646#0" expanded="true" />
+                <element signature="e#4747#4748#0" expanded="true" />
+                <element signature="e#4814#4815#0" expanded="true" />
+                <element signature="e#4881#4882#0" expanded="true" />
+                <element signature="e#4946#4947#0" expanded="true" />
+                <element signature="e#5005#5006#0" expanded="true" />
+                <element signature="e#5072#5073#0" expanded="true" />
+                <element signature="e#5131#5132#0" expanded="true" />
+                <element signature="e#5188#5189#0" expanded="true" />
+                <element signature="e#5251#5252#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -141,7 +166,6 @@
         <option value="$PROJECT_DIR$/src/main/java/entities/Meaning.java" />
         <option value="$PROJECT_DIR$/src/main/java/entities/Sound.java" />
         <option value="$PROJECT_DIR$/src/main/java/entities/Transcription.java" />
-        <option value="$PROJECT_DIR$/src/main/java/input/InputFile.java" />
         <option value="$PROJECT_DIR$/src/main/java/entities/WordList.java" />
         <option value="$PROJECT_DIR$/src/main/java/entities/Phoneme.java" />
         <option value="$PROJECT_DIR$/src/main/java/entities/Consonant.java" />
@@ -157,14 +181,15 @@
         <option value="$PROJECT_DIR$/src/main/java/knowledgeBase/AllVowels.java" />
         <option value="$PROJECT_DIR$/src/main/java/knowledgeBase/VowelsBank.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/src/main/java/entities/phonetics/Consonant.java" />
         <option value="$PROJECT_DIR$/src/main/java/entities/phonetics/Vowel.java" />
         <option value="$PROJECT_DIR$/src/main/java/entities/phonetics/Phoneme.java" />
         <option value="$PROJECT_DIR$/src/main/java/knowledgeBase/ConsonantsBank.java" />
-        <option value="$PROJECT_DIR$/src/main/java/knowledgeBase/SoundsBank.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Main.java" />
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/src/main/java/entities/Word.java" />
+        <option value="$PROJECT_DIR$/src/main/java/entities/phonetics/Consonant.java" />
+        <option value="$PROJECT_DIR$/src/main/java/knowledgeBase/SoundsBank.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Main.java" />
+        <option value="$PROJECT_DIR$/src/main/java/input/InputFile.java" />
       </list>
     </option>
   </component>
@@ -519,17 +544,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/input/InputFile.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="103" selection-start-line="103" selection-end-line="103" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#2705#2711#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/entities/phonetics/Phoneme.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
@@ -560,26 +574,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/entities/phonetics/Consonant.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="61" column="42" selection-start-line="61" selection-start-column="42" selection-end-line="61" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/knowledgeBase/SoundsBank.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="235">
-          <caret line="130" column="5" selection-start-line="130" selection-start-column="5" selection-end-line="130" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#addConsonants#0;class#ConsonantsBank#0" />
-            <element signature="method#addVowels#0;class#ConsonantsBank#0" />
-            <element signature="e#7322#7323#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
@@ -587,22 +581,69 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Main.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/entities/Word.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="20" column="52" selection-start-line="20" selection-start-column="52" selection-end-line="20" selection-end-column="52" />
+        <state relative-caret-position="106">
+          <caret line="118" column="42" selection-start-line="118" selection-start-column="42" selection-end-line="118" selection-end-column="42" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/entities/Word.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/entities/phonetics/Consonant.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="82">
-          <caret line="147" column="12" selection-start-line="147" selection-start-column="12" selection-end-line="147" selection-end-column="12" />
+        <state relative-caret-position="-680">
+          <caret line="42" column="19" selection-start-line="42" selection-start-column="19" selection-end-line="42" selection-end-column="19" />
+          <folding>
+            <element signature="e#4264#4265#0" expanded="true" />
+            <element signature="e#4343#4344#0" expanded="true" />
+            <element signature="e#4437#4438#0" expanded="true" />
+            <element signature="e#4519#4520#0" expanded="true" />
+            <element signature="e#4580#4581#0" expanded="true" />
+            <element signature="e#4645#4646#0" expanded="true" />
+            <element signature="e#4747#4748#0" expanded="true" />
+            <element signature="e#4814#4815#0" expanded="true" />
+            <element signature="e#4881#4882#0" expanded="true" />
+            <element signature="e#4946#4947#0" expanded="true" />
+            <element signature="e#5005#5006#0" expanded="true" />
+            <element signature="e#5072#5073#0" expanded="true" />
+            <element signature="e#5131#5132#0" expanded="true" />
+            <element signature="e#5188#5189#0" expanded="true" />
+            <element signature="e#5251#5252#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/knowledgeBase/SoundsBank.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="214">
+          <caret line="116" column="22" selection-start-line="116" selection-start-column="22" selection-end-line="116" selection-end-column="22" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="method#addVowels#0;class#ConsonantsBank#0" />
+            <element signature="e#11017#11018#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="172">
+          <caret line="30" column="7" lean-forward="true" selection-start-line="30" selection-start-column="7" selection-end-line="30" selection-end-column="7" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/input/InputFile.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="89">
+          <caret line="108" column="100" selection-start-line="108" selection-start-column="100" selection-end-line="108" selection-end-column="100" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2705#2711#0" expanded="true" />
           </folding>
         </state>
       </provider>

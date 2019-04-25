@@ -39,8 +39,8 @@ public class Consonant extends Phoneme {
     }
 
     public enum MannerPricise {
-        STOP, AFFRICATE, FRICATIVE, SIBILANT,            // OBSTRUENT
-        NASAL, SEMIVOWEL, TRILL, FLAP,  // SONORANT
+        STOP, AFFRICATE, FRICATIVE, SIBILANT, SIBILANT_AFFRICATE,            // OBSTRUENT
+        NASAL, APPROXIMANT, TRILL, FLAP,  // SONORANT
         LATERAL                         // LIQUID
     }
 
@@ -93,8 +93,9 @@ public class Consonant extends Phoneme {
             case AFFRICATE: { this.affricate = true; return MannerApproximate.OBSTRUENT; }
             case FRICATIVE: { this.fricative = true; return MannerApproximate.OBSTRUENT; }
             case SIBILANT: { this.fricative = true; this.sibilant = true; return MannerApproximate.OBSTRUENT; }
+            case SIBILANT_AFFRICATE: { this.affricate = true; this.sibilant = true; this.fricative = true; return MannerApproximate.OBSTRUENT; }
             case NASAL: { this.nasal = true; return MannerApproximate.SONORANT; }
-            case SEMIVOWEL: { this.semivowel = true; return MannerApproximate.SONORANT; }
+            case APPROXIMANT: { this.semivowel = true; return MannerApproximate.SONORANT; }
             case TRILL: { this.trill = true; return MannerApproximate.SONORANT; }
             case FLAP: { this.flap = true; return MannerApproximate.SONORANT; }
             case LATERAL: { this.lateral = true; return MannerApproximate.LIQUID; }

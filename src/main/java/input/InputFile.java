@@ -86,6 +86,7 @@ public class InputFile {
             Workbook wb = WorkbookFactory.create(inputStream);
             Sheet sheet;
             sheet = wb.getSheetAt(0);
+            int count = 0;
 
             // Find meaning in the headers
             for (int col = 1; col <= sheet.getLastRowNum(); col++) {
@@ -105,14 +106,21 @@ public class InputFile {
 
                             // Stop on the first empty row
                             if (sheet.getRow(i) == null) {
-                                System.out.println("Number of words for " + meaning + " : " + (i - 1));
+                                System.out.println("Number of words for " + meaning + " : " + (count));
                                 break;
                             }
-                            Word word = new Word(sheet.getRow(i).getCell(col).getStringCellValue());
-                            word.setMeaning(new Meaning(sheet.getRow(0).getCell(col).getStringCellValue()));
-                            word.setLanguage(sheet.getRow(i).getCell(0).getStringCellValue());
 
-                            wordlist.add(word);
+                            Cell cell = sheet.getRow(i).getCell(col);
+                            if (cell != null) {
+                                Word word = new Word(sheet.getRow(i).getCell(col).getStringCellValue());
+                                word.setMeaning(new Meaning(sheet.getRow(0).getCell(col).getStringCellValue()));
+                                word.setLanguage(sheet.getRow(i).getCell(0).getStringCellValue());
+
+                                wordlist.add(word);
+                                count++;
+                            } else {
+                                System.out.println("CELL IS NULL");
+                            }
                         }
                         // Break after wordlist is created
                         break;
