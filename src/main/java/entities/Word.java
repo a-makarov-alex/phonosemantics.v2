@@ -1,10 +1,12 @@
 package entities;
 
 import com.google.gson.Gson;
+import entities.phonetics.Consonant;
 import entities.phonetics.Phoneme;
 import knowledgeBase.SoundsBank;
 
 import java.util.ArrayList;
+import java.util.function.Predicate;
 
 public class Word {
     private String word;
@@ -21,17 +23,14 @@ public class Word {
     public Word(String word, String definition, String language, PartOfSpeech partOfSpeech) {
         this.word = word;
         this.meaning = new Meaning(definition);
-        this.transcription = this.getTranscriptionFromWord();
+        setTranscriptionFromWord(); // length is added here also
         this.language = language;
         this.partOfSpeech = partOfSpeech;
-        this.length = word.length();
     }
 
     public Word(String word) {
         this.word = word;
-        this.transcription = this.getTranscriptionFromWord();
-        this.length = word.length();    // TODO this is incorrect
-
+        setTranscriptionFromWord(); // length is added here also
     }
 
 
@@ -78,16 +77,19 @@ public class Word {
         return json;
     }
 
-    public String getTranscriptionAsString() {
-        String result = transcription.get(0).getSymbol();
-        if (transcription != null) {
-            for (int i = 1; i < transcription.size(); i++) {
-                result += " - ";
-                result += transcription.get(i).getSymbol();
-                System.out.println(result);
+    public void printTranscription() {
+        // Print transcription to console
+        System.out.print("Transcription: ");
+        for (Phoneme p : this.transcription) {
+            if (p != null) {
+                System.out.print(p.getSymbol() + " ");
+            } else {
+                System.out.print("_ ");
             }
         }
-        return result;
+        System.out.println("Length: " + this.length);
+        System.out.println("");
+        System.out.println("");
     }
 
     public int getNumOfPhonemes(String phoneme) {
@@ -100,8 +102,8 @@ public class Word {
         return count;
     }
 
-    public ArrayList<Phoneme> getTranscriptionFromWord() {
-        ArrayList<Phoneme> transcription = new ArrayList<>();
+    public void setTranscriptionFromWord() {
+        this.transcription = new ArrayList<>();
         String word = this.getWord();
         System.out.println("Word: " + word);
 
@@ -116,46 +118,73 @@ public class Word {
                 // For last symbol
                 if (i == word.length() - 1) {
                     Phoneme ph = cBank.find(phonemes[i]);
-                    transcription.add(ph);
+                    this.transcription.add(ph);
 
                 } else {
 
                     // For 2-graph phoneme
                     Phoneme ph = cBank.find(phonemes[i] + phonemes[i+1]);
                     if (ph != null) {
-                        transcription.add(ph);
+                        this.transcription.add(ph);
                         i++;
                     } else {
 
                         // For 1-graph phoneme
                         ph = cBank.find(phonemes[i]);
                         if (ph != null) {
-                            transcription.add(ph);
+                            this.transcription.add(ph);
                         } else {
 
                             // Empty phoneme
-                            transcription.add(null);
+                            this.transcription.add(null);
                             System.out.println("  Phoneme " + phonemes[i] + " is not found in sounds bank");
                         }
                     }
                 }
             }
 
-            // Print transcription to console
-            System.out.print("Transcription: ");
-            for (Phoneme p : transcription) {
-                if (p != null) {
-                    System.out.print(p.getSymbol() + " ");
-                } else {
-                    System.out.print("_ ");
+            this.length = transcription.size();
+            printTranscription();
+
+        }
+    }
+
+
+    /**
+     * BUNCH OF METHODS WITH POLYMORPHYSM
+     * **/
+    public int countPhonotype(Consonant.MannerApproximate mannerApproximate) {
+        return countPhonotypeBy(cons -> cons.getMannerApproximate().equals(mannerApproximate));
+    }
+
+    public int countPhonotype(Consonant.MannerPricise mannerPricise) {
+        if (mannerPricise.equals(Consonant.MannerPricise.FRICATIVE)) {
+            return countPhonotypeBy(cons -> cons.isFricative());
+        } else {
+            return countPhonotypeBy(cons -> cons.getMannerPricise().equals(mannerPricise));
+        }
+    }
+
+    public int countPhonotype(Consonant.PlaceApproximate placeApproximate) {
+        return countPhonotypeBy(cons -> cons.getPlaceApproximate().equals(placeApproximate));
+    }
+
+    public int countPhonotype(Consonant.PlacePrecise placePrecise) {
+        return countPhonotypeBy(cons -> cons.getPlacePrecise().equals(placePrecise));
+    }
+
+    private int countPhonotypeBy(Predicate<Consonant> p) {
+        int count = 0;
+        for(Phoneme ph : this.transcription) {
+            if (ph != null) {
+                if (ph.getClass().equals(Consonant.class)) {
+                    Consonant cons = (Consonant) ph;
+                    if (p.test(cons)) {
+                        count++;
+                    }
                 }
             }
-            System.out.println("");
-            System.out.println("");
-
-            return transcription;
-        } else {
-            return null;
         }
+        return count;
     }
 }

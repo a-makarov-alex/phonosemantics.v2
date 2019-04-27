@@ -1,5 +1,6 @@
 import entities.Word;
 import entities.WordList;
+import entities.phonetics.Consonant;
 import input.InputFile;
 import knowledgeBase.SoundsBank;
 
@@ -19,6 +20,9 @@ public class Main {
 
         //word.getTranscriptionFromWord();
         SoundsBank cBank = SoundsBank.getInstance();
+        System.out.println("WORD: " + word.getWord());
+        System.out.println("STOPS number: " + word.countPhonotype(Consonant.MannerPricise.STOP));
+        System.out.println("BILABIAL number: " + word.countPhonotype(Consonant.PlacePrecise.BILABIAL));
 
         //System.out.println(word.getTranscription().get(0).getSymbol());
         //System.out.println(word.getTranscriptionAsString());

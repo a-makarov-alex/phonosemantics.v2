@@ -1,6 +1,6 @@
 package entities.phonetics;
 
-public class Consonant extends Phoneme {
+public class Consonant extends Phoneme{
 
     private PlaceApproximate placeApproximate;
     private PlacePrecise placePrecise;
@@ -9,12 +9,16 @@ public class Consonant extends Phoneme {
     private boolean voiced = false;
     private boolean longCons = false;
 
+    // MANNERS
+    // Flags are required because of:
+    // Sibilant is also fricative;
+    // Affricate can be sibilant and fricative simultaneously, etc.
     private boolean stop = false;
     private boolean affricate = false;
     private boolean fricative = false;
     private boolean sibilant = false;
     private boolean nasal = false;
-    private boolean semivowel = false;
+    private boolean approximant = false;
     private boolean trill = false;
     private boolean flap = false;
     private boolean lateral = false;
@@ -95,7 +99,7 @@ public class Consonant extends Phoneme {
             case SIBILANT: { this.fricative = true; this.sibilant = true; return MannerApproximate.OBSTRUENT; }
             case SIBILANT_AFFRICATE: { this.affricate = true; this.sibilant = true; this.fricative = true; return MannerApproximate.OBSTRUENT; }
             case NASAL: { this.nasal = true; return MannerApproximate.SONORANT; }
-            case APPROXIMANT: { this.semivowel = true; return MannerApproximate.SONORANT; }
+            case APPROXIMANT: { this.approximant = true; return MannerApproximate.SONORANT; }
             case TRILL: { this.trill = true; return MannerApproximate.SONORANT; }
             case FLAP: { this.flap = true; return MannerApproximate.SONORANT; }
             case LATERAL: { this.lateral = true; return MannerApproximate.LIQUID; }
@@ -143,8 +147,8 @@ public class Consonant extends Phoneme {
     public boolean isNasal() {
         return nasal;
     }
-    public boolean isSemivowel() {
-        return semivowel;
+    public boolean isApproximant() {
+        return approximant;
     }
     public boolean isTrill() {
         return trill;
@@ -155,5 +159,4 @@ public class Consonant extends Phoneme {
     public boolean isLateral() {
         return lateral;
     }
-
 }
