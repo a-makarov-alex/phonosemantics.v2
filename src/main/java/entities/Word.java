@@ -173,6 +173,9 @@ public class Word {
         return countPhonotypeBy(cons -> cons.getPlacePrecise().equals(placePrecise));
     }
 
+    /**
+     *  The main method for counting phonotype examples in the word
+     *  **/
     private int countPhonotypeBy(Predicate<Consonant> p) {
         int count = 0;
         for(Phoneme ph : this.transcription) {

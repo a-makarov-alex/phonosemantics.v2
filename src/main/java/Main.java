@@ -3,6 +3,7 @@ import entities.WordList;
 import entities.phonetics.Consonant;
 import input.InputFile;
 import knowledgeBase.SoundsBank;
+import output.OutputFile;
 
 public class Main {
 
@@ -24,8 +25,7 @@ public class Main {
         System.out.println("STOPS number: " + word.countPhonotype(Consonant.MannerPricise.STOP));
         System.out.println("BILABIAL number: " + word.countPhonotype(Consonant.PlacePrecise.BILABIAL));
 
-        //System.out.println(word.getTranscription().get(0).getSymbol());
-        //System.out.println(word.getTranscriptionAsString());
+        OutputFile outputFile = new OutputFile();
 
 
         // bug list
@@ -46,6 +46,9 @@ public class Main {
         // TODO all the affricates
         // TODO all the diacritics
         // TODO recalculate word's length after affricates and diacritics
+
+        // Small correction and additions
+        // TODO: add colors to OutputFile
 
     }
 
