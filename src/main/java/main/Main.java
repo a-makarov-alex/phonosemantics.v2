@@ -27,6 +27,8 @@ public class Main {
 
         OutputFile outputFile = new OutputFile();
 
+        
+
 
         // bug list
         // TODO: standartization of phonemes transcription: sh => ʃ
