@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import entities.phonetics.Consonant;
 import entities.phonetics.Phoneme;
 import knowledgeBase.SoundsBank;
+import main.Main;
 
 import java.util.ArrayList;
 import java.util.function.Predicate;
@@ -105,7 +106,9 @@ public class Word {
     public void setTranscriptionFromWord() {
         this.transcription = new ArrayList<>();
         String word = this.getWord();
-        System.out.println("Word: " + word);
+        if (Main.transcr_to_console == true) {
+            System.out.println("Word: " + word);
+        }
 
         if (word != null) {
             String[] phonemes = word.split("");
@@ -137,21 +140,25 @@ public class Word {
 
                             // Empty phoneme
                             this.transcription.add(null);
-                            System.out.println("  Phoneme " + phonemes[i] + " is not found in sounds bank");
+                            if (Main.transcr_to_console == true) {
+                                System.out.println("  Phoneme " + phonemes[i] + " is not found in sounds bank");
+                            }
                         }
                     }
                 }
             }
 
             this.length = transcription.size();
-            printTranscription();
+            if (Main.transcr_to_console == true) {
+                printTranscription();
+            }
 
         }
     }
 
 
     /**
-     * BUNCH OF METHODS WITH POLYMORPHYSM
+     * BUNCH OF METHODS TO COUNT PHONOTYPES
      * **/
     public int countPhonotype(Consonant.MannerApproximate mannerApproximate) {
         return countPhonotypeBy(cons -> cons.getMannerApproximate().equals(mannerApproximate));
@@ -171,6 +178,15 @@ public class Word {
 
     public int countPhonotype(Consonant.PlacePrecise placePrecise) {
         return countPhonotypeBy(cons -> cons.getPlacePrecise().equals(placePrecise));
+    }
+
+    public int countPhonotype(Object object) {
+        if (object.getClass().equals(Consonant.PlacePrecise.class)) {
+            return countPhonotypeBy(cons -> cons.getPlacePrecise().equals((Consonant.PlacePrecise)object));
+        }
+        else {
+            return 0;
+        }
     }
 
     /**

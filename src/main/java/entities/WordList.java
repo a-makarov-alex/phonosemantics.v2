@@ -7,19 +7,19 @@ import java.util.ArrayList;
 public class WordList {
 
     private String meaning;
-    private ArrayList<Word> wordlist;
+    private ArrayList<Word> list;
 
-    public WordList(ArrayList<Word> wordlist) {
-        this.meaning = wordlist.get(0).getMeaning().getDefinition();
-        this.wordlist = wordlist;
+    public WordList(ArrayList<Word> list) {
+        this.meaning = list.get(0).getMeaning().getDefinition();
+        this.list = list;
     }
 
-    public ArrayList<Word> getWordlist() {
-        return wordlist;
+    public ArrayList<Word> getList() {
+        return list;
     }
 
-    public void setWordlist(ArrayList<Word> wordlist) {
-        this.wordlist = wordlist;
+    public void setList(ArrayList<Word> list) {
+        this.list = list;
     }
 
     public String getMeaning() {
@@ -37,7 +37,7 @@ public class WordList {
     }
 
     public Word getWord(String language) {
-        for (Word word : this.wordlist) {
+        for (Word word : this.list) {
             if (word.getLanguage().toLowerCase().equals(language.toLowerCase())) {
                 System.out.println("SUCCESS: Word of language " + language +
                         " with meaning " + this.meaning + " is: " + word.getWord());

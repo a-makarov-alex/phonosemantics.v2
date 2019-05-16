@@ -1,34 +1,42 @@
+package main;
+
 import entities.Word;
 import entities.WordList;
 import entities.phonetics.Consonant;
 import input.InputFile;
 import knowledgeBase.SoundsBank;
 import output.OutputFile;
+import statistics.Statistics;
 
 public class Main {
 
+    // CONFIG --> should be transformed to logs later
+    public static boolean transcr_to_console = false;
+
+    private static InputFile inputFile;
+
     public static void main(String args[]) {
 
-        InputFile inputFile = new InputFile("Input.xlsx");
+        inputFile = new InputFile("Input.xlsx");
         //inputFile.getAllWordLists();
 
         // test: get wordlist for some meaning
-        WordList wordlist = new WordList(inputFile.getWordList("big"));
+//        WordList wordlist = new WordList(inputFile.getWordList("big"));
         //System.out.println(wordlist.serialize());
 
-        Word word = wordlist.getWord("shoshone");
+//        Word word = wordlist.getWord("shoshone");
         //System.out.println("i phonemes in word: " + word.getNumOfPhonemes("i"));
 
         //word.getTranscriptionFromWord();
         SoundsBank cBank = SoundsBank.getInstance();
-        System.out.println("WORD: " + word.getWord());
-        System.out.println("STOPS number: " + word.countPhonotype(Consonant.MannerPricise.STOP));
-        System.out.println("BILABIAL number: " + word.countPhonotype(Consonant.PlacePrecise.BILABIAL));
+//        System.out.println("WORD: " + word.getWord());
+//        System.out.println("STOPS number: " + word.countPhonotype(Consonant.MannerPricise.STOP));
+//        System.out.println("BILABIAL number: " + word.countPhonotype(Consonant.PlacePrecise.BILABIAL));
 
-        OutputFile outputFile = new OutputFile();
+//        OutputFile outputFile = new OutputFile();
 
-        
-
+        Statistics s = new Statistics();
+        s.countAllPhonotypesPerList();
 
         // bug list
         // TODO: standartization of phonemes transcription: sh => ʃ
@@ -54,4 +62,7 @@ public class Main {
 
     }
 
+    public static InputFile getInputFile() {
+        return inputFile;
+    }
 }

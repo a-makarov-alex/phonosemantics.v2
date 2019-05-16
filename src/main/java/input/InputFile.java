@@ -2,6 +2,7 @@ package input;
 
 import entities.Meaning;
 import entities.Word;
+import entities.WordList;
 import org.apache.poi.ss.usermodel.*;
 
 import java.io.FileInputStream;
@@ -75,11 +76,11 @@ public class InputFile {
     /**
      * Reads a list of words from inputFile by meaning
      */
-    public ArrayList<Word> getWordList(String meaning) {
+    public WordList getWordList(String meaning) {
 
         // open file for reading
         InputStream inputStream = null;
-        ArrayList<Word> wordlist = new ArrayList<Word>();
+        ArrayList<Word> list = new ArrayList<Word>();
 
         try {
             inputStream = new FileInputStream(INPUT_DIRECTORY + filePath);
@@ -116,7 +117,7 @@ public class InputFile {
                                 word.setMeaning(new Meaning(sheet.getRow(0).getCell(col).getStringCellValue()));
                                 word.setLanguage(sheet.getRow(i).getCell(0).getStringCellValue());
 
-                                wordlist.add(word);
+                                list.add(word);
                                 count++;
                             } else {
                                 System.out.println("CELL IS NULL");
@@ -130,7 +131,8 @@ public class InputFile {
 
             System.out.println();
             inputStream.close();
-            return wordlist;
+
+            return new WordList(list);
 
         } catch (IOException e) {
             System.out.println("exception");    // TODO: logs
