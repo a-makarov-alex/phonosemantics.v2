@@ -1,14 +1,14 @@
 # phonosemantics.v2
 Provides statistics for linguistics data
 
-** GLOSSARY **
+GLOSSARY
 ===
 
 * ***ph-Type*** - phonotype. Some characteristic that unifies a group of phonemes, e.g. roundness, height for vowels, manner for consonants.
 
 ***
 
-** METHODS **
+METHODS
 ===
 ***
 Class InputFile
