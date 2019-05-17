@@ -4,11 +4,12 @@ Provides statistics for linguistics data
 ** METHODS **
 ===
 
-********* Reading input file ***************
+* Reading input file *
+------
 
-ArrayList<Word> getWordList(String) - reads the whole list by the header from the input file.
+ArrayList<Word> `getWordList(String)` - reads the whole list by the header from the input file.
 
-ArrayList<Word> getAllWordLists() - reads all the wordlists from the input file.
+ArrayList<Word> `getAllWordLists()` - reads all the wordlists from the input file.
 
 
 
