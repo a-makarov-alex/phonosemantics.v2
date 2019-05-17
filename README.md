@@ -8,6 +8,44 @@ GLOSSARY
 
 ***
 
+WORKFLOW
+===
+
+1. Gather linguistic data to `.xlsx` file (manually).
+2. Read data from `.xlsx`.
+3. Caluclate statistics.
+4. Create some user-friendly output format for results.
+
+### Details
+
+#### 1. INPUT
+  `.xlsx` file
+  Headers - word meanings like "big", "run", "stone".
+  Rows - language names.
+#### 2. READING
+  There are 2 options:
+    1. Getting list for a specific meaning. It may be useful for comparing lists "1 to 1".
+    2. Getting every word of every language from the input file and places them to `globalWordList`.
+#### 3. STATISTICS
+  3.1 Process raw data.
+  3.2 Prove the normality.
+  3.3 Look up for anomaly in the ph-Types disribution or, rarely, phonemes distribution.
+  
+  3.1 We can count ph-Types `per word` or `per list`. Also we can count `num of words containing ph-Type`. This allows us to count different types of stats: 
+  *% of words with ph-Type (per list);
+  *% of ph with ph-Type (per list);
+  *average ph-Type per word.
+  
+  3.2 In order to use statistics we must prove the distribution normality. One way is to compare samples (arrays) of phoneme distribution in the wordlists for different meanings and use some statistics creiteria afterwards, eg. `Shapiro-Wilk test`.
+  
+  3.3 When normality is proved (really it can not be proved, but can be _not disproved_), we can use statistic tools.
+  
+#### 4. OUTPUT
+  4.1 Firstly, we should see some results (_relative_ rather than _absolute_ indicators). See point 3.1.
+  4.2 Secondly, it'd be great for user to see graphics.
+  4.3 Finally, the most complicated option is to create a UI using `Java FX` (or `Swing` but it seems to be too old). This UI can combine the `see calculation results` option, `save as` option, `create graphic` on the fly and show it in a modal window.
+
+
 METHODS
 ===
 ***
