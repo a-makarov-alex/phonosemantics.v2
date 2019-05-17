@@ -2,10 +2,12 @@ package output;
 
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import statistics.Statistics;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class OutputFile {
 
@@ -14,6 +16,10 @@ public class OutputFile {
 
     private Workbook wb;
     private static CellStyle headerCellStyle;
+
+    private static final String SHEET_VOW = "Vowels";
+    private static final String SHEET_CONS_MANNER = "Cons manner";
+    private static final String SHEET_CONS_PLACE = "Cons place";
 
     public OutputFile() {
         this.filePath = INPUT_DIRECTORY + "OutputFile.xlsx";
@@ -27,15 +33,16 @@ public class OutputFile {
         try {
             FileOutputStream fileOut = new FileOutputStream(this.filePath);
 
-            // Создаем шаблон Excel файла
+            // Create an Excel file draft
             ArrayList<Sheet> sheets = new ArrayList<>();
-            sheets.add(wb.createSheet("Vowels"));
-            sheets.add(wb.createSheet("Cons manner"));
-            sheets.add(wb.createSheet("Cons place"));
+            sheets.add(wb.createSheet(SHEET_VOW));
+            sheets.add(wb.createSheet(SHEET_CONS_MANNER));
+            sheets.add(wb.createSheet(SHEET_CONS_PLACE));
+
             Row row;
             Cell cell;
 
-            // Задаем стиль, который применим к хедерам
+            // Specify a style for headers
             headerCellStyle = wb.createCellStyle();
             headerCellStyle.setBorderRight(BorderStyle.THIN);
             headerCellStyle.setBorderBottom(BorderStyle.THIN);
@@ -44,7 +51,7 @@ public class OutputFile {
             headerCellStyle.setAlignment(HorizontalAlignment.CENTER);
             headerCellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
 
-            // Добавляем общие заголовки на все листы
+            // Add headers for every sheet
             for (Sheet sh : sheets) {
                 Header.addCommonHeader(sh);
             }
@@ -57,6 +64,23 @@ public class OutputFile {
         } catch (IOException e) {
             System.out.println("IOException caught");
         }
+    }
+
+    public void fillWithRealData(HashMap<Object, Integer> map, String kindOfCalculation) {
+
+        int column = 2;
+        int row = 0;
+
+        switch (kindOfCalculation) {
+            case Statistics.WORDS_WITH_PHTYPE_PER_LIST : { row = 3; break; }
+            case Statistics.PHTYPES_PER_LIST : { row = 4; break; }
+            case Statistics.PHTYPES_AVERAGE_PER_WORD : { row = 5; break; }
+        }
+
+        Sheet sh = this.wb.getSheet(SHEET_CONS_PLACE);
+
+            //TODO: замапить column = class
+
     }
 
 

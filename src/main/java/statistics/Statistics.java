@@ -4,15 +4,16 @@ import entities.Word;
 import entities.WordList;
 import entities.phonetics.Consonant;
 import entities.phonetics.Vowel;
-import input.InputFile;
 import main.Main;
-import output.Header;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Statistics {
+    // kinds of calculations
+    public static final String WORDS_WITH_PHTYPE_PER_LIST = "w per list";
+    public static final String PHTYPES_PER_LIST = "ph per list";
+    public static final String PHTYPES_AVERAGE_PER_WORD = "ph per word";
 
     // Wordlists are added here with semantics as a key
     // TODO: create a Semantics class
@@ -30,38 +31,34 @@ public class Statistics {
 
     // Counts all ph-types for further statistics
     public HashMap<Object, Integer> countAllPhonotypesPerList() {
-        HashMap<Object, Integer> map = getAllPhonotypes();
+        HashMap<Object, Integer> mapAllPh = getAllPhonotypes();
+        HashMap<Object, Integer> mapWordsWithPh = new HashMap<>();
 
-        for (Map.Entry<Object, Integer> entry : map.entrySet()) {
-            Class c = entry.getKey().getClass();
+        for (Map.Entry<Object, Integer> entry : mapAllPh.entrySet()) {
 
-           /*if (c == Vowel.Height.class) {
-               System.out.println(c);
-                Vowel.Height phType = (Vowel.Height) entry.getKey();
+            Object phType = entry.getKey();
+
+        //TODO    System.out.println("");
+        //TODO    System.out.println(phType);
+
+                int counterPh = 0;
+                int counterW = 0;
                 for (Word w : this.globalWordlist.getList()) {
-                    int counter = w.countPhonotype(phType);
-                    System.out.println(w.getWord() + " " + counter);
-                    // entry.setValue(w.countPhonotype(phType));
+                    counterPh = w.countPhonotype(phType);
+                    if (counterPh > 0) {
+                        counterW++;
+                    }
+            //TODO    System.out.println(w.getWord() + " " + counterPh + " " + counterW);
                 }
-            }*/
+                entry.setValue(counterPh);
+                mapWordsWithPh.put(entry.getKey(), counterW);
 
-           // TODO: работает. расширить на все phTypes
-            if (c == Consonant.PlacePrecise.class) {
-                Consonant.PlacePrecise phType = (Consonant.PlacePrecise) entry.getKey();
-                System.out.println(phType);
-                for (Word w : this.globalWordlist.getList()) {
-                    int counter = w.countPhonotype(phType);
-                    System.out.println(w.getWord() + " " + counter);
-                    // entry.setValue(w.countPhonotype(phType));
-                }
-            }
-
-           for (Word w : this.globalWordlist.getList()) {
+           /*for (Word w : this.globalWordlist.getList()) {
                entry.setValue(w.countPhonotype(entry.getKey()));
-           }
+           }*/
         }
 
-        return map;
+        return mapAllPh;
     }
 
 

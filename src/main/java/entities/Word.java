@@ -184,6 +184,11 @@ public class Word {
         if (object.getClass().equals(Consonant.PlacePrecise.class)) {
             return countPhonotypeBy(cons -> cons.getPlacePrecise().equals((Consonant.PlacePrecise)object));
         }
+
+        else if (object.getClass().equals(Consonant.MannerPricise.class)){
+            return countPhonotypeBy(cons -> cons.getMannerPricise().equals((Consonant.MannerPricise)object));
+        }
+
         else {
             return 0;
         }
