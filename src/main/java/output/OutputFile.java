@@ -1,5 +1,6 @@
 package output;
 
+import entities.phonetics.Consonant;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import statistics.Statistics;
@@ -68,18 +69,29 @@ public class OutputFile {
 
     public void fillWithRealData(HashMap<Object, Integer> map, String kindOfCalculation) {
 
-        int column = 2;
-        int row = 0;
+        try {
+            FileOutputStream fileOut = new FileOutputStream(this.filePath);
 
-        switch (kindOfCalculation) {
-            case Statistics.WORDS_WITH_PHTYPE_PER_LIST : { row = 3; break; }
-            case Statistics.PHTYPES_PER_LIST : { row = 4; break; }
-            case Statistics.PHTYPES_AVERAGE_PER_WORD : { row = 5; break; }
-        }
+            int column = 2;
+            int row = 0;
 
-        Sheet sh = this.wb.getSheet(SHEET_CONS_PLACE);
+            switch (kindOfCalculation) {
+                case Statistics.WORDS_WITH_PHTYPE_PER_LIST : { row = 3; break; }
+                case Statistics.PHTYPES_PER_LIST : { row = 4; break; }
+                case Statistics.PHTYPES_AVERAGE_PER_WORD : { row = 5; break; }
+            }
 
+            Sheet sh = this.wb.getSheet(SHEET_CONS_MANNER);
+
+            sh.getRow(row).createCell(4).setCellValue(map.get(Consonant.MannerPricise.STOP));
             //TODO: замапить column = class
+
+            wb.write(fileOut);
+            fileOut.close();
+
+        } catch (IOException e) {
+            System.out.println("IOException caught");
+        }
 
     }
 

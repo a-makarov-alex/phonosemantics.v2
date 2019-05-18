@@ -59,7 +59,7 @@ ArrayList<Word> `getAllWordLists()` - reads all the wordlists from the input `.x
 Class OutputFile
 -----
 
-void `createOutputFile()` - creates an output file in `.xlsx` format with a default name in an output directory.
+void `createOutputFile()` - creates an output file in `.xlsx` format with a default name in an output directory. ATTENTION: constructor for OutputFile calls this method automatically.
 
 ***
 

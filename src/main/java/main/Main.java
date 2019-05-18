@@ -33,10 +33,12 @@ public class Main {
 //        System.out.println("STOPS number: " + word.countPhonotype(Consonant.MannerPricise.STOP));
 //        System.out.println("BILABIAL number: " + word.countPhonotype(Consonant.PlacePrecise.BILABIAL));
 
-//        OutputFile outputFile = new OutputFile();
+        OutputFile outputFile = new OutputFile();
 
         Statistics s = new Statistics();
-        s.countAllPhonotypesPerList();
+        outputFile.fillWithRealData(s.countAllPhonotypesPerList(), Statistics.WORDS_WITH_PHTYPE_PER_LIST);
+
+
 
         // bug list
         // TODO: standartization of phonemes transcription: sh => ʃ
