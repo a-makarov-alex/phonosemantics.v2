@@ -1,6 +1,7 @@
 package output;
 
 import entities.phonetics.Consonant;
+import entities.phonetics.Vowel;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import statistics.Statistics;
@@ -9,6 +10,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class OutputFile {
 
@@ -85,6 +87,12 @@ public class OutputFile {
 
             sh.getRow(row).createCell(4).setCellValue(map.get(Consonant.MannerPricise.STOP));
             //TODO: замапить column = class
+
+            sh = this.wb.getSheet(SHEET_VOW);
+            for (Map.Entry<Object, Header> entry : Header.vowSh.entrySet()) {
+                column = entry.getValue().getColumn();
+                sh.getRow(row).createCell(column).setCellValue(map.get(entry.getKey()));
+            }
 
             wb.write(fileOut);
             fileOut.close();

@@ -44,7 +44,8 @@ public class Statistics {
                 int counterPh = 0;
                 int counterW = 0;
                 for (Word w : this.globalWordlist.getList()) {
-                    counterPh = w.countPhonotype(phType);
+                    System.out.print(phType + " : ");
+                    counterPh += w.countPhonotype(phType);
                     if (counterPh > 0) {
                         counterW++;
                     }
@@ -58,6 +59,7 @@ public class Statistics {
            }*/
         }
 
+        // TODO: mapWords!!!!!
         return mapAllPh;
     }
 

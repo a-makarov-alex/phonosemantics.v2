@@ -3,6 +3,7 @@ package entities;
 import com.google.gson.Gson;
 import entities.phonetics.Consonant;
 import entities.phonetics.Phoneme;
+import entities.phonetics.Vowel;
 import knowledgeBase.SoundsBank;
 import main.Main;
 
@@ -160,33 +161,43 @@ public class Word {
     /**
      * BUNCH OF METHODS TO COUNT PHONOTYPES
      * **/
-    public int countPhonotype(Consonant.MannerApproximate mannerApproximate) {
-        return countPhonotypeBy(cons -> cons.getMannerApproximate().equals(mannerApproximate));
+    /*public int countPhonotype(Consonant.MannerApproximate mannerApproximate) {
+        return countConsPhonotypeBy(cons -> cons.getMannerApproximate().equals(mannerApproximate));
     }
 
     public int countPhonotype(Consonant.MannerPricise mannerPricise) {
         if (mannerPricise.equals(Consonant.MannerPricise.FRICATIVE)) {
-            return countPhonotypeBy(cons -> cons.isFricative());
+            return countConsPhonotypeBy(cons -> cons.isFricative());
         } else {
-            return countPhonotypeBy(cons -> cons.getMannerPricise().equals(mannerPricise));
+            return countConsPhonotypeBy(cons -> cons.getMannerPricise().equals(mannerPricise));
         }
     }
 
     public int countPhonotype(Consonant.PlaceApproximate placeApproximate) {
-        return countPhonotypeBy(cons -> cons.getPlaceApproximate().equals(placeApproximate));
+        return countConsPhonotypeBy(cons -> cons.getPlaceApproximate().equals(placeApproximate));
     }
 
     public int countPhonotype(Consonant.PlacePrecise placePrecise) {
-        return countPhonotypeBy(cons -> cons.getPlacePrecise().equals(placePrecise));
-    }
+        return countConsPhonotypeBy(cons -> cons.getPlacePrecise().equals(placePrecise));
+    }*/
 
     public int countPhonotype(Object object) {
         if (object.getClass().equals(Consonant.PlacePrecise.class)) {
-            return countPhonotypeBy(cons -> cons.getPlacePrecise().equals((Consonant.PlacePrecise)object));
+            return countConsPhonotypeBy(cons -> cons.getPlacePrecise().equals((Consonant.PlacePrecise)object));
         }
 
         else if (object.getClass().equals(Consonant.MannerPricise.class)){
-            return countPhonotypeBy(cons -> cons.getMannerPricise().equals((Consonant.MannerPricise)object));
+            return countConsPhonotypeBy(cons -> cons.getMannerPricise().equals((Consonant.MannerPricise)object));
+        }
+
+        // VOWELS
+        else if (object.getClass().equals(Vowel.Height.class)){
+            System.out.print("Height :   ");
+            return countVowPhonotypeBy(vow -> vow.getHeight().equals((Vowel.Height)object));
+        }
+
+        else if (object.getClass().equals(Vowel.Backness.class)){
+            return countVowPhonotypeBy(vow -> vow.getBackness().equals((Vowel.Backness)object));
         }
 
         else {
@@ -195,9 +206,9 @@ public class Word {
     }
 
     /**
-     *  The main method for counting phonotype examples in the word
+     *  The main methods for counting phonotype instances in the word
      *  **/
-    private int countPhonotypeBy(Predicate<Consonant> p) {
+    private int countConsPhonotypeBy(Predicate<Consonant> p) {
         int count = 0;
         for(Phoneme ph : this.transcription) {
             if (ph != null) {
@@ -209,6 +220,24 @@ public class Word {
                 }
             }
         }
+        return count;
+    }
+
+    private int countVowPhonotypeBy(Predicate<Vowel> p) {
+        int count = 0;
+        for(Phoneme ph : this.transcription) {
+            if (ph != null) {
+                if (ph.getClass().equals(Vowel.class)) {
+                    Vowel vow = (Vowel) ph;
+                    if (p.test(vow)) {
+                        count++;
+                    }
+                }
+            } else {
+                //System.out.println(this.getWord());
+            }
+        }
+        System.out.println(this.getWord() + " " + count);
         return count;
     }
 }

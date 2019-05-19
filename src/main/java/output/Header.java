@@ -1,15 +1,21 @@
 package output;
 
+import entities.phonetics.Vowel;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Header {
 
     private int row;
     private int column;
     private String text;
+
+    public static HashMap<Object, Header>  vowSh = new HashMap<>();
+    public static HashMap<Object, Header>  consMannerSh = new HashMap<>();
+    public static HashMap<Object, Header>  consPlaceSh = new HashMap<>();
 
 
     public Header(int row, int column, String text) {
@@ -101,7 +107,7 @@ public class Header {
         sheet.addMergedRegion(new CellRangeAddress(1,1,3, 7));
         sheet.addMergedRegion(new CellRangeAddress(1,1,8, 10));
 
-        ArrayList<Header> list = new ArrayList<>();
+        /*ArrayList<Header> list = new ArrayList<>();
         list.add(new Header(0,3, "VOWELS"));
         list.add(new Header(1, 3, "Height"));
         list.add(new Header(1, 8, "Backness"));
@@ -112,11 +118,34 @@ public class Header {
         list.add(new Header(2, 7, "Close"));
         list.add(new Header(2, 8, "Front"));
         list.add(new Header(2, 9, "Cent"));
-        list.add(new Header(2, 10, "Back"));
+        list.add(new Header(2, 10, "Back"));*/
+
+        /*vowSh.put("Vowels", new Header(0,3, "VOWELS"));
+        vowSh.put("Height", new Header(1, 3, "Height"));
+        vowSh.put("Backness", new Header(1, 8, "Backness"));*/
+
+        vowSh.put(Vowel.Height.OPEN, new Header(2, 3, "Open"));
+        vowSh.put(Vowel.Height.OPEN_MID, new Header(2, 4, "Op-mid"));
+        vowSh.put(Vowel.Height.MID, new Header(2, 5, "Mid"));
+        vowSh.put(Vowel.Height.CLOSE_MID, new Header(2, 6, "Cl-mid"));
+        vowSh.put(Vowel.Height.CLOSE, new Header(2, 7, "Close"));
+
+        vowSh.put(Vowel.Backness.FRONT, new Header(2, 8, "Front"));
+        vowSh.put(Vowel.Backness.CENTRAL, new Header(2, 9, "Cent"));
+        vowSh.put(Vowel.Backness.BACK, new Header(2, 10, "Back"));
 
 
         // вписываем значения хедеров
-        for (Header h : list) {
+        /*for (Header h : list) {
+            Cell cell = sheet.getRow(h.row).getCell(h.column);
+            cell.setCellValue(h.text);
+        }*/
+
+        sheet.getRow(0).getCell(3).setCellValue("VOWELS");
+        sheet.getRow(1).getCell(3).setCellValue("Height");
+        sheet.getRow(1).getCell(8).setCellValue("Backness");
+
+        for (Header h : vowSh.values()) {
             Cell cell = sheet.getRow(h.row).getCell(h.column);
             cell.setCellValue(h.text);
         }
