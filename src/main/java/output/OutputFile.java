@@ -28,8 +28,6 @@ public class OutputFile {
         this.filePath = INPUT_DIRECTORY + "OutputFile.xlsx";
         this.wb = new XSSFWorkbook();
         createOutputFile();
-
-
     }
 
     public void createOutputFile() {
@@ -69,38 +67,69 @@ public class OutputFile {
         }
     }
 
-    public void fillWithRealData(HashMap<Object, Integer> map, String kindOfCalculation) {
+    public HashMap<Object, Double> fillWithRealData(Statistics stats, String kindOfCalculation) {
 
         try {
             FileOutputStream fileOut = new FileOutputStream(this.filePath);
+
+            // fill the maps of Statistics object
+            HashMap<Object, Integer> mapInput = null;
+            stats.countAllPhonotypesPerList();
+            HashMap<Object, Double> mapResult = new HashMap<>();
+            double divider = 0.0;
+            // percentage or absolute
+            CellStyle cellStyle = wb.createCellStyle();
 
             int column = 2;
             int row = 0;
 
             switch (kindOfCalculation) {
-                case Statistics.WORDS_WITH_PHTYPE_PER_LIST : { row = 3; break; }
-                case Statistics.PHTYPES_PER_LIST : { row = 4; break; }
-                case Statistics.PHTYPES_AVERAGE_PER_WORD : { row = 5; break; }
+                case Statistics.WORDS_WITH_PHTYPE_PER_LIST : {
+                    row = 3;
+                    mapInput = stats.getMapWordsPerList();
+                    divider = stats.getGlobalWordlist().getList().size();
+                    cellStyle.setDataFormat(wb.createDataFormat().getFormat("0.0%"));
+                    break;
+                }
+
+                case Statistics.PHTYPES_PER_LIST : {
+                    row = 4;
+                    mapInput = stats.getMapPhTypesPerList();
+                    divider = stats.getGlobalWordlist().countAllPhonemes();
+                    cellStyle.setDataFormat(wb.createDataFormat().getFormat("0.0%"));
+                    break;
+                }
+
+                case Statistics.PHTYPES_AVERAGE_PER_WORD : {
+                    row = 5;
+                    mapInput = stats.getMapPhTypesPerList();
+                    divider = stats.getGlobalWordlist().getList().size();
+                    cellStyle.setDataFormat(wb.createDataFormat().getFormat("0.0"));
+                    break;
+                }
             }
 
             Sheet sh = this.wb.getSheet(SHEET_CONS_MANNER);
 
-            sh.getRow(row).createCell(4).setCellValue(map.get(Consonant.MannerPricise.STOP));
+            sh.getRow(row).createCell(4).setCellValue(mapInput.get(Consonant.MannerPricise.STOP));
             //TODO: замапить column = class
 
             sh = this.wb.getSheet(SHEET_VOW);
             for (Map.Entry<Object, Header> entry : Header.vowSh.entrySet()) {
                 column = entry.getValue().getColumn();
-                sh.getRow(row).createCell(column).setCellValue(map.get(entry.getKey()));
+                Cell c = sh.getRow(row).createCell(column);
+                c.setCellValue(mapInput.get(entry.getKey())/divider);
+                c.setCellStyle(cellStyle);
             }
 
             wb.write(fileOut);
             fileOut.close();
+            return mapResult;
 
         } catch (IOException e) {
             System.out.println("IOException caught");
+            return null;
         }
-
     }
 
 

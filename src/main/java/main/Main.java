@@ -3,6 +3,7 @@ package main;
 import entities.Word;
 import entities.WordList;
 import entities.phonetics.Consonant;
+import entities.phonetics.Vowel;
 import input.InputFile;
 import knowledgeBase.SoundsBank;
 import output.OutputFile;
@@ -12,6 +13,7 @@ public class Main {
 
     // CONFIG --> should be transformed to logs later
     public static boolean transcr_to_console = false;
+    public static Object class_to_console = Vowel.Height.CLOSE;
 
     private static InputFile inputFile;
 
@@ -36,7 +38,10 @@ public class Main {
         OutputFile outputFile = new OutputFile();
 
         Statistics s = new Statistics();
-        outputFile.fillWithRealData(s.countAllPhonotypesPerList(), Statistics.WORDS_WITH_PHTYPE_PER_LIST);
+
+        outputFile.fillWithRealData(s, Statistics.WORDS_WITH_PHTYPE_PER_LIST);
+        outputFile.fillWithRealData(s, Statistics.PHTYPES_PER_LIST);
+        outputFile.fillWithRealData(s, Statistics.PHTYPES_AVERAGE_PER_WORD);
 
 
 

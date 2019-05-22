@@ -15,10 +15,13 @@ public class Statistics {
     public static final String PHTYPES_PER_LIST = "ph per list";
     public static final String PHTYPES_AVERAGE_PER_WORD = "ph per word";
 
+    private HashMap<Object, Integer> mapPhTypesPerList = new HashMap<>();
+    private HashMap<Object, Integer> mapWordsPerList = new HashMap<>();
+
     // Wordlists are added here with semantics as a key
     // TODO: create a Semantics class
     // Remember that Word has Semantics field. No need of HashMap
-    WordList globalWordlist = Main.getInputFile().getWordList("Big"); //TODO: =getGlobalWordlist() в классе InputFile
+    private WordList globalWordlist = Main.getInputFile().getWordList("Big"); //TODO: =getGlobalWordlist() в классе InputFile
 
 
     /**
@@ -29,13 +32,11 @@ public class Statistics {
     }
 
 
-    // Counts all ph-types for further statistics
-    public HashMap<Object, Integer> countAllPhonotypesPerList() {
-        HashMap<Object, Integer> mapAllPh = getAllPhonotypes();
-        HashMap<Object, Integer> mapWordsWithPh = new HashMap<>();
+    // Counts all ph-types for further statistics and write result to the Statistics object
+    public void countAllPhonotypesPerList() {
+        mapPhTypesPerList = getAllPhonotypes();
 
-        for (Map.Entry<Object, Integer> entry : mapAllPh.entrySet()) {
-
+        for (Map.Entry<Object, Integer> entry : mapPhTypesPerList.entrySet()) {
             Object phType = entry.getKey();
 
         //TODO    System.out.println("");
@@ -44,23 +45,26 @@ public class Statistics {
                 int counterPh = 0;
                 int counterW = 0;
                 for (Word w : this.globalWordlist.getList()) {
-                    System.out.print(phType + " : ");
-                    counterPh += w.countPhonotype(phType);
-                    if (counterPh > 0) {
+                    int incr = w.countPhonotype(phType);
+
+                    // TODO
+                    if (phType.equals(Main.class_to_console)) {
+                        System.out.println(phType + " : " + w.getWord() + " " + incr);
+                    }
+
+                    counterPh += incr;
+                    if (incr > 0) {
                         counterW++;
                     }
             //TODO    System.out.println(w.getWord() + " " + counterPh + " " + counterW);
                 }
                 entry.setValue(counterPh);
-                mapWordsWithPh.put(entry.getKey(), counterW);
+                mapWordsPerList.put(entry.getKey(), counterW);
 
            /*for (Word w : this.globalWordlist.getList()) {
                entry.setValue(w.countPhonotype(entry.getKey()));
            }*/
         }
-
-        // TODO: mapWords!!!!!
-        return mapAllPh;
     }
 
 
@@ -106,4 +110,39 @@ public class Statistics {
 
         return map;
     }
+
+
+
+    // TODO метод был не додуман
+    // подумать, как удобно смотреть данные в консоли
+    public void printStatsToConsole() {
+
+        System.out.println("ALL STATS FOR WORDLIST \"" + this.globalWordlist.getMeaning() + "\"");
+        System.out.println("----- Word ----|-- words/List -|- phTypes/List -|- aver phType/Word");
+        System.out.println("---------------|---------------|----------------|-------------------");
+        int wordMaxSymb = 15;
+
+        for (Word w : this.globalWordlist.getList()) {
+            System.out.print(w.getWord());
+            for (int i=0; i<(wordMaxSymb-w.getWord().length()); i++) {
+                System.out.println( );
+            }
+            System.out.println("| ");
+        }
+    }
+
+
+    /** GETTERS AND SETTERS **/
+    public WordList getGlobalWordlist() {
+        return globalWordlist;
+    }
+
+    public HashMap<Object, Integer> getMapPhTypesPerList() {
+        return mapPhTypesPerList;
+    }
+
+    public HashMap<Object, Integer> getMapWordsPerList() {
+        return mapWordsPerList;
+    }
+
 }

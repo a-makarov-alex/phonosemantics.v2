@@ -192,7 +192,9 @@ public class Word {
 
         // VOWELS
         else if (object.getClass().equals(Vowel.Height.class)){
-            System.out.print("Height :   ");
+            if (object.equals(Main.class_to_console)) {
+                System.out.print("Height :   ");
+            }
             return countVowPhonotypeBy(vow -> vow.getHeight().equals((Vowel.Height)object));
         }
 
@@ -237,7 +239,6 @@ public class Word {
                 //System.out.println(this.getWord());
             }
         }
-        System.out.println(this.getWord() + " " + count);
         return count;
     }
 }

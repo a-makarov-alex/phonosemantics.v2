@@ -48,4 +48,13 @@ public class WordList {
                 " with meaning " + this.meaning + " is not found");
         return null;
     }
+
+    // counts all phonemes of all words in list
+    public int countAllPhonemes() {
+        int count = 0;
+        for (Word w : this.getList()) {
+            count += w.getLength();
+        }
+        return count;
+    }
 }
