@@ -107,7 +107,7 @@ public class Word {
     public void setTranscriptionFromWord() {
         this.transcription = new ArrayList<>();
         String word = this.getWord();
-        if (Main.transcr_to_console == true) {
+        if (Main.CONSOLE_SHOW_TRASCRIPTION == true) {
             System.out.println("Word: " + word);
         }
 
@@ -141,7 +141,7 @@ public class Word {
 
                             // Empty phoneme
                             this.transcription.add(null);
-                            if (Main.transcr_to_console == true) {
+                            if (Main.CONSOLE_UNKNOWN_PHONEMES) {
                                 System.out.println("  Phoneme " + phonemes[i] + " is not found in sounds bank");
                             }
                         }
@@ -150,7 +150,7 @@ public class Word {
             }
 
             this.length = transcription.size();
-            if (Main.transcr_to_console == true) {
+            if (Main.CONSOLE_SHOW_TRASCRIPTION == true) {
                 printTranscription();
             }
 
@@ -192,7 +192,7 @@ public class Word {
 
         // VOWELS
         else if (object.getClass().equals(Vowel.Height.class)){
-            if (object.equals(Main.class_to_console)) {
+            if (object.equals(Main.CONSOLE_SHOW_WORDS_OF_CLASS)) {
                 System.out.print("Height :   ");
             }
             return countVowPhonotypeBy(vow -> vow.getHeight().equals((Vowel.Height)object));

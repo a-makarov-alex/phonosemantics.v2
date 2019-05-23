@@ -1,8 +1,6 @@
 package main;
 
-import entities.Word;
 import entities.WordList;
-import entities.phonetics.Consonant;
 import entities.phonetics.Vowel;
 import input.InputFile;
 import knowledgeBase.SoundsBank;
@@ -12,8 +10,11 @@ import statistics.Statistics;
 public class Main {
 
     // CONFIG --> should be transformed to logs later
-    public static boolean transcr_to_console = false;
-    public static Object class_to_console = Vowel.Height.CLOSE;
+    public static final boolean CONSOLE_SHOW_TRASCRIPTION = false;
+    public static final Object CONSOLE_SHOW_WORDS_OF_CLASS = Vowel.Height.CLOSE;
+    public static final boolean CONSOLE_UNKNOWN_PHONEMES = false;
+    public static final boolean CONSOLE_SHOW_NUM_OF_WORDS_AND_PHONEMES = false;
+
 
     private static InputFile inputFile;
 
@@ -35,13 +36,12 @@ public class Main {
 //        System.out.println("STOPS number: " + word.countPhonotype(Consonant.MannerPricise.STOP));
 //        System.out.println("BILABIAL number: " + word.countPhonotype(Consonant.PlacePrecise.BILABIAL));
 
-        OutputFile outputFile = new OutputFile();
+        OutputFile outputFile = new OutputFile("OutputFile", OutputFile.Type.GENERAL);
 
-        Statistics s = new Statistics();
+        // ИСХОДНЫЙ ВОРДЛИСТ
+        WordList exampleWordlist = getInputFile().getWordList("Big");
+        outputFile.fillGeneralOutputFile(exampleWordlist);
 
-        outputFile.fillWithRealData(s, Statistics.WORDS_WITH_PHTYPE_PER_LIST);
-        outputFile.fillWithRealData(s, Statistics.PHTYPES_PER_LIST);
-        outputFile.fillWithRealData(s, Statistics.PHTYPES_AVERAGE_PER_WORD);
 
 
 
