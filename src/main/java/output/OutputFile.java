@@ -1,7 +1,6 @@
 package output;
 
 import entities.WordList;
-import entities.phonetics.Consonant;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import statistics.Statistics;
@@ -26,18 +25,22 @@ public class OutputFile {
         GENERAL, NORMALITY
     }
 
+    // TODO to enum
     private static final String SHEET_VOW = "Vowels";
     private static final String SHEET_CONS_MANNER = "Cons manner";
     private static final String SHEET_CONS_PLACE = "Cons place";
 
     public OutputFile(String title, Type type) {
         this.title = title;
+        this.type = type;
         this.filePath = OUTPUT_DIRECTORY + title + ".xlsx";
         this.wb = new XSSFWorkbook();
-        this.createOutputFile(type);
+        this.createOutputFile();
     }
 
-    public void createOutputFile(Type type) {
+    public void createOutputFile() {
+        Type type = this.type;
+
         try {
             FileOutputStream fileOut = new FileOutputStream(this.filePath);
 
@@ -75,7 +78,18 @@ public class OutputFile {
                 }
 
                 case NORMALITY: {
+                    // sheets
+                    sheets.add(wb.createSheet(Statistics.KindOfStats.WORDS_WITH_PHTYPE_PER_LIST.toString()));
+                    sheets.add(wb.createSheet(Statistics.KindOfStats.PHTYPES_PER_LIST.toString()));
+                    sheets.add(wb.createSheet(Statistics.KindOfStats.PHTYPES_AVERAGE_PER_WORD.toString()));
+
+                    //headers
+                    Header.addNormalityHeader(sheets.get(0), Statistics.KindOfStats.WORDS_WITH_PHTYPE_PER_LIST);
                     // TODO
+
+                    Header.addVowelsHeader(sheets.get(0));
+                    //Header.addMannerHeader(sheets.get(1));
+                    //Header.addPlaceHeader(sheets.get(2));
 
                     break;
                 }
@@ -96,33 +110,26 @@ public class OutputFile {
             CellStyle cellStyle = wb.createCellStyle();
             HashMap<Object, Double> mapResult = new HashMap<>();
             Sheet sh;
-            int row;
+            int row = 0;
             int column = 2;
 
             // WRITE VOWELS
             sh = this.wb.getSheet(SHEET_VOW);
 
-            for (int i = 3; i <= 5; i++) {
+            for (int i = 3; i <= 4; i++) {
                 row = i;
+                String styleFormat = "";
                 switch (row) {
                     // WORDS_WITH_PHTYPE_PER_LIST
                     case 3 : {
                         mapResult = wordList.getStats(Statistics.KindOfStats.WORDS_WITH_PHTYPE_PER_LIST);
-                        cellStyle.setDataFormat(wb.createDataFormat().getFormat("0.0%"));
+                        styleFormat = "0.0%";
                         break;
                     }
-
                     // PHTYPES_PER_LIST
                     case 4 : {
                         mapResult = wordList.getStats(Statistics.KindOfStats.PHTYPES_PER_LIST);
-                        cellStyle.setDataFormat(wb.createDataFormat().getFormat("0.0%"));
-                        break;
-                    }
-
-                    // PHTYPES_AVERAGE_PER_WORD
-                    case 5 : {
-                        mapResult = wordList.getStats(Statistics.KindOfStats.PHTYPES_AVERAGE_PER_WORD);
-                        cellStyle.setDataFormat(wb.createDataFormat().getFormat("0.0"));
+                        styleFormat = "0.0%";
                         break;
                     }
                 }
@@ -135,8 +142,23 @@ public class OutputFile {
                     //System.out.println(entry.getKey());
                     //System.out.println(mapResult.get(entry.getKey()));
                     c.setCellValue(mapResult.get(entry.getKey()));
-                    c.setCellStyle(cellStyle);
+                    //cellStyle.setDataFormat(wb.createDataFormat().getFormat("0.0%"));
+                    c.setCellStyle(createCellStyleWithDataFormat("0.0%"));
                 }
+            }
+
+            // Implement dataFormat style. Otherwise does not work
+            // PHTYPES_AVERAGE_PER_WORD
+            mapResult = wordList.getStats(Statistics.KindOfStats.PHTYPES_AVERAGE_PER_WORD);
+            row = 5;
+
+            for (Map.Entry<Object, Header> entry : Header.vowSh.entrySet()) {
+                column = entry.getValue().getColumn();
+
+                Cell c = sh.getRow(row).createCell(column);
+                c.setCellValue(mapResult.get(entry.getKey()));
+
+                c.setCellStyle(createCellStyleWithDataFormat("0.0"));
             }
 
             wb.write(fileOut);
@@ -147,6 +169,12 @@ public class OutputFile {
         }
     }
 
+
+    public CellStyle createCellStyleWithDataFormat(String format) {
+        CellStyle cellStyle = wb.createCellStyle();
+        cellStyle.setDataFormat(wb.createDataFormat().getFormat(format));
+        return cellStyle;
+    }
 
 
     // GETTERS AND SETTERS

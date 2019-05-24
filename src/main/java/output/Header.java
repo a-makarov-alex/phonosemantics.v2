@@ -3,6 +3,7 @@ package output;
 import entities.phonetics.Vowel;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
+import statistics.Statistics;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,7 +50,7 @@ public class Header {
     }
 
     /**
-     * Header that is common for all excel sheets
+     * Header that is common for all General excel sheets
      * **/
     public static void addCommonHeader(Sheet sheet) {
         // inicialization and style
@@ -87,6 +88,42 @@ public class Header {
         sheet.setColumnWidth(2, 5800);
 
     }
+
+    /**
+     * Header that is common for all Normality excel sheets
+     * **/
+    public static void addNormalityHeader(Sheet sheet, Statistics.KindOfStats kindOfStats) {
+        // inicialization and style
+        for (int i=0; i <= 3; i++ ) {
+            sheet.createRow(i);
+            for (int j=0; j <= 2; j++) {
+                sheet.getRow(i).createCell(j);
+                sheet.getRow(i).getCell(j).setCellStyle(OutputFile.getHeaderCellStyle());
+            }
+        }
+
+        // merging cells
+        sheet.addMergedRegion(new CellRangeAddress(0,2,0, 0));
+        sheet.addMergedRegion(new CellRangeAddress(0,2,1, 1));
+        sheet.addMergedRegion(new CellRangeAddress(0,2,2, 2));
+
+        ArrayList<Header> list = new ArrayList<>();
+        list.add(new Header(0,0, "Semantics"));
+        list.add(new Header(0, 1, "Wordlist length"));
+        list.add(new Header(3, 2, kindOfStats.toString()));
+
+        // вписываем значения хедеров
+        for (Header h : list) {
+            Cell cell = sheet.getRow(h.row).getCell(h.column);
+            cell.setCellValue(h.text);
+        }
+
+        // устанавливаем ширину ячеек
+        sheet.setColumnWidth(0, 3700);
+        sheet.setColumnWidth(1, 3700);
+        sheet.setColumnWidth(2, 5800);
+    }
+
 
 
     /**
@@ -245,5 +282,4 @@ public class Header {
             cell.setCellValue(h.text);
         }
     }
-
 }

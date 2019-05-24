@@ -11,7 +11,7 @@ public class Main {
 
     // CONFIG --> should be transformed to logs later
     public static final boolean CONSOLE_SHOW_TRASCRIPTION = false;
-    public static final Object CONSOLE_SHOW_WORDS_OF_CLASS = Vowel.Height.CLOSE;
+    public static final Object CONSOLE_SHOW_WORDS_OF_CLASS = null; //Vowel.Height.CLOSE;
     public static final boolean CONSOLE_UNKNOWN_PHONEMES = false;
     public static final boolean CONSOLE_SHOW_NUM_OF_WORDS_AND_PHONEMES = false;
 
@@ -36,11 +36,14 @@ public class Main {
 //        System.out.println("STOPS number: " + word.countPhonotype(Consonant.MannerPricise.STOP));
 //        System.out.println("BILABIAL number: " + word.countPhonotype(Consonant.PlacePrecise.BILABIAL));
 
-        OutputFile outputFile = new OutputFile("OutputFile", OutputFile.Type.GENERAL);
 
-        // ИСХОДНЫЙ ВОРДЛИСТ
+        //OutputFile outputFile = new OutputFile("OutputFile", OutputFile.Type.GENERAL);
+        OutputFile normalityFile = new OutputFile("Normality", OutputFile.Type.NORMALITY);
         WordList exampleWordlist = getInputFile().getWordList("Big");
-        outputFile.fillGeneralOutputFile(exampleWordlist);
+        //outputFile.fillGeneralOutputFile(exampleWordlist);
+        normalityFile.createOutputFile();
+
+
 
 
 
