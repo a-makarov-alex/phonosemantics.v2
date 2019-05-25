@@ -18,7 +18,6 @@ public class Statistics {
         PHTYPES_AVERAGE_PER_WORD
     }
 
-
     // Wordlists are added here with semantics as a key
     // TODO: create a Semantics class
     // Remember that Word has Semantics field. No need of HashMap

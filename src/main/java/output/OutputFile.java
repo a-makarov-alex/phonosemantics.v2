@@ -16,6 +16,7 @@ public class OutputFile {
     private String title;
     private String filePath;
     private Type type;
+    private ArrayList<Sheet> sheets;
     private static final String OUTPUT_DIRECTORY = "D:\\JavaProjects2019\\word\\src\\main\\java\\output\\";
 
     private Workbook wb;
@@ -38,14 +39,14 @@ public class OutputFile {
         this.createOutputFile();
     }
 
-    public void createOutputFile() {
+    private void createOutputFile() {
         Type type = this.type;
 
         try {
             FileOutputStream fileOut = new FileOutputStream(this.filePath);
 
             // Create an Excel file draft
-            ArrayList<Sheet> sheets = new ArrayList<>();
+            sheets = new ArrayList<>();
             Row row;
             Cell cell;
 
@@ -85,11 +86,14 @@ public class OutputFile {
 
                     //headers
                     Header.addNormalityHeader(sheets.get(0), Statistics.KindOfStats.WORDS_WITH_PHTYPE_PER_LIST);
-                    // TODO
+                    Header.addNormalityHeader(sheets.get(1), Statistics.KindOfStats.PHTYPES_PER_LIST);
+                    Header.addNormalityHeader(sheets.get(2), Statistics.KindOfStats.PHTYPES_AVERAGE_PER_WORD);
 
-                    Header.addVowelsHeader(sheets.get(0));
-                    //Header.addMannerHeader(sheets.get(1));
-                    //Header.addPlaceHeader(sheets.get(2));
+                    for (Sheet sh : sheets) {
+                        Header.addVowelsHeader(sh);
+                        Header.addMannerHeader(sh, true);
+                        //Header.addPlaceHeader(sheets.get(2));
+                    }
 
                     break;
                 }
@@ -102,7 +106,19 @@ public class OutputFile {
         }
     }
 
-    public void fillGeneralOutputFile(WordList wordList) {
+    // Writes the worlist parsing and statistics counting result into the output file
+    public void fillWith(WordList wordList) {
+        switch (type) {
+            case GENERAL: {
+                writeToGeneralFile(wordList);
+            }
+            case NORMALITY: {
+                writeToNormalityFile(wordList);
+            }
+        }
+    }
+
+    public void writeToGeneralFile(WordList wordList) {
         try {
             FileOutputStream fileOut = new FileOutputStream(this.filePath);
 
@@ -116,7 +132,10 @@ public class OutputFile {
             // WRITE VOWELS
             sh = this.wb.getSheet(SHEET_VOW);
 
-            for (int i = 3; i <= 4; i++) {
+            sh.getRow(3).getCell(0).setCellValue(wordList.getMeaning());
+            sh.getRow(3).getCell(1).setCellValue(wordList.getList().size());
+
+            for (int i = 3; i <= 5; i++) {
                 row = i;
                 String styleFormat = "";
                 switch (row) {
@@ -132,6 +151,13 @@ public class OutputFile {
                         styleFormat = "0.0%";
                         break;
                     }
+
+                    // PHTYPES_AVERAGE_PER_WORD
+                    case 5 : {
+                        mapResult = wordList.getStats(Statistics.KindOfStats.PHTYPES_AVERAGE_PER_WORD);
+                        styleFormat = "0.0";
+                        break;
+                    }
                 }
 
                 // WRITE ROW BY ROW
@@ -139,26 +165,9 @@ public class OutputFile {
                     column = entry.getValue().getColumn();
 
                     Cell c = sh.getRow(row).createCell(column);
-                    //System.out.println(entry.getKey());
-                    //System.out.println(mapResult.get(entry.getKey()));
                     c.setCellValue(mapResult.get(entry.getKey()));
-                    //cellStyle.setDataFormat(wb.createDataFormat().getFormat("0.0%"));
-                    c.setCellStyle(createCellStyleWithDataFormat("0.0%"));
+                    c.setCellStyle(createCellStyleWithDataFormat(styleFormat));
                 }
-            }
-
-            // Implement dataFormat style. Otherwise does not work
-            // PHTYPES_AVERAGE_PER_WORD
-            mapResult = wordList.getStats(Statistics.KindOfStats.PHTYPES_AVERAGE_PER_WORD);
-            row = 5;
-
-            for (Map.Entry<Object, Header> entry : Header.vowSh.entrySet()) {
-                column = entry.getValue().getColumn();
-
-                Cell c = sh.getRow(row).createCell(column);
-                c.setCellValue(mapResult.get(entry.getKey()));
-
-                c.setCellStyle(createCellStyleWithDataFormat("0.0"));
             }
 
             wb.write(fileOut);
@@ -166,6 +175,49 @@ public class OutputFile {
 
         } catch (IOException e) {
             System.out.println("IOException caught");
+        }
+    }
+
+    public void writeToNormalityFile(WordList wordList) {
+        try {
+            FileOutputStream fileOut = new FileOutputStream(this.filePath);
+
+            // SHEET WORDS_WITH_PHTYPE_PER_LIST
+            writeOneKindOfStats(
+                    sheets.get(0),
+                    "0.0%",
+                    wordList.getStats(Statistics.KindOfStats.WORDS_WITH_PHTYPE_PER_LIST));
+
+            // SHEET PHTYPES_PER_LIST
+            writeOneKindOfStats(
+                    sheets.get(1),
+                    "0.0%",
+                    wordList.getStats(Statistics.KindOfStats.PHTYPES_PER_LIST));
+
+            // SHEET PHTYPES_AVERAGE_PER_WORD
+            writeOneKindOfStats(
+                    sheets.get(2),
+                    "0.0",
+                    wordList.getStats(Statistics.KindOfStats.PHTYPES_AVERAGE_PER_WORD));
+
+            wb.write(fileOut);
+            fileOut.close();
+
+        } catch (IOException e) {
+            System.out.println("IOException caught");
+        }
+    }
+
+    private void writeOneKindOfStats(Sheet sh, String dataFormat, HashMap<Object, Double> mapResult) {
+        int row = 3;
+        int column = 2;
+
+        for (Map.Entry<Object, Header> entry : Header.vowSh.entrySet()) {
+            column = entry.getValue().getColumn();
+
+            Cell c = sh.getRow(row).createCell(column);
+            c.setCellValue(mapResult.get(entry.getKey()));
+            c.setCellStyle(createCellStyleWithDataFormat(dataFormat));
         }
     }
 

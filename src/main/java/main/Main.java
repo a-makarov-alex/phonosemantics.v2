@@ -37,11 +37,11 @@ public class Main {
 //        System.out.println("BILABIAL number: " + word.countPhonotype(Consonant.PlacePrecise.BILABIAL));
 
 
-        //OutputFile outputFile = new OutputFile("OutputFile", OutputFile.Type.GENERAL);
+        OutputFile outputFile = new OutputFile("OutputFile", OutputFile.Type.GENERAL);
         OutputFile normalityFile = new OutputFile("Normality", OutputFile.Type.NORMALITY);
         WordList exampleWordlist = getInputFile().getWordList("Big");
-        //outputFile.fillGeneralOutputFile(exampleWordlist);
-        normalityFile.createOutputFile();
+        outputFile.fillWith(exampleWordlist);
+        normalityFile.fillWith(exampleWordlist);
 
 
 

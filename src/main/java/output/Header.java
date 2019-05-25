@@ -14,6 +14,9 @@ public class Header {
     private int column;
     private String text;
 
+    private static final int VOWEL_HEADER_WIDTH = 8;
+    private static final int CONS_MANNER_HEADER_WIDTH = 12;
+
     public static HashMap<Object, Header>  vowSh = new HashMap<>();
     public static HashMap<Object, Header>  consMannerSh = new HashMap<>();
     public static HashMap<Object, Header>  consPlaceSh = new HashMap<>();
@@ -121,7 +124,7 @@ public class Header {
         // устанавливаем ширину ячеек
         sheet.setColumnWidth(0, 3700);
         sheet.setColumnWidth(1, 3700);
-        sheet.setColumnWidth(2, 5800);
+        sheet.setColumnWidth(2, 8000);
     }
 
 
@@ -144,23 +147,6 @@ public class Header {
         sheet.addMergedRegion(new CellRangeAddress(1,1,3, 7));
         sheet.addMergedRegion(new CellRangeAddress(1,1,8, 10));
 
-        /*ArrayList<Header> list = new ArrayList<>();
-        list.add(new Header(0,3, "VOWELS"));
-        list.add(new Header(1, 3, "Height"));
-        list.add(new Header(1, 8, "Backness"));
-        list.add(new Header(2, 3, "Open"));
-        list.add(new Header(2, 4, "Op-mid"));
-        list.add(new Header(2, 5, "Mid"));
-        list.add(new Header(2, 6, "Cl-mid"));
-        list.add(new Header(2, 7, "Close"));
-        list.add(new Header(2, 8, "Front"));
-        list.add(new Header(2, 9, "Cent"));
-        list.add(new Header(2, 10, "Back"));*/
-
-        /*vowSh.put("Vowels", new Header(0,3, "VOWELS"));
-        vowSh.put("Height", new Header(1, 3, "Height"));
-        vowSh.put("Backness", new Header(1, 8, "Backness"));*/
-
         vowSh.put(Vowel.Height.OPEN, new Header(2, 3, "Open"));
         vowSh.put(Vowel.Height.OPEN_MID, new Header(2, 4, "Op-mid"));
         vowSh.put(Vowel.Height.MID, new Header(2, 5, "Mid"));
@@ -173,11 +159,6 @@ public class Header {
 
 
         // вписываем значения хедеров
-        /*for (Header h : list) {
-            Cell cell = sheet.getRow(h.row).getCell(h.column);
-            cell.setCellValue(h.text);
-        }*/
-
         sheet.getRow(0).getCell(3).setCellValue("VOWELS");
         sheet.getRow(1).getCell(3).setCellValue("Height");
         sheet.getRow(1).getCell(8).setCellValue("Backness");
@@ -193,19 +174,30 @@ public class Header {
      *  Headers for Manner excel sheet
      *  **/
     public static void addMannerHeader(Sheet sheet) {
+        addMannerHeader(sheet, false);
+    }
+
+    public static void addMannerHeader(Sheet sheet, boolean shift_required) {
+        // default shift is 0
+        // true flag means that header is for NORMALITY file, otherwise for GENERAL file
+        int shift = 0;
+        if (shift_required) {
+            shift = VOWEL_HEADER_WIDTH;
+        }
+
         // inicialization and style
         for (int i=0; i <= 2; i++ ) {
-            sheet.getRow(i);
-            for (int j=3; j <= 14; j++) {
-                sheet.getRow(i).createCell(j);
-                sheet.getRow(i).getCell(j).setCellStyle(OutputFile.getHeaderCellStyle());
+            Row row = sheet.getRow(i);
+            for (int j = shift + 3; j <= shift + 14; j++) {
+                row.createCell(j);
+                row.getCell(j).setCellStyle(OutputFile.getHeaderCellStyle());
             }
         }
 
         // merging cells
-        sheet.addMergedRegion(new CellRangeAddress(0,0,3, 14));
-        sheet.addMergedRegion(new CellRangeAddress(1,1,3, 8));
-        sheet.addMergedRegion(new CellRangeAddress(1,1,9, 13));
+        sheet.addMergedRegion(new CellRangeAddress(0,0,shift + 3, shift + 14));
+        sheet.addMergedRegion(new CellRangeAddress(1,1,shift + 3, shift + 8));
+        sheet.addMergedRegion(new CellRangeAddress(1,1,shift + 9, shift + 13));
 
         ArrayList<Header> list = new ArrayList<>();
         list.add(new Header(0,3, "MANNER"));
@@ -228,7 +220,7 @@ public class Header {
 
         // вписываем значения хедеров
         for (Header h : list) {
-            Cell cell = sheet.getRow(h.row).getCell(h.column);
+            Cell cell = sheet.getRow(h.row).getCell(h.column + shift);
             cell.setCellValue(h.text);
         }
     }
