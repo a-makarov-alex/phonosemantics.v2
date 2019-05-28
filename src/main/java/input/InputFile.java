@@ -3,6 +3,7 @@ package input;
 import entities.Meaning;
 import entities.Word;
 import entities.WordList;
+import main.Main;
 import org.apache.poi.ss.usermodel.*;
 
 import java.io.FileInputStream;
@@ -27,44 +28,30 @@ public class InputFile {
     /**
      * Reads all the words from inputFile and write them to one list of Word entities
      */
-    public ArrayList<Word> getAllWordLists() {
+    public ArrayList<WordList> getAllWordLists() {
 
         // open file for reading
         InputStream inputStream = null;
-        ArrayList<Word> allWordsList = new ArrayList<Word>();
+        ArrayList<WordList> allWordlists = new ArrayList<>();
 
         try {
             inputStream = new FileInputStream(INPUT_DIRECTORY + filePath);
             Workbook wb = WorkbookFactory.create(inputStream);
-            Sheet sheet;
-            sheet = wb.getSheetAt(0);
+            Sheet sheet = wb.getSheetAt(0);
 
-            System.out.println("test " + sheet.getRow(32));
+            int rowNum = 0;
+            int colNum = 1;
 
-            // create Word entities for every word in file
-            System.out.println("--- FILE INFO ---");
-            for (int col = 1; col <= sheet.getLastRowNum(); col++) {
-                // stop on the first empty column
-                if (sheet.getRow(0).getCell(col) == null) {
-                    System.out.println("Number of columns (meanings): " + (col - 1));
-                    break;
-                }
-                for (int i = 1; i <= sheet.getLastRowNum() + 1; i++) {
-                    // stop on the first empty row
-                    if (sheet.getRow(i) == null) {
-                        System.out.println("Number of rows (languages) " + (i - 1));
-                        break;
-                    }
-                    Word word = new Word(sheet.getRow(i).getCell(col).getStringCellValue());
-                    word.setMeaning(new Meaning(sheet.getRow(0).getCell(col).getStringCellValue()));
-                    word.setLanguage(sheet.getRow(i).getCell(0).getStringCellValue());
-
-                    allWordsList.add(word);
-                }
+            // read all the headers with word Meanings
+            while (sheet.getRow(rowNum).getCell(colNum) != null) {
+                System.out.println(sheet.getRow(rowNum).getCell(colNum).getStringCellValue());
+                allWordlists.add(this.getWordList(sheet.getRow(rowNum).getCell(colNum).getStringCellValue()));
+                colNum++;
             }
+
             System.out.println();
             inputStream.close();
-            return allWordsList;
+            return allWordlists;
 
         } catch (IOException e) {
             System.out.println("exception");    //TODO: logs
@@ -94,20 +81,26 @@ public class InputFile {
 
                 // stop on the first empty column
                 if (sheet.getRow(0).getCell(col) == null) {
-                    System.out.println("ERROR: There is no words for " + meaning + " in the input file");
+                    if (Main.CONSOLE_SHOW_NOT_FOUND_MEANINGS_IN_INPUT_FILE) {
+                        System.out.println("ERROR: There is no words for " + meaning + " in the input file");
+                    }
                     break;
                 } else {
 
                     // Meaning is found successfully
                     if (sheet.getRow(0).getCell(col).getStringCellValue().toLowerCase().equals(meaning.toLowerCase())) {
-                        System.out.println("SUCCESS: Words for " + meaning +
-                                " found in the " + col + " column of the input file");
+                        if (Main.CONSOLE_SHOW_FOUND_MEANINGS_IN_INPUT_FILE) {
+                            System.out.println("SUCCESS: Words for " + meaning +
+                                    " found in the " + col + " column of the input file");
+                        }
 
                         for (int i = 1; i <= sheet.getLastRowNum() + 1; i++) {
 
                             // Stop on the first empty row
                             if (sheet.getRow(i) == null) {
-                                System.out.println("Number of words for " + meaning + " : " + (count));
+                                if (Main.CONSOLE_SHOW_FOUND_MEANINGS_IN_INPUT_FILE) {
+                                    System.out.println("Number of words for " + meaning + " : " + (count));
+                                }
                                 break;
                             }
 

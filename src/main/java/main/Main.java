@@ -7,6 +7,8 @@ import knowledgeBase.SoundsBank;
 import output.OutputFile;
 import statistics.Statistics;
 
+import java.util.ArrayList;
+
 public class Main {
 
     // CONFIG --> should be transformed to logs later
@@ -14,34 +16,23 @@ public class Main {
     public static final Object CONSOLE_SHOW_WORDS_OF_CLASS = null; //Vowel.Height.CLOSE;
     public static final boolean CONSOLE_UNKNOWN_PHONEMES = false;
     public static final boolean CONSOLE_SHOW_NUM_OF_WORDS_AND_PHONEMES = false;
+    public static final boolean CONSOLE_SHOW_FOUND_MEANINGS_IN_INPUT_FILE = false;
+    public static final boolean CONSOLE_SHOW_NOT_FOUND_MEANINGS_IN_INPUT_FILE = true;
 
 
     private static InputFile inputFile;
 
     public static void main(String args[]) {
 
-        inputFile = new InputFile("Input.xlsx");
-        //inputFile.getAllWordLists();
-
-        // test: get wordlist for some meaning
-//        WordList wordlist = new WordList(inputFile.getWordList("big"));
-        //System.out.println(wordlist.serialize());
-
-//        Word word = wordlist.getWord("shoshone");
-        //System.out.println("i phonemes in word: " + word.getNumOfPhonemes("i"));
-
-        //word.getTranscriptionFromWord();
-        SoundsBank cBank = SoundsBank.getInstance();
-//        System.out.println("WORD: " + word.getWord());
-//        System.out.println("STOPS number: " + word.countPhonotype(Consonant.MannerPricise.STOP));
-//        System.out.println("BILABIAL number: " + word.countPhonotype(Consonant.PlacePrecise.BILABIAL));
-
+        /*SoundsBank cBank = SoundsBank.getInstance();
 
         OutputFile outputFile = new OutputFile("OutputFile", OutputFile.Type.GENERAL);
         OutputFile normalityFile = new OutputFile("Normality", OutputFile.Type.NORMALITY);
         WordList exampleWordlist = getInputFile().getWordList("Big");
         outputFile.fillWith(exampleWordlist);
-        normalityFile.fillWith(exampleWordlist);
+        normalityFile.fillWith(exampleWordlist);*/
+
+        //inputFile.getAllWordLists();
 
 
 
@@ -74,5 +65,18 @@ public class Main {
 
     public static InputFile getInputFile() {
         return inputFile;
+    }
+
+    public static void newFullCycle() {
+        inputFile = new InputFile("Input.xlsx");
+
+        SoundsBank cBank = SoundsBank.getInstance();
+
+        ArrayList<WordList> allWordlists = inputFile.getAllWordLists();
+        OutputFile normalityFile = new OutputFile("Normality", OutputFile.Type.NORMALITY);
+
+        for(WordList wordList : allWordlists) {
+            normalityFile.fillWith(wordList);
+        }
     }
 }

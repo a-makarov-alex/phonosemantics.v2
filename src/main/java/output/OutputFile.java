@@ -18,6 +18,7 @@ public class OutputFile {
     private Type type;
     private ArrayList<Sheet> sheets;
     private static final String OUTPUT_DIRECTORY = "D:\\JavaProjects2019\\word\\src\\main\\java\\output\\";
+    private int recordsCounter;
 
     private Workbook wb;
     private static CellStyle headerCellStyle;
@@ -34,6 +35,7 @@ public class OutputFile {
     public OutputFile(String title, Type type) {
         this.title = title;
         this.type = type;
+        this.recordsCounter = 0;
         this.filePath = OUTPUT_DIRECTORY + title + ".xlsx";
         this.wb = new XSSFWorkbook();
         this.createOutputFile();
@@ -200,6 +202,9 @@ public class OutputFile {
                     "0.0",
                     wordList.getStats(Statistics.KindOfStats.PHTYPES_AVERAGE_PER_WORD));
 
+            // count a new record
+            recordsCounter++;
+
             wb.write(fileOut);
             fileOut.close();
 
@@ -209,7 +214,7 @@ public class OutputFile {
     }
 
     private void writeOneKindOfStats(Sheet sh, String dataFormat, HashMap<Object, Double> mapResult) {
-        int row = 3;
+        int row = 3 + recordsCounter;
         int column = 2;
 
         for (Map.Entry<Object, Header> entry : Header.vowSh.entrySet()) {
