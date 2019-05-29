@@ -54,7 +54,7 @@ Class InputFile
 
 ArrayList<Word> `getWordList(String)` - reads the whole list by the header from the input `.xlsx` file.
 
-ArrayList<Word> `getAllWordLists()` - reads all the wordlists from the input `.xlsx` file and returns them as one `globalWordList`
+ArrayList<Wordlist> `getAllWordLists()` - reads all the wordlists from the input `.xlsx` file and returns them as a List of Worlists.
 
 Class OutputFile
 -----
@@ -141,6 +141,7 @@ Class Statistics
         - столбец каждого фонотипа в файле Normality - это выборка размера N, где N соответствует числу meanings (=кол-во записей/строк(исключая заголовки)). По такой выборке можно провести проверку на нормальность. Для таких выборок можно завести класс Sample, где в качестве методов использовать расчеты разных статистических критериев.
         В каждом из таких методов можно ставить проверку на доказательство нормальности, и если нормальность опровергается, проверку не запускать (либо запускать с сообщением о невалидности результатов).
         Что мы ожидаем? Что на фоне нормального распределения для выборки значения для конкретных фонотипов для конкретного Meaning будут выпадать за пределы 1/2/3 сигм.
+        Поскольку у нас не фиксировано число слов в исходном списке и результат мы получаем в процентах, требуется как-то задать интервалы. Для этого на первых порах можно использовать сигмы, хотя бы для поверхностной оценки ситуации.
         
         - Построить графики по данным выборки. Пример http://matem96.ru/primer/primer_terver16.shtml
          Полигон частот
