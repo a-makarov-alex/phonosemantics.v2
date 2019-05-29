@@ -107,7 +107,7 @@ public class InputFile {
                             }
 
                             Cell cell = sheet.getRow(i).getCell(col);
-                            if (cell != null) {
+                            if (cell != null && cell.getCellType() != CellType.BLANK) {
                                 Word word = new Word(sheet.getRow(i).getCell(col).getStringCellValue());
                                 word.setMeaning(new Meaning(sheet.getRow(0).getCell(col).getStringCellValue()));
                                 word.setLanguage(sheet.getRow(i).getCell(0).getStringCellValue());
@@ -115,7 +115,8 @@ public class InputFile {
                                 list.add(word);
                                 count++;
                             } else {
-                                System.out.println("CELL IS NULL");
+                                System.out.println("No value for word \"" + sheet.getRow(0).getCell(col).getStringCellValue() +
+                                        "\" of language " + sheet.getRow(i).getCell(0).getStringCellValue());
                             }
                         }
                         // Break after wordlist is created
@@ -123,8 +124,9 @@ public class InputFile {
                     }
                 }
             }
-
-            System.out.println();
+            if (Main.CONSOLE_SHOW_FOUND_MEANINGS_IN_INPUT_FILE) {
+                System.out.println();
+            }
             inputStream.close();
 
             return new WordList(list);
