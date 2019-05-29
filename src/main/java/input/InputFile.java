@@ -42,9 +42,11 @@ public class InputFile {
             int rowNum = 0;
             int colNum = 1;
 
-            // read all the headers with word Meanings
+            // read all the headers with words' Meanings
             while (sheet.getRow(rowNum).getCell(colNum) != null) {
-                System.out.println(sheet.getRow(rowNum).getCell(colNum).getStringCellValue());
+                if (Main.CONSOLE_SHOW_FOUND_MEANINGS_IN_INPUT_FILE) {
+                    System.out.println(sheet.getRow(rowNum).getCell(colNum).getStringCellValue());
+                }
                 allWordlists.add(this.getWordList(sheet.getRow(rowNum).getCell(colNum).getStringCellValue()));
                 colNum++;
             }

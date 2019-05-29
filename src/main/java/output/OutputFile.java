@@ -1,6 +1,8 @@
 package output;
 
+import entities.Meaning;
 import entities.WordList;
+import entities.phonetics.Vowel;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import statistics.Statistics;
@@ -188,19 +190,25 @@ public class OutputFile {
             writeOneKindOfStats(
                     sheets.get(0),
                     "0.0%",
-                    wordList.getStats(Statistics.KindOfStats.WORDS_WITH_PHTYPE_PER_LIST));
+                    wordList.getStats(Statistics.KindOfStats.WORDS_WITH_PHTYPE_PER_LIST),
+                    wordList.getMeaning(),
+                    wordList.getList().size());
 
             // SHEET PHTYPES_PER_LIST
             writeOneKindOfStats(
                     sheets.get(1),
                     "0.0%",
-                    wordList.getStats(Statistics.KindOfStats.PHTYPES_PER_LIST));
+                    wordList.getStats(Statistics.KindOfStats.PHTYPES_PER_LIST),
+                    wordList.getMeaning(),
+                    wordList.getList().size());
 
             // SHEET PHTYPES_AVERAGE_PER_WORD
             writeOneKindOfStats(
                     sheets.get(2),
                     "0.0",
-                    wordList.getStats(Statistics.KindOfStats.PHTYPES_AVERAGE_PER_WORD));
+                    wordList.getStats(Statistics.KindOfStats.PHTYPES_AVERAGE_PER_WORD),
+                    wordList.getMeaning(),
+                    wordList.getList().size());
 
             // count a new record
             recordsCounter++;
@@ -213,9 +221,16 @@ public class OutputFile {
         }
     }
 
-    private void writeOneKindOfStats(Sheet sh, String dataFormat, HashMap<Object, Double> mapResult) {
+    private void writeOneKindOfStats(Sheet sh, String dataFormat, HashMap<Object, Double> mapResult, String meaning, int size) {
         int row = 3 + recordsCounter;
         int column = 2;
+        if (row != 3) {
+            sh.createRow(row);
+        }
+
+        sh.getRow(3 + recordsCounter).createCell(0).setCellValue(meaning);
+        sh.getRow(3 + recordsCounter).createCell(1).setCellValue(size);
+        sh.getRow(3 + recordsCounter).createCell(2);
 
         for (Map.Entry<Object, Header> entry : Header.vowSh.entrySet()) {
             column = entry.getValue().getColumn();
@@ -231,6 +246,41 @@ public class OutputFile {
         CellStyle cellStyle = wb.createCellStyle();
         cellStyle.setDataFormat(wb.createDataFormat().getFormat(format));
         return cellStyle;
+    }
+
+
+    // Final design implementation: styles, borders, colors
+    public void finalDesign() {
+        try {
+            FileOutputStream fileOut = new FileOutputStream(this.filePath);
+            CellStyle style =  wb.createCellStyle();
+            style.setBorderRight(BorderStyle.THIN);
+
+
+            int[] rightBorderCellsNum = {
+                    0,1,2,
+                    Header.vowSh.get(Vowel.Height.CLOSE).getColumn(),
+                    Header.vowSh.get(Vowel.Backness.BACK).getColumn()
+            };
+
+
+            // draw borders
+            for (Sheet sh : sheets) {
+                for (int i = 3; i < 3 + recordsCounter; i++) {
+                    for (int col : rightBorderCellsNum) {
+                        style = sh.getRow(i).getCell(col).getCellStyle();
+                        style.setBorderRight(BorderStyle.THIN);
+                        sh.getRow(i).getCell(col).setCellStyle(style);
+                    }
+                }
+            }
+
+            wb.write(fileOut);
+            fileOut.close();
+
+        } catch (IOException e) {
+            System.out.println("IOException caught");
+        }
     }
 
 

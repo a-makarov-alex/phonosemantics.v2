@@ -24,6 +24,8 @@ public class Main {
 
     public static void main(String args[]) {
 
+        newFullCycle();
+
         /*SoundsBank cBank = SoundsBank.getInstance();
 
         OutputFile outputFile = new OutputFile("OutputFile", OutputFile.Type.GENERAL);
@@ -78,5 +80,7 @@ public class Main {
         for(WordList wordList : allWordlists) {
             normalityFile.fillWith(wordList);
         }
+
+        normalityFile.finalDesign();
     }
 }

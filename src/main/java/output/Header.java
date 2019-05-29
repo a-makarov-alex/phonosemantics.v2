@@ -14,6 +14,7 @@ public class Header {
     private int column;
     private String text;
 
+    // TODO размер хешмапы, а никакая не константа
     private static final int VOWEL_HEADER_WIDTH = 8;
     private static final int CONS_MANNER_HEADER_WIDTH = 12;
 
@@ -113,7 +114,7 @@ public class Header {
         ArrayList<Header> list = new ArrayList<>();
         list.add(new Header(0,0, "Semantics"));
         list.add(new Header(0, 1, "Wordlist length"));
-        list.add(new Header(3, 2, kindOfStats.toString()));
+        list.add(new Header(0, 2, kindOfStats.toString()));
 
         // вписываем значения хедеров
         for (Header h : list) {
