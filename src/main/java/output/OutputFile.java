@@ -1,8 +1,8 @@
 package output;
 
-import entities.Meaning;
 import entities.WordList;
 import entities.phonetics.Vowel;
+import knowledgeBase.SoundsBank;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import statistics.Statistics;
@@ -21,7 +21,6 @@ public class OutputFile {
     private ArrayList<Sheet> sheets;
     private static final String OUTPUT_DIRECTORY = "D:\\JavaProjects2019\\word\\src\\main\\java\\output\\";
     private int recordsCounter;
-
     private Workbook wb;
     private static CellStyle headerCellStyle;
 
@@ -281,6 +280,44 @@ public class OutputFile {
         } catch (IOException e) {
             System.out.println("IOException caught");
         }
+    }
+
+
+    public HashMap<Object, Double[]> readAllSamples(Statistics.KindOfStats kindOfStats) {
+
+        Sheet sh = null;
+        if (kindOfStats == Statistics.KindOfStats.WORDS_WITH_PHTYPE_PER_LIST) {
+            sh = sheets.get(0);
+        }
+
+
+        HashMap<Object, Integer> buf = SoundsBank.getAllPhonotypes();
+        HashMap<Object, Double[]> allSamples = new HashMap<>();
+
+        /*for (Map.Entry<Object, Integer> entry : buf.entrySet()) {
+            Object o = entry.getKey();
+
+            for (int i = 3; i < this.recordsCounter; i++) {
+                sh.getRow(i).getCell(Header.getColumnNum(entry.getKey()));
+            }
+
+            allSamples.put()
+        }*/
+
+        Object o = Vowel.Backness.FRONT;
+        ArrayList<Double> dList = new ArrayList<>();
+        for (int i = 3; i < this.recordsCounter + 3; i++) {
+            dList.add(Double.valueOf(sh.getRow(i).getCell(Header.getColumnNum(o)).getNumericCellValue()));
+        }
+
+        Double[] dArr = new Double[dList.size()];
+        for (int i = 0; i < dList.size(); i++) {
+            dArr[i] = dList.get(i);
+        }
+
+        allSamples.put(o, dArr);
+
+        return allSamples;
     }
 
 

@@ -275,4 +275,16 @@ public class Header {
             cell.setCellValue(h.text);
         }
     }
+
+
+    public static int getColumnNum(Object phTypeName) {
+        int col = 0;
+
+        if (phTypeName.getClass() == Vowel.Height.class ||
+                phTypeName.getClass() == Vowel.Backness.class) {
+            System.out.println("VOWEL CLASS: method getColumnNum");
+            col = vowSh.get(phTypeName).getColumn();
+        }
+        return col;
+    }
 }

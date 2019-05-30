@@ -5,9 +5,11 @@ import entities.phonetics.Vowel;
 import input.InputFile;
 import knowledgeBase.SoundsBank;
 import output.OutputFile;
+import statistics.ShapiroWilk;
 import statistics.Statistics;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Main {
 
@@ -80,6 +82,17 @@ public class Main {
         for(WordList wordList : allWordlists) {
             normalityFile.fillWith(wordList);
         }
+
+        HashMap<Object, Double[]> map = normalityFile.readAllSamples(Statistics.KindOfStats.WORDS_WITH_PHTYPE_PER_LIST);
+
+        for (int i=0; i < map.get(Vowel.Backness.FRONT).length; i++) {
+            System.out.println(map.get(Vowel.Backness.FRONT)[i]);
+        }
+
+
+        double pvalue = ShapiroWilk.ShapiroWilkW(map.get(Vowel.Backness.FRONT));
+        System.out.println("p-value:" + pvalue);
+        System.out.println("Prob:" + (1 - pvalue));
 
         normalityFile.finalDesign();
     }
