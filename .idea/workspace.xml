@@ -2,14 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e58d30ed-a6ea-4021-9940-2c129a4ff7c6" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/statistics/Normality.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/statistics/ShapiroWilk.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/output/Header.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/output/Header.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/output/Normality.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/output/Normality.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/output/OutputFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/output/OutputFile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -62,21 +56,21 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/output/OutputFile.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="123">
-              <caret line="309" column="103" selection-start-line="309" selection-start-column="103" selection-end-line="309" selection-end-column="103" />
+            <state relative-caret-position="310">
+              <caret line="314" column="27" selection-start-line="314" selection-start-column="27" selection-end-line="314" selection-end-column="27" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#11214#11215#0" expanded="true" />
-                <element signature="e#11301#11302#0" expanded="true" />
-                <element signature="e#11356#11357#0" expanded="true" />
-                <element signature="e#11421#11422#0" expanded="true" />
-                <element signature="e#11510#11511#0" expanded="true" />
-                <element signature="e#11641#11642#0" expanded="true" />
-                <element signature="e#11701#11702#0" expanded="true" />
-                <element signature="e#11777#11778#0" expanded="true" />
+                <element signature="e#11218#11219#0" expanded="true" />
+                <element signature="e#11305#11306#0" expanded="true" />
+                <element signature="e#11360#11361#0" expanded="true" />
+                <element signature="e#11425#11426#0" expanded="true" />
+                <element signature="e#11514#11515#0" expanded="true" />
+                <element signature="e#11645#11646#0" expanded="true" />
+                <element signature="e#11705#11706#0" expanded="true" />
+                <element signature="e#11781#11782#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -90,6 +84,18 @@
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="FIRST">
+              <first_editor relative-caret-position="255">
+                <caret line="144" column="89" selection-start-line="144" selection-start-column="89" selection-end-line="144" selection-end-column="89" />
+              </first_editor>
+              <second_editor />
             </state>
           </provider>
         </entry>
@@ -200,7 +206,6 @@
         <option value="$PROJECT_DIR$/src/main/java/knowledgeBase/SoundsBank.java" />
         <option value="$PROJECT_DIR$/src/main/java/entities/WordList.java" />
         <option value="$PROJECT_DIR$/src/main/java/statistics/Statistics.java" />
-        <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/src/main/java/input/InputFile.java" />
         <option value="$PROJECT_DIR$/src/main/java/statistics/ShapiroWilk.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
@@ -208,6 +213,7 @@
         <option value="$PROJECT_DIR$/src/main/java/output/Header.java" />
         <option value="$PROJECT_DIR$/src/main/java/main/Main.java" />
         <option value="$PROJECT_DIR$/src/main/java/output/OutputFile.java" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
@@ -412,20 +418,21 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Designer" order="0" />
       <window_info id="UI Designer" order="1" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info id="Image Layers" order="4" />
-      <window_info content_ui="combo" id="Project" order="5" sideWeight="0.49642006" visible="true" weight="0.20272315" />
+      <window_info active="true" content_ui="combo" id="Project" order="5" sideWeight="0.49642006" visible="true" weight="0.20272315" />
       <window_info id="Structure" order="6" sideWeight="0.50358" side_tool="true" weight="0.20272315" />
-      <window_info anchor="bottom" id="Terminal" order="0" sideWeight="0.49924356" weight="0.3207856" />
+      <window_info anchor="bottom" id="Terminal" order="0" sideWeight="0.49924356" visible="true" weight="0.3207856" />
       <window_info anchor="bottom" id="Event Log" order="1" sideWeight="0.50075644" side_tool="true" weight="0.31423897" />
       <window_info anchor="bottom" id="Version Control" order="2" weight="0.3289689" />
       <window_info anchor="bottom" id="Message" order="3" />
       <window_info anchor="bottom" id="Find" order="4" weight="0.3289689" />
-      <window_info active="true" anchor="bottom" id="Run" order="5" visible="true" weight="0.31423897" />
+      <window_info anchor="bottom" id="Run" order="5" weight="0.31423897" />
       <window_info anchor="bottom" id="Debug" order="6" weight="0.39934534" />
       <window_info anchor="bottom" id="Cvs" order="7" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="8" weight="0.4" />
@@ -579,21 +586,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="1088">
-          <caret line="64" column="27" selection-start-line="64" selection-start-column="27" selection-end-line="64" selection-end-column="27" />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="FIRST">
-          <first_editor relative-caret-position="85">
-            <caret line="134" column="13" selection-start-line="134" selection-start-column="13" selection-end-line="134" selection-end-column="13" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/statistics/Statistics.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="113">
@@ -718,19 +710,34 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/output/OutputFile.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="123">
-          <caret line="309" column="103" selection-start-line="309" selection-start-column="103" selection-end-line="309" selection-end-column="103" />
+        <state relative-caret-position="310">
+          <caret line="314" column="27" selection-start-line="314" selection-start-column="27" selection-end-line="314" selection-end-column="27" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#11214#11215#0" expanded="true" />
-            <element signature="e#11301#11302#0" expanded="true" />
-            <element signature="e#11356#11357#0" expanded="true" />
-            <element signature="e#11421#11422#0" expanded="true" />
-            <element signature="e#11510#11511#0" expanded="true" />
-            <element signature="e#11641#11642#0" expanded="true" />
-            <element signature="e#11701#11702#0" expanded="true" />
-            <element signature="e#11777#11778#0" expanded="true" />
+            <element signature="e#11218#11219#0" expanded="true" />
+            <element signature="e#11305#11306#0" expanded="true" />
+            <element signature="e#11360#11361#0" expanded="true" />
+            <element signature="e#11425#11426#0" expanded="true" />
+            <element signature="e#11514#11515#0" expanded="true" />
+            <element signature="e#11645#11646#0" expanded="true" />
+            <element signature="e#11705#11706#0" expanded="true" />
+            <element signature="e#11781#11782#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="1088">
+          <caret line="64" column="27" selection-start-line="64" selection-start-column="27" selection-end-line="64" selection-end-column="27" />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="FIRST">
+          <first_editor relative-caret-position="255">
+            <caret line="144" column="89" selection-start-line="144" selection-start-column="89" selection-end-line="144" selection-end-column="89" />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>
