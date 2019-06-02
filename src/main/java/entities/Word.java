@@ -14,7 +14,7 @@ public class Word {
     private String word;
     private ArrayList<Phoneme> transcription;
     private Meaning meaning;
-    private String language;
+    private Language language;
     private int length;
     private PartOfSpeech partOfSpeech;  // TODO think about shifting field to meaning
 
@@ -26,7 +26,7 @@ public class Word {
         this.word = word;
         this.meaning = new Meaning(definition);
         setTranscriptionFromWord(); // length is added here also
-        this.language = language;
+        this.language = Language.getLanguage(language);
         this.partOfSpeech = partOfSpeech;
     }
 
@@ -58,10 +58,10 @@ public class Word {
     public int getLength() {
         return length;
     }
-    public String getLanguage() {
+    public Language getLanguage() {
         return language;
     }
-    public void setLanguage(String language) {
+    public void setLanguage(Language language) {
         this.language = language;
     }
     public PartOfSpeech getPartOfSpeech() {

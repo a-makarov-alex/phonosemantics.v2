@@ -12,6 +12,7 @@ import java.util.Map;
 public class WordList {
 
     private String meaning;
+    private Language language;
     private ArrayList<Word> list;
     private HashMap<Object, Integer> mapPhTypesPerList = new HashMap<>();
     private HashMap<Object, Integer> mapWordsPerList = new HashMap<>();
@@ -19,6 +20,7 @@ public class WordList {
     public WordList(ArrayList<Word> list) {
         this.meaning = list.get(0).getMeaning().getDefinition();
         this.list = list;
+        this.language = list.get(0).getLanguage();
 
         countAllPhonotypes();
     }
@@ -31,7 +33,7 @@ public class WordList {
 
     public Word getWord(String language) {
         for (Word word : this.list) {
-            if (word.getLanguage().toLowerCase().equals(language.toLowerCase())) {
+            if (word.getLanguage().getTitle().toLowerCase().equals(language.toLowerCase())) {
                 System.out.println("SUCCESS: Word of language " + language +
                         " with meaning " + this.meaning + " is: " + word.getWord());
                 return word;
@@ -139,5 +141,13 @@ public class WordList {
 
     public void setMeaning(String meaning) {
         this.meaning = meaning;
+    }
+
+    public Language getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(Language language) {
+        this.language = language;
     }
 }

@@ -1,5 +1,6 @@
 package input;
 
+import entities.Language;
 import entities.Meaning;
 import entities.Word;
 import entities.WordList;
@@ -110,7 +111,8 @@ public class InputFile {
                             if (cell != null && cell.getCellType() != CellType.BLANK) {
                                 Word word = new Word(sheet.getRow(i).getCell(col).getStringCellValue());
                                 word.setMeaning(new Meaning(sheet.getRow(0).getCell(col).getStringCellValue()));
-                                word.setLanguage(sheet.getRow(i).getCell(0).getStringCellValue());
+                                Language lang = Language.getLanguage(sheet.getRow(i).getCell(0).getStringCellValue());
+                                word.setLanguage(lang);
 
                                 list.add(word);
                                 count++;
