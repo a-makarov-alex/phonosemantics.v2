@@ -2,13 +2,13 @@ package entities;
 
 import entities.phonetics.Phoneme;
 import knowledgeBase.SoundsBank;
+import main.Main;
 import org.apache.poi.ss.usermodel.*;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 // TODO: idea is for future. Should be realized later
 public class Language {
@@ -21,21 +21,28 @@ public class Language {
     private String family;
     private String group;  // typology etc.
 
-    private HashMap<String, Phoneme> phonology;
+    private Set<Phoneme> phonology;
+
+    // maps save the verdict "if the phoneme/phType were found in the Language words on practice"
+    private Set<Phoneme> phCoverage;
     private HashMap<Object, Boolean> phTypeCoverage;
+    private Set<Phoneme> phNotDescribed;
 
     public Language(String title) {
         this.title = title;
         this.phonology = getLangPhonology();
+        phCoverage = new HashSet<>();
+        phNotDescribed = new HashSet<>();
+
 
         allLanguages.put(this.title, this);
     }
 
 
-    public HashMap<String, Phoneme> getLangPhonology() {
+    public HashSet<Phoneme> getLangPhonology() {
         // open file for reading
         InputStream inputStream = null;
-        HashMap<String, Phoneme> allPhonemes = new HashMap<>();
+        HashSet<Phoneme> allPhonemes = new HashSet<>();
 
         try {
             inputStream = new FileInputStream(INPUT_LANGUAGES_PATH);
@@ -54,14 +61,25 @@ public class Language {
 
                 if (this.title.toLowerCase().equals(s.toLowerCase())) {
 
+                    if (Main.CONSOLE_LANG_PHONOLOGY) {
+                        System.out.print("PHONOLOGY for LANG " + this.getTitle() + ": ");
+                    }
+
                     // CREATING A PHONEMES BANK FOR THE LANGUAGE
                     for (Map.Entry<String, Phoneme> entry : cBank.getAllConsonantsTable().entrySet()) {
-                        if (sheet.getRow(rowNum).getCell(1).getStringCellValue().contains(entry.getKey())) {
-                            // System.out.println("KEY " + entry.getKey()); //check all phonemes in console
+                        String allPh = sheet.getRow(rowNum).getCell(1).getStringCellValue();
+                        String[] allPhArr = allPh.split(" ");
 
-                            allPhonemes.put(entry.getKey(), entry.getValue());
+                        for (String ph: allPhArr) {
+                            if (ph.equals(entry.getKey())) {
+                                if (Main.CONSOLE_LANG_PHONOLOGY) {
+                                    System.out.print(entry.getKey() + " "); //check all phonemes in console
+                                }
+                                allPhonemes.add(entry.getValue());
+                            }
                         }
                     }
+                    if (Main.CONSOLE_LANG_PHONOLOGY) {System.out.println();}
                     break;
                 }
 
@@ -75,6 +93,16 @@ public class Language {
         } catch (IOException e) {
             System.out.println("exception");    //TODO: logs
             return null;
+        }
+    }
+
+    public void categorizePh(Phoneme ph) {
+        if (phonology.contains(ph)) {
+            if (!phCoverage.contains(ph)) {
+                phCoverage.add(ph);
+            }
+        } else {
+            phNotDescribed.add(ph);
         }
     }
 
@@ -104,16 +132,40 @@ public class Language {
         this.group = group;
     }
 
-    public HashMap<String, Phoneme> getPhonology() {
+    public Set<Phoneme> getPhonology() {
         return phonology;
     }
 
-    public void setPhonology(HashMap<String, Phoneme> phonology) {
+    public void setPhonology(HashSet<Phoneme> phonology) {
         this.phonology = phonology;
     }
 
     public static HashMap<String, Language> getAllLanguages() {
         return allLanguages;
+    }
+
+    public Set<Phoneme> getPhCoverage() {
+        return phCoverage;
+    }
+
+    public void setPhCoverage(Set<Phoneme> phCoverage) {
+        this.phCoverage = phCoverage;
+    }
+
+    public HashMap<Object, Boolean> getPhTypeCoverage() {
+        return phTypeCoverage;
+    }
+
+    public void setPhTypeCoverage(HashMap<Object, Boolean> phTypeCoverage) {
+        this.phTypeCoverage = phTypeCoverage;
+    }
+
+    public Set<Phoneme> getPhNotDescribed() {
+        return phNotDescribed;
+    }
+
+    public void setPhNotDescribed(Set<Phoneme> phNotDescribed) {
+        this.phNotDescribed = phNotDescribed;
     }
 
     public static void setAllLanguages(HashMap<String, Language> allLanguages) {

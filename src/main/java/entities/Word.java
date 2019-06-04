@@ -8,6 +8,8 @@ import knowledgeBase.SoundsBank;
 import main.Main;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Set;
 import java.util.function.Predicate;
 
 public class Word {
@@ -30,8 +32,9 @@ public class Word {
         this.partOfSpeech = partOfSpeech;
     }
 
-    public Word(String word) {
+    public Word(String word, Language language) {
         this.word = word;
+        this.language = language;
         setTranscriptionFromWord(); // length is added here also
     }
 
@@ -73,6 +76,7 @@ public class Word {
 
 
 
+
     public String serialize() {
         Gson gson = new Gson();
         String json = gson.toJson(this);
@@ -107,13 +111,13 @@ public class Word {
     public void setTranscriptionFromWord() {
         this.transcription = new ArrayList<>();
         String word = this.getWord();
-        if (Main.CONSOLE_SHOW_TRASCRIPTION == true) {
+        if (Main.CONSOLE_SHOW_TRASCRIPTION) {
             System.out.println("Word: " + word);
         }
 
         if (word != null) {
             String[] phonemes = word.split("");
-            SoundsBank cBank = SoundsBank.getInstance();
+            HashMap<String, Phoneme> allPhonemes = SoundsBank.getInstance().getAllConsonantsTable();
 
             // Phoneme might be a set of 2 symbols.
             // So we need to check the symbol after the current on every step.
@@ -121,22 +125,24 @@ public class Word {
 
                 // For last symbol
                 if (i == word.length() - 1) {
-                    Phoneme ph = cBank.find(phonemes[i]);
+                    Phoneme ph = allPhonemes.get(phonemes[i]);
                     this.transcription.add(ph);
-
+                    this.getLanguage().categorizePh(ph);
                 } else {
 
                     // For 2-graph phoneme
-                    Phoneme ph = cBank.find(phonemes[i] + phonemes[i+1]);
+                    Phoneme ph = allPhonemes.get(phonemes[i] + phonemes[i+1]);
                     if (ph != null) {
                         this.transcription.add(ph);
+                        this.getLanguage().categorizePh(ph);
                         i++;
                     } else {
 
                         // For 1-graph phoneme
-                        ph = cBank.find(phonemes[i]);
+                        ph = allPhonemes.get(phonemes[i]);
                         if (ph != null) {
                             this.transcription.add(ph);
+                            this.getLanguage().categorizePh(ph);
                         } else {
 
                             // Empty phoneme
@@ -150,7 +156,7 @@ public class Word {
             }
 
             this.length = transcription.size();
-            if (Main.CONSOLE_SHOW_TRASCRIPTION == true) {
+            if (Main.CONSOLE_SHOW_TRASCRIPTION) {
                 printTranscription();
             }
 

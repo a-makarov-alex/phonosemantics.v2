@@ -121,7 +121,7 @@ public class OutputFile {
         }
     }
 
-    public void writeToGeneralFile(WordList wordList) {
+    private void writeToGeneralFile(WordList wordList) {
         try {
             FileOutputStream fileOut = new FileOutputStream(this.filePath);
 
@@ -181,7 +181,7 @@ public class OutputFile {
         }
     }
 
-    public void writeToNormalityFile(WordList wordList) {
+    private void writeToNormalityFile(WordList wordList) {
         try {
             FileOutputStream fileOut = new FileOutputStream(this.filePath);
 
@@ -241,7 +241,7 @@ public class OutputFile {
     }
 
 
-    public CellStyle createCellStyleWithDataFormat(String format) {
+    private CellStyle createCellStyleWithDataFormat(String format) {
         CellStyle cellStyle = wb.createCellStyle();
         cellStyle.setDataFormat(wb.createDataFormat().getFormat(format));
         return cellStyle;
@@ -293,16 +293,6 @@ public class OutputFile {
 
         HashMap<Object, Integer> buf = SoundsBank.getAllPhonotypes();
         HashMap<Object, Double[]> allSamples = new HashMap<>();
-
-        /*for (Map.Entry<Object, Integer> entry : buf.entrySet()) {
-            Object o = entry.getKey();
-
-            for (int i = 3; i < this.recordsCounter; i++) {
-                sh.getRow(i).getCell(Header.getColumnNum(entry.getKey()));
-            }
-
-            allSamples.put()
-        }*/
 
         Object o = Vowel.Backness.FRONT;
         ArrayList<Double> dList = new ArrayList<>();

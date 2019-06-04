@@ -1,6 +1,8 @@
 package main;
 
+import entities.Language;
 import entities.WordList;
+import entities.phonetics.Phoneme;
 import entities.phonetics.Vowel;
 import input.InputFile;
 import knowledgeBase.SoundsBank;
@@ -20,6 +22,7 @@ public class Main {
     public static final boolean CONSOLE_SHOW_NUM_OF_WORDS_AND_PHONEMES = false;
     public static final boolean CONSOLE_SHOW_FOUND_MEANINGS_IN_INPUT_FILE = false;
     public static final boolean CONSOLE_SHOW_NOT_FOUND_MEANINGS_IN_INPUT_FILE = true;
+    public static final boolean CONSOLE_LANG_PHONOLOGY = true;
 
 
     private static InputFile inputFile;
@@ -27,6 +30,19 @@ public class Main {
     public static void main(String args[]) {
 
         newFullCycle();
+
+        Language l = Language.getAllLanguages().get("Ket");
+        /*System.out.println("Lang: " + l.getTitle());
+        for (Phoneme ph : l.getPhCoverage()) {
+            System.out.print(ph.getSymbol() + " ");
+        }
+        System.out.println();*/
+
+        for (Phoneme ph : l.getPhNotDescribed()) {
+            if (ph != null) {
+                System.out.print(ph.getSymbol() + " ");
+            }
+        }
 
         /*SoundsBank cBank = SoundsBank.getInstance();
 

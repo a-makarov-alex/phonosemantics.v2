@@ -77,13 +77,16 @@ public class InputFile {
             Workbook wb = WorkbookFactory.create(inputStream);
             Sheet sheet;
             sheet = wb.getSheetAt(0);
+            Row nullRow = sheet.getRow(0);
+            Cell cell;
             int count = 0;
 
             // Find meaning in the headers
             for (int col = 1; col <= sheet.getLastRowNum(); col++) {
+                cell = nullRow.getCell(col);
 
                 // stop on the first empty column
-                if (sheet.getRow(0).getCell(col) == null) {
+                if (cell == null) {
                     if (Main.CONSOLE_SHOW_NOT_FOUND_MEANINGS_IN_INPUT_FILE) {
                         System.out.println("ERROR: There is no words for " + meaning + " in the input file");
                     }
@@ -91,13 +94,14 @@ public class InputFile {
                 } else {
 
                     // Meaning is found successfully
-                    if (sheet.getRow(0).getCell(col).getStringCellValue().toLowerCase().equals(meaning.toLowerCase())) {
+                    if (cell.getStringCellValue().toLowerCase().equals(meaning.toLowerCase())) {
                         if (Main.CONSOLE_SHOW_FOUND_MEANINGS_IN_INPUT_FILE) {
                             System.out.println("SUCCESS: Words for " + meaning +
                                     " found in the " + col + " column of the input file");
                         }
 
-                        for (int i = 1; i <= sheet.getLastRowNum() + 1; i++) {
+                        int lastRow = sheet.getLastRowNum();
+                        for (int i = 1; i <=  lastRow + 1; i++) {
 
                             // Stop on the first empty row
                             if (sheet.getRow(i) == null) {
@@ -107,17 +111,17 @@ public class InputFile {
                                 break;
                             }
 
-                            Cell cell = sheet.getRow(i).getCell(col);
+                            cell = sheet.getRow(i).getCell(col);
                             if (cell != null && cell.getCellType() != CellType.BLANK) {
-                                Word word = new Word(sheet.getRow(i).getCell(col).getStringCellValue());
-                                word.setMeaning(new Meaning(sheet.getRow(0).getCell(col).getStringCellValue()));
-                                Language lang = Language.getLanguage(sheet.getRow(i).getCell(0).getStringCellValue());
-                                word.setLanguage(lang);
+                                Word word = new Word(
+                                        cell.getStringCellValue(),
+                                        Language.getLanguage(sheet.getRow(i).getCell(0).getStringCellValue()));
+                                word.setMeaning(new Meaning(nullRow.getCell(col).getStringCellValue()));
 
                                 list.add(word);
                                 count++;
                             } else {
-                                System.out.println("No value for word \"" + sheet.getRow(0).getCell(col).getStringCellValue() +
+                                System.out.println("No value for word \"" + nullRow.getCell(col).getStringCellValue() +
                                         "\" of language " + sheet.getRow(i).getCell(0).getStringCellValue());
                             }
                         }
