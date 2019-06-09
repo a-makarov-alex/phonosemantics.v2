@@ -1,5 +1,6 @@
 package output;
 
+import entities.Word;
 import entities.WordList;
 import entities.phonetics.Vowel;
 import knowledgeBase.SoundsBank;
@@ -110,13 +111,16 @@ public class OutputFile {
     }
 
     // Writes the worlist parsing and statistics counting result into the output file
-    public void fillWith(WordList wordList) {
-        switch (type) {
-            case GENERAL: {
-                writeToGeneralFile(wordList);
-            }
-            case NORMALITY: {
-                writeToNormalityFile(wordList);
+    public void fillWith(ArrayList<WordList> wordLists) {
+
+        for (WordList wordList : wordLists) {
+            switch (this.type) {
+                case GENERAL: {
+                    writeToGeneralFile(wordList);
+                }
+                case NORMALITY: {
+                    writeToNormalityFile(wordList);
+                }
             }
         }
     }
@@ -190,24 +194,21 @@ public class OutputFile {
                     sheets.get(0),
                     "0.0%",
                     wordList.getStats(Statistics.KindOfStats.WORDS_WITH_PHTYPE_PER_LIST),
-                    wordList.getMeaning(),
-                    wordList.getList().size());
+                    wordList);
 
             // SHEET PHTYPES_PER_LIST
             writeOneKindOfStats(
                     sheets.get(1),
                     "0.0%",
                     wordList.getStats(Statistics.KindOfStats.PHTYPES_PER_LIST),
-                    wordList.getMeaning(),
-                    wordList.getList().size());
+                    wordList);
 
             // SHEET PHTYPES_AVERAGE_PER_WORD
             writeOneKindOfStats(
                     sheets.get(2),
                     "0.0",
                     wordList.getStats(Statistics.KindOfStats.PHTYPES_AVERAGE_PER_WORD),
-                    wordList.getMeaning(),
-                    wordList.getList().size());
+                    wordList);
 
             // count a new record
             recordsCounter++;
@@ -220,16 +221,23 @@ public class OutputFile {
         }
     }
 
-    private void writeOneKindOfStats(Sheet sh, String dataFormat, HashMap<Object, Double> mapResult, String meaning, int size) {
-        int row = 3 + recordsCounter;
+    private void writeOneKindOfStats(Sheet sh, String dataFormat, HashMap<Object, Double> mapResult, WordList wordList) {
+        String meaning = wordList.getMeaning();
+        int size = wordList.getList().size();
+
+        int step = recordsCounter * 2;
+        int row = 3 + step;
         int column = 2;
         if (row != 3) {
             sh.createRow(row);
         }
 
-        sh.getRow(3 + recordsCounter).createCell(0).setCellValue(meaning);
-        sh.getRow(3 + recordsCounter).createCell(1).setCellValue(size);
-        sh.getRow(3 + recordsCounter).createCell(2);
+        sh.createRow(row + 1);
+
+        Row r = sh.getRow(3 + step);
+        r.createCell(0).setCellValue(meaning);
+        r.createCell(1).setCellValue(size);
+        r.createCell(2);
 
         for (Map.Entry<Object, Header> entry : Header.vowSh.entrySet()) {
             column = entry.getValue().getColumn();
@@ -237,6 +245,12 @@ public class OutputFile {
             Cell c = sh.getRow(row).createCell(column);
             c.setCellValue(mapResult.get(entry.getKey()));
             c.setCellStyle(createCellStyleWithDataFormat(dataFormat));
+            System.out.println(row + " " + column + " " + entry.getKey() + " " + mapResult.get(entry.getKey()));
+
+            r = sh.getRow(row + 1);
+            c = r.createCell(column);
+            c.setCellValue(wordList.getMapOfDividers().get(entry.getKey()));
+            System.out.println(row + " " + column + " " + entry.getKey() + " " + wordList.getMapOfDividers().get(entry.getKey()) + " line 251 OF");
         }
     }
 
@@ -265,11 +279,23 @@ public class OutputFile {
 
             // draw borders
             for (Sheet sh : sheets) {
-                for (int i = 3; i < 3 + recordsCounter; i++) {
+                for (int i = 3; i < 3 + recordsCounter * 2; i++) {
                     for (int col : rightBorderCellsNum) {
-                        style = sh.getRow(i).getCell(col).getCellStyle();
+                        Cell c = sh.getRow(i).getCell(col);
+
+                        style = c.getCellStyle();
                         style.setBorderRight(BorderStyle.THIN);
-                        sh.getRow(i).getCell(col).setCellStyle(style);
+                        c.setCellStyle(style);
+                    }
+
+                    if (i%2 == 0) {
+                        Row r = sh.getRow(i);
+                        for (Map.Entry<Object, Header> entry : Header.vowSh.entrySet()) {
+                            Cell c = r.getCell(entry.getValue().getColumn());
+                            style = c.getCellStyle();
+                            style.setBorderBottom(BorderStyle.THIN);
+                            c.setCellStyle(style);
+                        }
                     }
                 }
             }
@@ -282,7 +308,7 @@ public class OutputFile {
         }
     }
 
-
+    // Считывает столбик каждого фонотипа как выборку для расчета статистики
     public HashMap<Object, Double[]> readAllSamples(Statistics.KindOfStats kindOfStats) {
 
         Sheet sh = null;
@@ -296,7 +322,7 @@ public class OutputFile {
 
         Object o = Vowel.Backness.FRONT;
         ArrayList<Double> dList = new ArrayList<>();
-        for (int i = 3; i < this.recordsCounter + 3; i++) {
+        for (int i = 3; i < this.recordsCounter * 2 + 3; i+=2) {
             dList.add(Double.valueOf(sh.getRow(i).getCell(Header.getColumnNum(o)).getNumericCellValue()));
         }
 

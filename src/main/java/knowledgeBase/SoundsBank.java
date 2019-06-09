@@ -22,6 +22,8 @@ public class SoundsBank {
         return allConsonantsTable;
     }
 
+    private static HashMap<Object, Integer> allPhTypesMap = null;
+
     /**
      * SINGLETON
      * **/
@@ -46,45 +48,51 @@ public class SoundsBank {
     }
 
     public static HashMap<Object, Integer> getAllPhonotypes() {
-        HashMap<Object, Integer> map = new HashMap<>();
 
-        // Vowel.Height
-        Vowel.Height[] hArr = Vowel.Height.values();
-        for (int i=0; i < hArr.length; i++) {
-            map.put(hArr[i], 0);
+        if (allPhTypesMap != null) {
+            return allPhTypesMap;
+
+        } else {
+            HashMap<Object, Integer> map = new HashMap<>();
+
+            // Vowel.Height
+            Vowel.Height[] hArr = Vowel.Height.values();
+            for (int i = 0; i < hArr.length; i++) {
+                map.put(hArr[i], 0);
+            }
+
+            // Vowel.Backness
+            Vowel.Backness[] bArr = Vowel.Backness.values();
+            for (int i = 0; i < bArr.length; i++) {
+                map.put(bArr[i], 0);
+            }
+
+            // Cons.MannerApprox
+            Consonant.MannerApproximate[] maArr = Consonant.MannerApproximate.values();
+            for (int i = 0; i < maArr.length; i++) {
+                map.put(maArr[i], 0);
+            }
+
+            // Cons.MannerPrecise
+            Consonant.MannerPricise[] mpArr = Consonant.MannerPricise.values();
+            for (int i = 0; i < mpArr.length; i++) {
+                map.put(mpArr[i], 0);
+            }
+
+            // Cons.PlaceApprox
+            Consonant.PlaceApproximate[] paArr = Consonant.PlaceApproximate.values();
+            for (int i = 0; i < paArr.length; i++) {
+                map.put(paArr[i], 0);
+            }
+
+            // Cons.PlacePrecise
+            Consonant.PlacePrecise[] ppArr = Consonant.PlacePrecise.values();
+            for (int i = 0; i < ppArr.length; i++) {
+                map.put(ppArr[i], 0);
+            }
+
+            return map;
         }
-
-        // Vowel.Backness
-        Vowel.Backness[] bArr = Vowel.Backness.values();
-        for (int i=0; i < bArr.length; i++) {
-            map.put(bArr[i], 0);
-        }
-
-        // Cons.MannerApprox
-        Consonant.MannerApproximate[] maArr = Consonant.MannerApproximate.values();
-        for (int i=0; i < maArr.length; i++) {
-            map.put(maArr[i], 0);
-        }
-
-        // Cons.MannerPrecise
-        Consonant.MannerPricise[] mpArr = Consonant.MannerPricise.values();
-        for (int i=0; i < mpArr.length; i++) {
-            map.put(mpArr[i], 0);
-        }
-
-        // Cons.PlaceApprox
-        Consonant.PlaceApproximate[] paArr = Consonant.PlaceApproximate.values();
-        for (int i=0; i < paArr.length; i++) {
-            map.put(paArr[i], 0);
-        }
-
-        // Cons.PlacePrecise
-        Consonant.PlacePrecise[] ppArr = Consonant.PlacePrecise.values();
-        for (int i=0; i < ppArr.length; i++) {
-            map.put(ppArr[i], 0);
-        }
-
-        return map;
     }
 
     private void addConsonants() {

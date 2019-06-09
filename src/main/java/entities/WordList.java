@@ -16,6 +16,7 @@ public class WordList {
     private ArrayList<Word> list;
     private HashMap<Object, Integer> mapPhTypesPerList = new HashMap<>();
     private HashMap<Object, Integer> mapWordsPerList = new HashMap<>();
+    private HashMap<Object, Integer> mapOfDividers = new HashMap<>();
 
     public WordList(ArrayList<Word> list) {
         this.meaning = list.get(0).getMeaning().getDefinition();
@@ -58,6 +59,8 @@ public class WordList {
     public void countAllPhonotypes() {
         mapPhTypesPerList = SoundsBank.getAllPhonotypes();
 
+
+        // Все фонотипы каждой фонемы из каждого слова в вордлисте суммируем в хашмапе
         for (Map.Entry<Object, Integer> entry : mapPhTypesPerList.entrySet()) {
             Object phType = entry.getKey();
 
@@ -82,23 +85,24 @@ public class WordList {
             }
             entry.setValue(counterPh);
             mapWordsPerList.put(entry.getKey(), counterW);
-
-           /*for (Word w : this.globalWordlist.getList()) {
-               entry.setValue(w.countPhonotype(entry.getKey()));
-           }*/
         }
     }
 
-    // calculates the percentage of words with Ph-Type
+
     public HashMap<Object, Double> getStats(Statistics.KindOfStats kindOfStats) {
         HashMap<Object, Double> resultMap = new HashMap<>();
         HashMap<Object, Integer> inputMap = mapPhTypesPerList;
+        boolean allPho = false;
+
+        // Рассчитываем делитель для каждого Meaning в зависимости от того, в скольких языках встречен фонотип
+        mapOfDividers = this.calculateDividers();
+
         double divider = 0.0;
 
         switch (kindOfStats) {
-            case WORDS_WITH_PHTYPE_PER_LIST : { divider = this.getList().size(); inputMap = mapWordsPerList; break; }
-            case PHTYPES_PER_LIST : { divider = this.countAllPhonemes(); break; }
-            case PHTYPES_AVERAGE_PER_WORD : { divider = this.getList().size(); break; }
+            case WORDS_WITH_PHTYPE_PER_LIST : { inputMap = mapWordsPerList; break; }
+            case PHTYPES_PER_LIST : { allPho = true; break; }
+            case PHTYPES_AVERAGE_PER_WORD : { break; }
         }
 
         // TODO short "if"
@@ -111,10 +115,41 @@ public class WordList {
             if (Main.CONSOLE_SHOW_NUM_OF_WORDS_AND_PHONEMES) {
                 System.out.println(entry.getKey() + " --- " + entry.getValue());
             }
+
+            // костыли. возможно, позже будет заменено на что-то более элегантное
+            if (!allPho) {
+                divider = mapOfDividers.get(entry.getKey());
+            } else {
+                divider = this.countAllPhonemes();
+            }
             resultMap.put(entry.getKey(), entry.getValue()/divider);
+
+            if (Main.DEBUG_STATS) {
+                System.out.println(entry.getKey() + " " + entry.getValue() + " " + divider + " " + allPho + " wl line 123");
+            }
         }
 
         return resultMap;
+    }
+
+
+    public HashMap<Object, Integer> calculateDividers() {
+        HashMap<Object, Integer> mapOfDividers = SoundsBank.getAllPhonotypes();
+
+        for (Map.Entry<Object, Integer> entry : mapOfDividers.entrySet()) {
+            int count = 0;
+
+            for (Word w : this.getList()) {
+                HashMap<Object, Integer> phTypeCov = w.getLanguage().getPhTypeCoverage();
+
+                if (phTypeCov.get(entry.getKey()) > 0) {
+                    count++;
+                }
+            }
+
+            entry.setValue(count);
+        }
+        return mapOfDividers;
     }
 
 
@@ -149,5 +184,13 @@ public class WordList {
 
     public void setLanguage(Language language) {
         this.language = language;
+    }
+
+    public HashMap<Object, Integer> getMapOfDividers() {
+        return mapOfDividers;
+    }
+
+    public void setMapOfDividers(HashMap<Object, Integer> mapOfDividers) {
+        this.mapOfDividers = mapOfDividers;
     }
 }

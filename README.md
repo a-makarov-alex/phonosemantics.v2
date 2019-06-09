@@ -155,10 +155,10 @@ Class Statistics
         
         YES 1 при чтении слова узнаем его язык
         YES 2 вызываем метод на чтение языка, собираем для него базу фонем
-        3 парсим слово, используя только фонемы языка
-        4 инициализируем HashMap<Object, int>, заносим туда +1 вердикт о наличии в языке каждого из найденных фонотипов
-        5 если в банке фонем языка нет искомой фонемы, выводим в консоль (?), какие фонемы (или фонотипы?) оказались в списке, а в языке не описаны.
-        6 отдельно выводим фонемы, которые в языке описаны, а в списке не встречены
+        YES 3 парсим слово, используя только фонемы языка
+        YES 4 инициализируем HashMap<Object, int>, заносим туда +1 вердикт о наличии в языке каждого из найденных фонотипов
+        YES 5 если в банке фонем языка нет искомой фонемы, выводим в консоль (?), какие фонемы (или фонотипы?) оказались в списке, а в языке не описаны.
+        YES 6 отдельно выводим фонемы, которые в языке описаны, а в списке не встречены
         7 в результате имеем мапу с набором "фонотип: количество списков с этим фонотипом". Это число (value) будет использоваться как делитель при расчете параметров "per Word", а в параметре "per Phonemes" будут учитываться только слова языков, где обнаружен фонотип
         
         - смещение записей вниз для General
@@ -175,3 +175,23 @@ Class Statistics
         - обезопасить конструктор Wordlist, чтобы нельзя было запихнуть в него слова с разными meaning (подумать про global WL)
 
    
+        // bug list
+        // TODO: standartization of phonemes transcription: sh => ʃ
+        // TODO: fix the problem with /u0027 etc codes instead of symbols
+        // TODO: unit tests
+        // TODO: do not read empty cells in inputFile and do not count them
+        // TODO for some time a new field can be added двусмысленный знак или нет,
+        // смысл в том, что многие знаки могут иметь несколько значений
+        // такой шаг позволит в будущем заняться более подробным изучением отдельных знаков
+        // а также уже сейчас считать процент однозначно верных знаков
+
+
+        // GLOBAL STRATEGY
+        // TODO make some function to calculate language phoneme bank from the swadesh list
+        // so then we could count the num of languages where the sound presents
+        // TODO all the affricates
+        // TODO all the diacritics
+        // TODO recalculate word's length after affricates and diacritics
+
+        // Small correction and additions
+        // TODO: add colors to OutputFile

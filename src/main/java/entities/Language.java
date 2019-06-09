@@ -1,6 +1,8 @@
 package entities;
 
+import entities.phonetics.Consonant;
 import entities.phonetics.Phoneme;
+import entities.phonetics.Vowel;
 import knowledgeBase.SoundsBank;
 import main.Main;
 import org.apache.poi.ss.usermodel.*;
@@ -9,6 +11,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
+import java.util.function.Predicate;
 
 // TODO: idea is for future. Should be realized later
 public class Language {
@@ -25,12 +28,13 @@ public class Language {
 
     // maps save the verdict "if the phoneme/phType were found in the Language words on practice"
     private Set<Phoneme> phCoverage;
-    private HashMap<Object, Boolean> phTypeCoverage;
+    private HashMap<Object, Integer> phTypeCoverage;
     private Set<Phoneme> phNotDescribed;
 
     public Language(String title) {
         this.title = title;
         this.phonology = getLangPhonology();
+        this.phTypeCoverage = calculatePhTypeCoverage();
         phCoverage = new HashSet<>();
         phNotDescribed = new HashSet<>();
 
@@ -48,7 +52,6 @@ public class Language {
             inputStream = new FileInputStream(INPUT_LANGUAGES_PATH);
             Workbook wb = WorkbookFactory.create(inputStream);
             Sheet sheet = wb.getSheetAt(0);
-
             int rowNum = 1;
             Row row = sheet.getRow(rowNum);
             Cell cell = row.getCell(0);
@@ -106,6 +109,72 @@ public class Language {
         }
     }
 
+    // Вычисляем все фонотипы, имеющиеся в языке
+    public HashMap<Object, Integer> calculatePhTypeCoverage() {
+        HashMap<Object, Integer> mapPhType = SoundsBank.getAllPhonotypes();
+
+        if (Main.CONSOLE_LANG_PHONOTYPES) {
+            System.out.println(this.title);
+        }
+
+        for (Map.Entry<Object, Integer> entry : mapPhType.entrySet()) {
+
+            if (Main.CONSOLE_LANG_PHONOTYPES) {
+                System.out.println(entry.getKey() + " : ");
+            }
+
+            entry.setValue(entry.getValue() + findPhType(entry.getKey()));
+
+            if (Main.CONSOLE_LANG_PHONOTYPES) {
+                System.out.println("TOTAL : " + entry.getValue());
+                System.out.println("");
+            }
+        }
+
+        return mapPhType;
+    }
+
+
+    // Буферный метод, который маппит классы для лямбды
+    public Integer findPhType(Object phType) {
+        int i = 0;
+
+        // VOWELS
+        if (phType.getClass().equals(Vowel.Height.class)) {
+            return findVowByPredicate(vow -> vow.getHeight().equals((Vowel.Height)phType));
+        }
+
+        else if (phType.getClass().equals(Vowel.Backness.class)) {
+            return findVowByPredicate(vow -> vow.getBackness().equals((Vowel.Backness)phType));
+        }
+
+        else {
+            return i;
+        }
+    }
+
+    // Проверяем каждую фонему языка на соответствие заданному фонотипу и возвращаем число таких фонем в языке.
+    private Integer findVowByPredicate(Predicate<Vowel> p) {
+        int count = 0;
+
+        for (Phoneme ph : phonology) {
+            if (ph != null) {
+                if (ph.getClass().equals(Vowel.class)) {
+                    Vowel vow = (Vowel) ph;
+                    if (p.test(vow)) {
+                        count++;
+
+                        if (Main.CONSOLE_LANG_PHONOTYPES) {
+                            System.out.println(vow.getSymbol());
+                        }
+                    }
+                }
+            }
+        }
+
+        return count;
+    }
+
 
     /** GETTERS AND SETTERS **/
     public String getTitle() {
@@ -152,11 +221,11 @@ public class Language {
         this.phCoverage = phCoverage;
     }
 
-    public HashMap<Object, Boolean> getPhTypeCoverage() {
+    public HashMap<Object, Integer> getPhTypeCoverage() {
         return phTypeCoverage;
     }
 
-    public void setPhTypeCoverage(HashMap<Object, Boolean> phTypeCoverage) {
+    public void setPhTypeCoverage(HashMap<Object, Integer> phTypeCoverage) {
         this.phTypeCoverage = phTypeCoverage;
     }
 
