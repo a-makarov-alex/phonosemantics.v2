@@ -1,18 +1,17 @@
 package output;
 
-import entities.Word;
 import entities.WordList;
 import entities.phonetics.Vowel;
 import knowledgeBase.SoundsBank;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFRichTextString;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import statistics.Statistics;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.text.DecimalFormat;
+import java.util.*;
 
 public class OutputFile {
 
@@ -192,21 +191,18 @@ public class OutputFile {
             // SHEET WORDS_WITH_PHTYPE_PER_LIST
             writeOneKindOfStats(
                     sheets.get(0),
-                    "0.0%",
                     wordList.getStats(Statistics.KindOfStats.WORDS_WITH_PHTYPE_PER_LIST),
                     wordList);
 
             // SHEET PHTYPES_PER_LIST
             writeOneKindOfStats(
                     sheets.get(1),
-                    "0.0%",
                     wordList.getStats(Statistics.KindOfStats.PHTYPES_PER_LIST),
                     wordList);
 
             // SHEET PHTYPES_AVERAGE_PER_WORD
             writeOneKindOfStats(
                     sheets.get(2),
-                    "0.0",
                     wordList.getStats(Statistics.KindOfStats.PHTYPES_AVERAGE_PER_WORD),
                     wordList);
 
@@ -221,43 +217,50 @@ public class OutputFile {
         }
     }
 
-    private void writeOneKindOfStats(Sheet sh, String dataFormat, HashMap<Object, Double> mapResult, WordList wordList) {
+    private void writeOneKindOfStats(Sheet sh, HashMap<Object, Double> mapResult, WordList wordList) {
         String meaning = wordList.getMeaning();
         int size = wordList.getList().size();
 
-        int step = recordsCounter * 2;
-        int row = 3 + step;
+        int row = 3 + recordsCounter;
         int column = 2;
         if (row != 3) {
             sh.createRow(row);
         }
 
-        sh.createRow(row + 1);
-
-        Row r = sh.getRow(3 + step);
+        Row r = sh.getRow(row);
         r.createCell(0).setCellValue(meaning);
         r.createCell(1).setCellValue(size);
         r.createCell(2);
 
         for (Map.Entry<Object, Header> entry : Header.vowSh.entrySet()) {
             column = entry.getValue().getColumn();
-
             Cell c = sh.getRow(row).createCell(column);
-            c.setCellValue(mapResult.get(entry.getKey()));
-            c.setCellStyle(createCellStyleWithDataFormat(dataFormat));
-            System.out.println(row + " " + column + " " + entry.getKey() + " " + mapResult.get(entry.getKey()));
 
-            r = sh.getRow(row + 1);
-            c = r.createCell(column);
-            c.setCellValue(wordList.getMapOfDividers().get(entry.getKey()));
-            System.out.println(row + " " + column + " " + entry.getKey() + " " + wordList.getMapOfDividers().get(entry.getKey()) + " line 251 OF");
+            // Make cells format (percents etc.)
+            DecimalFormat df = new DecimalFormat("#.#");
+
+            String s1;
+            if (sh == sheets.get(2)) {
+                s1 = df.format(mapResult.get(entry.getKey())) + " ";
+            } else {
+                s1 = df.format(mapResult.get(entry.getKey()) * 100) + "% ";
+            }
+            String s2 = String.valueOf(wordList.getMapOfDividers().get(entry.getKey()));
+            Font font = wb.createFont();
+            font.setTypeOffset(Font.SS_SUPER);
+            RichTextString richString = new XSSFRichTextString(s1 + s2);
+            richString.applyFont(s1.length(), s1.length() + s2.length(), font);
+
+            c.setCellValue(richString);
         }
     }
 
 
+    // TODO: удалить в GENERAL файле
     private CellStyle createCellStyleWithDataFormat(String format) {
         CellStyle cellStyle = wb.createCellStyle();
         cellStyle.setDataFormat(wb.createDataFormat().getFormat(format));
+        cellStyle.setAlignment(HorizontalAlignment.LEFT);
         return cellStyle;
     }
 
@@ -266,36 +269,27 @@ public class OutputFile {
     public void finalDesign() {
         try {
             FileOutputStream fileOut = new FileOutputStream(this.filePath);
-            CellStyle style =  wb.createCellStyle();
-            style.setBorderRight(BorderStyle.THIN);
+            CellStyle style;
 
-
-            int[] rightBorderCellsNum = {
-                    0,1,2,
-                    Header.vowSh.get(Vowel.Height.CLOSE).getColumn(),
-                    Header.vowSh.get(Vowel.Backness.BACK).getColumn()
-            };
-
+            Set<Integer> rightBorderCellNum = new HashSet<>();
+            rightBorderCellNum.add(0);
+            rightBorderCellNum.add(1);
+            rightBorderCellNum.add(2);
+            rightBorderCellNum.add(Header.vowSh.get(Vowel.Height.CLOSE).getColumn());
+            rightBorderCellNum.add(Header.vowSh.get(Vowel.Backness.BACK).getColumn());
 
             // draw borders
             for (Sheet sh : sheets) {
-                for (int i = 3; i < 3 + recordsCounter * 2; i++) {
-                    for (int col : rightBorderCellsNum) {
+                for (int i = 3; i < 3 + recordsCounter; i++) {
+                    for (int col = 0; col < 3 + Header.vowSh.size(); col++) {
                         Cell c = sh.getRow(i).getCell(col);
+                        style = wb.createCellStyle();
 
-                        style = c.getCellStyle();
-                        style.setBorderRight(BorderStyle.THIN);
-                        c.setCellStyle(style);
-                    }
-
-                    if (i%2 == 0) {
-                        Row r = sh.getRow(i);
-                        for (Map.Entry<Object, Header> entry : Header.vowSh.entrySet()) {
-                            Cell c = r.getCell(entry.getValue().getColumn());
-                            style = c.getCellStyle();
-                            style.setBorderBottom(BorderStyle.THIN);
-                            c.setCellStyle(style);
+                        style.setBorderBottom(BorderStyle.DASHED);
+                        if (rightBorderCellNum.contains(col)) {
+                            style.setBorderRight(BorderStyle.THIN);
                         }
+                        c.setCellStyle(style);
                     }
                 }
             }
@@ -322,7 +316,7 @@ public class OutputFile {
 
         Object o = Vowel.Backness.FRONT;
         ArrayList<Double> dList = new ArrayList<>();
-        for (int i = 3; i < this.recordsCounter * 2 + 3; i+=2) {
+        for (int i = 3; i < this.recordsCounter + 3; i+=2) {
             dList.add(Double.valueOf(sh.getRow(i).getCell(Header.getColumnNum(o)).getNumericCellValue()));
         }
 

@@ -77,8 +77,8 @@ public class Main {
 
         double pvalue = ShapiroWilk.ShapiroWilkW(map.get(Vowel.Backness.FRONT));
         System.out.println("p-value:" + pvalue);
-        System.out.println("Prob:" + (1 - pvalue));
+        System.out.println("Prob:" + (1 - pvalue));*/
 
-        normalityFile.finalDesign(); */
+        normalityFile.finalDesign();
     }
 }
