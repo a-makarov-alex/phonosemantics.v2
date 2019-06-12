@@ -1,6 +1,5 @@
 package entities;
 
-import entities.phonetics.Consonant;
 import entities.phonetics.Phoneme;
 import entities.phonetics.Vowel;
 import knowledgeBase.SoundsBank;
@@ -69,7 +68,7 @@ public class Language {
                     }
 
                     // CREATING A PHONEMES BANK FOR THE LANGUAGE
-                    for (Map.Entry<String, Phoneme> entry : cBank.getAllConsonantsTable().entrySet()) {
+                    for (Map.Entry<String, Phoneme> entry : cBank.getAllPhonemesTable().entrySet()) {
                         String allPh = sheet.getRow(rowNum).getCell(1).getStringCellValue();
                         String[] allPhArr = allPh.split(" ");
 
@@ -138,14 +137,23 @@ public class Language {
     // Буферный метод, который маппит классы для лямбды
     public Integer findPhType(Object phType) {
         int i = 0;
+        Class phTypeClass = phType.getClass();
 
         // VOWELS
-        if (phType.getClass().equals(Vowel.Height.class)) {
-            return findVowByPredicate(vow -> vow.getHeight().equals((Vowel.Height)phType));
+        if (phTypeClass.equals(SoundsBank.Height.class)) {
+            return findVowByPredicate(vow -> vow.getHeight().equals((SoundsBank.Height)phType));
         }
 
-        else if (phType.getClass().equals(Vowel.Backness.class)) {
-            return findVowByPredicate(vow -> vow.getBackness().equals((Vowel.Backness)phType));
+        else if (phTypeClass.equals(SoundsBank.Backness.class)) {
+            return findVowByPredicate(vow -> vow.getBackness().equals((SoundsBank.Backness)phType));
+        }
+
+        else if (phTypeClass.equals(SoundsBank.Roundness.class)) {
+            return findVowByPredicate(vow -> vow.isRoundedness().equals((SoundsBank.Roundness)phType));
+        }
+
+        else if (phTypeClass.equals(SoundsBank.Nasalization.class)) {
+            return findVowByPredicate(vow -> vow.isNasalization().equals((SoundsBank.Nasalization)phType));
         }
 
         else {

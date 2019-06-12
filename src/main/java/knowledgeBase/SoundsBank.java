@@ -16,16 +16,35 @@ import java.util.HashMap;
  * *********************/
 public class SoundsBank {
 
-    private HashMap<String, Phoneme> allConsonantsTable;
+    private HashMap<String, Phoneme> allPhonemesTable;
 
-    public HashMap<String, Phoneme> getAllConsonantsTable() {
-        return allConsonantsTable;
+    public HashMap<String, Phoneme> getAllPhonemesTable() {
+        return allPhonemesTable;
     }
 
     private static HashMap<Object, Integer> allPhTypesMap = null;
 
     /**
-     * SINGLETON
+     *  **************************  ENUMS
+     */
+    public enum Height {
+        OPEN, NEAR_OPEN, OPEN_MID, MID, CLOSE_MID, NEAR_CLOSE, CLOSE
+    }
+
+    public enum Backness {
+        BACK, CENTRAL, FRONT
+    }
+
+    public enum Roundness {
+        ROUNDED, UNROUNDED
+    }
+
+    public enum Nasalization {
+        NASAL, NON_NAZAL
+    }
+
+    /**
+     * *************************  SINGLETON
      * **/
     private static SoundsBank instance;
 
@@ -37,10 +56,10 @@ public class SoundsBank {
     }
 
     /**
-     * CONSTRUCTOR
+     * ************************* CONSTRUCTOR
      * **/
     public SoundsBank() {
-        this.allConsonantsTable = new HashMap<>();
+        this.allPhonemesTable = new HashMap<>();
         addConsonants();
         addVowels();
         // TODO all the affricates
@@ -55,40 +74,52 @@ public class SoundsBank {
         } else {
             HashMap<Object, Integer> map = new HashMap<>();
 
-            // Vowel.Height
-            Vowel.Height[] hArr = Vowel.Height.values();
+            // Height
+            Object[] hArr = Height.values();
+            for (Object ob : hArr) {
+                map.put(ob, 0);
+            }
+
+            // Backness
+            hArr = Backness.values();
             for (int i = 0; i < hArr.length; i++) {
                 map.put(hArr[i], 0);
             }
 
-            // Vowel.Backness
-            Vowel.Backness[] bArr = Vowel.Backness.values();
-            for (int i = 0; i < bArr.length; i++) {
-                map.put(bArr[i], 0);
+            // Roundness
+            hArr = Roundness.values();
+            for (Object ob : hArr) {
+                map.put(ob, 0);
+            }
+
+            // Nasalization
+            hArr = Nasalization.values();
+            for (Object ob : hArr) {
+                map.put(ob, 0);
             }
 
             // Cons.MannerApprox
-            Consonant.MannerApproximate[] maArr = Consonant.MannerApproximate.values();
-            for (int i = 0; i < maArr.length; i++) {
-                map.put(maArr[i], 0);
+            hArr = Consonant.MannerApproximate.values();
+            for (Object ob : hArr) {
+                map.put(ob, 0);
             }
 
             // Cons.MannerPrecise
-            Consonant.MannerPricise[] mpArr = Consonant.MannerPricise.values();
-            for (int i = 0; i < mpArr.length; i++) {
-                map.put(mpArr[i], 0);
+            hArr = Consonant.MannerPricise.values();
+            for (Object ob : hArr) {
+                map.put(ob, 0);
             }
 
             // Cons.PlaceApprox
-            Consonant.PlaceApproximate[] paArr = Consonant.PlaceApproximate.values();
-            for (int i = 0; i < paArr.length; i++) {
-                map.put(paArr[i], 0);
+            hArr = Consonant.PlaceApproximate.values();
+            for (Object ob : hArr) {
+                map.put(ob, 0);
             }
 
             // Cons.PlacePrecise
-            Consonant.PlacePrecise[] ppArr = Consonant.PlacePrecise.values();
-            for (int i = 0; i < ppArr.length; i++) {
-                map.put(ppArr[i], 0);
+            hArr = Consonant.PlacePrecise.values();
+            for (Object ob : hArr) {
+                map.put(ob, 0);
             }
 
             return map;
@@ -96,7 +127,7 @@ public class SoundsBank {
     }
 
     private void addConsonants() {
-        HashMap<String, Phoneme> table = this.allConsonantsTable;
+        HashMap<String, Phoneme> table = this.allPhonemesTable;
 
         // consonants
         // STOPS
@@ -168,44 +199,44 @@ public class SoundsBank {
     }
 
     private void addVowels() {
-        HashMap<String, Phoneme> table = this.allConsonantsTable;
+        HashMap<String, Phoneme> table = this.allPhonemesTable;
 
         //vowels
         //front
-        table.put("i", new Vowel("i", Vowel.Height.CLOSE, Vowel.Backness.FRONT, false,false));
-        table.put("y", new Vowel("y", Vowel.Height.CLOSE, Vowel.Backness.FRONT, true, false));
-        table.put("e", new Vowel("e", Vowel.Height.CLOSE_MID, Vowel.Backness.FRONT, false, false));
-        table.put("ø", new Vowel("ø", Vowel.Height.CLOSE_MID, Vowel.Backness.FRONT, true, false));
-        table.put("ɛ", new Vowel("ɛ", Vowel.Height.OPEN_MID, Vowel.Backness.FRONT, false, false));
-        table.put("œ", new Vowel("œ", Vowel.Height.OPEN_MID, Vowel.Backness.FRONT, true, false));
-        table.put("æ", new Vowel("æ", Vowel.Height.NEAR_OPEN, Vowel.Backness.FRONT, false, false));
-        table.put("a", new Vowel("a", Vowel.Height.OPEN, Vowel.Backness.FRONT, false, false));
-        table.put("ɶ", new Vowel("ɶ", Vowel.Height.OPEN, Vowel.Backness.FRONT, true, false));
+        table.put("i", new Vowel("i", Height.CLOSE, Backness.FRONT, Roundness.UNROUNDED,Nasalization.NON_NAZAL));
+        table.put("y", new Vowel("y", Height.CLOSE, Backness.FRONT, Roundness.ROUNDED, Nasalization.NON_NAZAL));
+        table.put("e", new Vowel("e", Height.CLOSE_MID, Backness.FRONT, Roundness.UNROUNDED, Nasalization.NON_NAZAL));
+        table.put("ø", new Vowel("ø", Height.CLOSE_MID, Backness.FRONT, Roundness.ROUNDED, Nasalization.NON_NAZAL));
+        table.put("ɛ", new Vowel("ɛ", Height.OPEN_MID, Backness.FRONT, Roundness.UNROUNDED, Nasalization.NON_NAZAL));
+        table.put("œ", new Vowel("œ", Height.OPEN_MID, Backness.FRONT, Roundness.ROUNDED, Nasalization.NON_NAZAL));
+        table.put("æ", new Vowel("æ", Height.NEAR_OPEN, Backness.FRONT, Roundness.UNROUNDED, Nasalization.NON_NAZAL));
+        table.put("a", new Vowel("a", Height.OPEN, Backness.FRONT, Roundness.UNROUNDED, Nasalization.NON_NAZAL));
+        table.put("ɶ", new Vowel("ɶ", Height.OPEN, Backness.FRONT, Roundness.ROUNDED, Nasalization.NON_NAZAL));
 
         // central
-        table.put("ɨ", new Vowel("ɨ", Vowel.Height.CLOSE, Vowel.Backness.CENTRAL, false, false));
-        table.put("ʉ", new Vowel("ʉ", Vowel.Height.CLOSE, Vowel.Backness.CENTRAL, true, false));
-        table.put("ɘ", new Vowel("ɘ", Vowel.Height.CLOSE_MID, Vowel.Backness.CENTRAL, false, false));
-        table.put("ɵ", new Vowel("ɵ", Vowel.Height.CLOSE_MID, Vowel.Backness.CENTRAL, true, false));
-        table.put("ə", new Vowel("ə", Vowel.Height.MID, Vowel.Backness.CENTRAL, false, false));
-        table.put("ɜ", new Vowel("ɜ", Vowel.Height.OPEN_MID, Vowel.Backness.CENTRAL, false, false));
-        table.put("ɞ", new Vowel("ɞ", Vowel.Height.OPEN_MID, Vowel.Backness.CENTRAL, true, false));
-        table.put("ä", new Vowel("ä", Vowel.Height.OPEN, Vowel.Backness.CENTRAL, false, false));
+        table.put("ɨ", new Vowel("ɨ", Height.CLOSE, Backness.CENTRAL, Roundness.UNROUNDED, Nasalization.NON_NAZAL));
+        table.put("ʉ", new Vowel("ʉ", Height.CLOSE, Backness.CENTRAL, Roundness.ROUNDED, Nasalization.NON_NAZAL));
+        table.put("ɘ", new Vowel("ɘ", Height.CLOSE_MID, Backness.CENTRAL, Roundness.UNROUNDED, Nasalization.NON_NAZAL));
+        table.put("ɵ", new Vowel("ɵ", Height.CLOSE_MID, Backness.CENTRAL, Roundness.ROUNDED, Nasalization.NON_NAZAL));
+        table.put("ə", new Vowel("ə", Height.MID, Backness.CENTRAL, Roundness.UNROUNDED, Nasalization.NON_NAZAL));
+        table.put("ɜ", new Vowel("ɜ", Height.OPEN_MID, Backness.CENTRAL, Roundness.UNROUNDED, Nasalization.NON_NAZAL));
+        table.put("ɞ", new Vowel("ɞ", Height.OPEN_MID, Backness.CENTRAL, Roundness.ROUNDED, Nasalization.NON_NAZAL));
+        table.put("ä", new Vowel("ä", Height.OPEN, Backness.CENTRAL, Roundness.UNROUNDED, Nasalization.NON_NAZAL));
 
         // back
-        table.put("ɯ", new Vowel("ɯ", Vowel.Height.CLOSE, Vowel.Backness.BACK, false, false));
-        table.put("u", new Vowel("u", Vowel.Height.CLOSE, Vowel.Backness.BACK, true, false));
-        table.put("ʊ", new Vowel("ʊ", Vowel.Height.NEAR_CLOSE, Vowel.Backness.BACK, true, false));
-        table.put("ɤ", new Vowel("ɤ", Vowel.Height.CLOSE_MID, Vowel.Backness.BACK, false, false));
-        table.put("o", new Vowel("o", Vowel.Height.CLOSE_MID, Vowel.Backness.BACK, true, false));
-        table.put("ʌ", new Vowel("ʌ", Vowel.Height.OPEN_MID, Vowel.Backness.BACK, false, false));
-        table.put("ɔ", new Vowel("ɔ", Vowel.Height.OPEN_MID, Vowel.Backness.BACK, true, false));
-        table.put("ɑ", new Vowel("ɑ", Vowel.Height.OPEN, Vowel.Backness.BACK, false, false));
-        table.put("ɒ", new Vowel("ɒ", Vowel.Height.OPEN, Vowel.Backness.BACK, true, false));
+        table.put("ɯ", new Vowel("ɯ", Height.CLOSE, Backness.BACK, Roundness.UNROUNDED, Nasalization.NON_NAZAL));
+        table.put("u", new Vowel("u", Height.CLOSE, Backness.BACK, Roundness.ROUNDED, Nasalization.NON_NAZAL));
+        table.put("ʊ", new Vowel("ʊ", Height.NEAR_CLOSE, Backness.BACK, Roundness.ROUNDED, Nasalization.NON_NAZAL));
+        table.put("ɤ", new Vowel("ɤ", Height.CLOSE_MID, Backness.BACK, Roundness.UNROUNDED, Nasalization.NON_NAZAL));
+        table.put("o", new Vowel("o", Height.CLOSE_MID, Backness.BACK, Roundness.ROUNDED, Nasalization.NON_NAZAL));
+        table.put("ʌ", new Vowel("ʌ", Height.OPEN_MID, Backness.BACK, Roundness.UNROUNDED, Nasalization.NON_NAZAL));
+        table.put("ɔ", new Vowel("ɔ", Height.OPEN_MID, Backness.BACK, Roundness.ROUNDED, Nasalization.NON_NAZAL));
+        table.put("ɑ", new Vowel("ɑ", Height.OPEN, Backness.BACK, Roundness.UNROUNDED, Nasalization.NON_NAZAL));
+        table.put("ɒ", new Vowel("ɒ", Height.OPEN, Backness.BACK, Roundness.ROUNDED, Nasalization.NON_NAZAL));
     }
 
     private void addAffricates() {
-        HashMap<String, Phoneme> table = this.allConsonantsTable;
+        HashMap<String, Phoneme> table = this.allPhonemesTable;
 
         //vowels
         //front
@@ -222,6 +253,6 @@ public class SoundsBank {
     }
 
     public Phoneme find(String requestedSymbol) {
-        return allConsonantsTable.get(requestedSymbol);
+        return allPhonemesTable.get(requestedSymbol);
     }
 }

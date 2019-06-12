@@ -1,24 +1,20 @@
 package entities.phonetics;
 
+import knowledgeBase.SoundsBank;
+
 public class Vowel extends Phoneme {
 
-    private Height height;
-    private Backness backness;
-    private boolean roundedness;
-    private boolean nasalization;
+    private SoundsBank.Height height;
+    private SoundsBank.Backness backness;
+    private SoundsBank.Roundness roundedness;
+    private SoundsBank.Nasalization nasalization;
 
-    public enum Height {
-        OPEN, NEAR_OPEN, OPEN_MID, MID, CLOSE_MID, NEAR_CLOSE, CLOSE
-    }
-
-    public enum Backness {
-        BACK, CENTRAL, FRONT
-    }
 
     /**
      * CONSTRUCTORS
      * **/
-    public Vowel(String symbol, Height height, Backness backness, boolean roundedness, boolean nasalization) {
+    public Vowel(String symbol, SoundsBank.Height height,
+                 SoundsBank.Backness backness, SoundsBank.Roundness roundedness, SoundsBank.Nasalization nasalization) {
         super(symbol, SoundClass.VOWEL);
         this.height = height;
         this.backness = backness;
@@ -29,28 +25,28 @@ public class Vowel extends Phoneme {
     /**
      *  GETTERS AND SETTERS
      *  **/
-    public Height getHeight() {
+    public SoundsBank.Height getHeight() {
         return height;
     }
-    public void setHeight(Height height) {
+    public void setHeight(SoundsBank.Height height) {
         this.height = height;
     }
-    public Backness getBackness() {
+    public SoundsBank.Backness getBackness() {
         return backness;
     }
-    public void setBackness(Backness backness) {
+    public void setBackness(SoundsBank.Backness backness) {
         this.backness = backness;
     }
-    public boolean isRoundedness() {
+    public SoundsBank.Roundness isRoundedness() {
         return roundedness;
     }
-    public void setRoundedness(boolean roundedness) {
+    public void setRoundedness(SoundsBank.Roundness roundedness) {
         this.roundedness = roundedness;
     }
-    public boolean isNasalization() {
+    public SoundsBank.Nasalization isNasalization() {
         return nasalization;
     }
-    public void setNasalization(boolean nasalization) {
+    public void setNasalization(SoundsBank.Nasalization nasalization) {
         this.nasalization = nasalization;
     }
 }

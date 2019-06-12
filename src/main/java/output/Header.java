@@ -1,6 +1,7 @@
 package output;
 
 import entities.phonetics.Vowel;
+import knowledgeBase.SoundsBank;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import statistics.Statistics;
@@ -15,7 +16,7 @@ public class Header {
     private String text;
 
     // TODO размер хешмапы, а никакая не константа
-    private static final int VOWEL_HEADER_WIDTH = 8;
+    private static int VOWEL_HEADER_WIDTH;
     private static final int CONS_MANNER_HEADER_WIDTH = 12;
 
     public static HashMap<Object, Header>  vowSh = new HashMap<>();
@@ -134,35 +135,57 @@ public class Header {
      *  Headers for Vowel excel sheet
      *  **/
     public static void addVowelsHeader(Sheet sheet) {
+
+        vowSh.put(SoundsBank.Height.OPEN, new Header(2, 3, "Open"));
+        vowSh.put(SoundsBank.Height.OPEN_MID, new Header(2, 4, "Op-mid"));
+        vowSh.put(SoundsBank.Height.MID, new Header(2, 5, "Mid"));
+        vowSh.put(SoundsBank.Height.CLOSE_MID, new Header(2, 6, "Cl-mid"));
+        vowSh.put(SoundsBank.Height.CLOSE, new Header(2, 7, "Close"));
+
+        vowSh.put(SoundsBank.Backness.FRONT, new Header(2, 8, "Front"));
+        vowSh.put(SoundsBank.Backness.CENTRAL, new Header(2, 9, "Cent"));
+        vowSh.put(SoundsBank.Backness.BACK, new Header(2, 10, "Back"));
+
+        vowSh.put(SoundsBank.Roundness.ROUNDED, new Header(2,11, "Round"));
+        vowSh.put(SoundsBank.Roundness.UNROUNDED, new Header(2,12, "Unround"));
+
+        vowSh.put(SoundsBank.Nasalization.NASAL, new Header(2, 13, "Nasal"));
+        vowSh.put(SoundsBank.Nasalization.NON_NAZAL, new Header(2, 14, "Non-Nasal"));
+
+        // TODO: избавиться от этого поля
+        VOWEL_HEADER_WIDTH = vowSh.size();
+
         // inicialization and style
         for (int i=0; i <= 2; i++ ) {
             sheet.getRow(i);
-            for (int j=3; j <= 10; j++) {
+            for (int j=3; j < 3 + vowSh.size(); j++) {
                 sheet.getRow(i).createCell(j);
                 sheet.getRow(i).getCell(j).setCellStyle(OutputFile.getHeaderCellStyle());
             }
         }
 
         // merging cells
-        sheet.addMergedRegion(new CellRangeAddress(0,0,3, 10));
-        sheet.addMergedRegion(new CellRangeAddress(1,1,3, 7));
-        sheet.addMergedRegion(new CellRangeAddress(1,1,8, 10));
+        int colOpen = vowSh.get(SoundsBank.Height.OPEN).column;
+        int colClose = vowSh.get(SoundsBank.Height.CLOSE).column;
+        int colFront = vowSh.get(SoundsBank.Backness.FRONT).column;
+        int colBack = vowSh.get(SoundsBank.Backness.BACK).column;
+        int colRound = vowSh.get(SoundsBank.Roundness.ROUNDED).column;
+        int colUnround = vowSh.get(SoundsBank.Roundness.UNROUNDED).column;
+        int colNasal = vowSh.get(SoundsBank.Nasalization.NASAL).column;
+        int colNonNasal = vowSh.get(SoundsBank.Nasalization.NON_NAZAL).column;
 
-        vowSh.put(Vowel.Height.OPEN, new Header(2, 3, "Open"));
-        vowSh.put(Vowel.Height.OPEN_MID, new Header(2, 4, "Op-mid"));
-        vowSh.put(Vowel.Height.MID, new Header(2, 5, "Mid"));
-        vowSh.put(Vowel.Height.CLOSE_MID, new Header(2, 6, "Cl-mid"));
-        vowSh.put(Vowel.Height.CLOSE, new Header(2, 7, "Close"));
-
-        vowSh.put(Vowel.Backness.FRONT, new Header(2, 8, "Front"));
-        vowSh.put(Vowel.Backness.CENTRAL, new Header(2, 9, "Cent"));
-        vowSh.put(Vowel.Backness.BACK, new Header(2, 10, "Back"));
-
+        sheet.addMergedRegion(new CellRangeAddress(0,0, colOpen, colNonNasal));
+        sheet.addMergedRegion(new CellRangeAddress(1,1,colOpen, colClose));
+        sheet.addMergedRegion(new CellRangeAddress(1,1, colFront, colBack));
+        sheet.addMergedRegion(new CellRangeAddress(1,1, colRound, colUnround));
+        sheet.addMergedRegion(new CellRangeAddress(1,1, colNasal, colNonNasal));
 
         // вписываем значения хедеров
-        sheet.getRow(0).getCell(3).setCellValue("VOWELS");
-        sheet.getRow(1).getCell(3).setCellValue("Height");
-        sheet.getRow(1).getCell(8).setCellValue("Backness");
+        sheet.getRow(0).getCell(colOpen).setCellValue("VOWELS");
+        sheet.getRow(1).getCell(colOpen).setCellValue("Height");
+        sheet.getRow(1).getCell(colFront).setCellValue("Backness");
+        sheet.getRow(1).getCell(colRound).setCellValue("Roundness");
+        sheet.getRow(1).getCell(colNasal).setCellValue("Nasalization");
 
         for (Header h : vowSh.values()) {
             Cell cell = sheet.getRow(h.row).getCell(h.column);
@@ -280,8 +303,8 @@ public class Header {
     public static int getColumnNum(Object phTypeName) {
         int col = 0;
 
-        if (phTypeName.getClass() == Vowel.Height.class ||
-                phTypeName.getClass() == Vowel.Backness.class) {
+        if (phTypeName.getClass() == SoundsBank.Height.class ||
+                phTypeName.getClass() == SoundsBank.Backness.class) {
             col = vowSh.get(phTypeName).getColumn();
         }
         return col;

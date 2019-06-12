@@ -125,7 +125,7 @@ public class WordList {
             resultMap.put(entry.getKey(), entry.getValue()/divider);
 
             if (Main.DEBUG_STATS) {
-                System.out.println(entry.getKey() + " " + entry.getValue() + " " + divider + " " + allPho + " wl line 123");
+                System.out.println(entry.getKey() + " " + entry.getValue() + " " + divider + " " + allPho + " WL class line 128");
             }
         }
 

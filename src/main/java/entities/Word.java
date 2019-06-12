@@ -9,7 +9,6 @@ import main.Main;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Set;
 import java.util.function.Predicate;
 
 public class Word {
@@ -117,7 +116,7 @@ public class Word {
 
         if (word != null) {
             String[] phonemes = word.split("");
-            HashMap<String, Phoneme> allPhonemes = SoundsBank.getInstance().getAllConsonantsTable();
+            HashMap<String, Phoneme> allPhonemes = SoundsBank.getInstance().getAllPhonemesTable();
 
             // Phoneme might be a set of 2 symbols.
             // So we need to check the symbol after the current on every step.
@@ -167,45 +166,35 @@ public class Word {
     /**
      * BUNCH OF METHODS TO COUNT PHONOTYPES
      * **/
-    /*public int countPhonotype(Consonant.MannerApproximate mannerApproximate) {
-        return countConsPhonotypeBy(cons -> cons.getMannerApproximate().equals(mannerApproximate));
-    }
-
-    public int countPhonotype(Consonant.MannerPricise mannerPricise) {
-        if (mannerPricise.equals(Consonant.MannerPricise.FRICATIVE)) {
-            return countConsPhonotypeBy(cons -> cons.isFricative());
-        } else {
-            return countConsPhonotypeBy(cons -> cons.getMannerPricise().equals(mannerPricise));
-        }
-    }
-
-    public int countPhonotype(Consonant.PlaceApproximate placeApproximate) {
-        return countConsPhonotypeBy(cons -> cons.getPlaceApproximate().equals(placeApproximate));
-    }
-
-    public int countPhonotype(Consonant.PlacePrecise placePrecise) {
-        return countConsPhonotypeBy(cons -> cons.getPlacePrecise().equals(placePrecise));
-    }*/
-
     public int countPhonotype(Object object) {
-        if (object.getClass().equals(Consonant.PlacePrecise.class)) {
+        Class objClass = object.getClass();
+
+        if (objClass.equals(Consonant.PlacePrecise.class)) {
             return countConsPhonotypeBy(cons -> cons.getPlacePrecise().equals((Consonant.PlacePrecise)object));
         }
 
-        else if (object.getClass().equals(Consonant.MannerPricise.class)){
+        else if (objClass.equals(Consonant.MannerPricise.class)){
             return countConsPhonotypeBy(cons -> cons.getMannerPricise().equals((Consonant.MannerPricise)object));
         }
 
         // VOWELS
-        else if (object.getClass().equals(Vowel.Height.class)){
-            if (object.equals(Main.CONSOLE_SHOW_WORDS_OF_CLASS)) {
-                System.out.print("Height :   ");
-            }
-            return countVowPhonotypeBy(vow -> vow.getHeight().equals((Vowel.Height)object));
+        else if (objClass.equals(SoundsBank.Height.class)){
+            if (object.equals(Main.CONSOLE_SHOW_WORDS_OF_CLASS)) { System.out.print("Height :   ");}
+            return countVowPhonotypeBy(vow -> vow.getHeight().equals((SoundsBank.Height)object));
         }
 
-        else if (object.getClass().equals(Vowel.Backness.class)){
-            return countVowPhonotypeBy(vow -> vow.getBackness().equals((Vowel.Backness)object));
+        else if (objClass.equals(SoundsBank.Backness.class)){
+            return countVowPhonotypeBy(vow -> vow.getBackness().equals((SoundsBank.Backness)object));
+        }
+
+        else if (objClass.equals(SoundsBank.Roundness.class)) {
+            if (object.equals(Main.CONSOLE_SHOW_WORDS_OF_CLASS)) { System.out.print("Roundness :   "); }
+            return countVowPhonotypeBy(vow -> vow.isRoundedness().equals((SoundsBank.Roundness)object));
+        }
+
+        else if (objClass.equals(SoundsBank.Nasalization.class)) {
+            if (object.equals(Main.CONSOLE_SHOW_WORDS_OF_CLASS)) { System.out.print("Nasalization :   "); }
+            return countVowPhonotypeBy(vow -> vow.isRoundedness().equals((SoundsBank.Nasalization)object));
         }
 
         else {

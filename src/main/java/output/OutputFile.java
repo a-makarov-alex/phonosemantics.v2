@@ -275,8 +275,10 @@ public class OutputFile {
             rightBorderCellNum.add(0);
             rightBorderCellNum.add(1);
             rightBorderCellNum.add(2);
-            rightBorderCellNum.add(Header.vowSh.get(Vowel.Height.CLOSE).getColumn());
-            rightBorderCellNum.add(Header.vowSh.get(Vowel.Backness.BACK).getColumn());
+            rightBorderCellNum.add(Header.vowSh.get(SoundsBank.Height.CLOSE).getColumn());
+            rightBorderCellNum.add(Header.vowSh.get(SoundsBank.Backness.BACK).getColumn());
+            rightBorderCellNum.add(Header.vowSh.get(SoundsBank.Roundness.UNROUNDED).getColumn());
+            rightBorderCellNum.add(Header.vowSh.get(SoundsBank.Nasalization.NON_NAZAL).getColumn());
 
             // draw borders
             for (Sheet sh : sheets) {
@@ -314,7 +316,7 @@ public class OutputFile {
         HashMap<Object, Integer> buf = SoundsBank.getAllPhonotypes();
         HashMap<Object, Double[]> allSamples = new HashMap<>();
 
-        Object o = Vowel.Backness.FRONT;
+        Object o = SoundsBank.Backness.FRONT;
         ArrayList<Double> dList = new ArrayList<>();
         for (int i = 3; i < this.recordsCounter + 3; i+=2) {
             dList.add(Double.valueOf(sh.getRow(i).getCell(Header.getColumnNum(o)).getNumericCellValue()));

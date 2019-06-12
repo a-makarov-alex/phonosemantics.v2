@@ -2,12 +2,7 @@ package statistics;
 
 import entities.Word;
 import entities.WordList;
-import entities.phonetics.Consonant;
-import entities.phonetics.Vowel;
 import main.Main;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class Statistics {
 
@@ -21,7 +16,7 @@ public class Statistics {
     // Wordlists are added here with semantics as a key
     // TODO: create a Semantics class
     // Remember that Word has Semantics field. No need of HashMap
-    private WordList globalWordlist = Main.getInputFile().getWordList("Big"); //TODO: =getGlobalWordlist() в классе InputFile
+    private WordList globalWordlist = Main.getInputFile().composeWordList("Big"); //TODO: =getGlobalWordlist() в классе InputFile
 
 
     /**

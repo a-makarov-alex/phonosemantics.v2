@@ -48,7 +48,7 @@ public class InputFile {
                 if (Main.CONSOLE_SHOW_FOUND_MEANINGS_IN_INPUT_FILE) {
                     System.out.println(sheet.getRow(rowNum).getCell(colNum).getStringCellValue());
                 }
-                allWordlists.add(this.getWordList(sheet.getRow(rowNum).getCell(colNum).getStringCellValue()));
+                allWordlists.add(this.composeWordList(sheet.getRow(rowNum).getCell(colNum).getStringCellValue()));
                 colNum++;
             }
 
@@ -66,7 +66,7 @@ public class InputFile {
     /**
      * Reads a list of words from inputFile by meaning
      */
-    public WordList getWordList(String meaning) {
+    public WordList composeWordList(String meaning) {
 
         // open file for reading
         InputStream inputStream = null;
