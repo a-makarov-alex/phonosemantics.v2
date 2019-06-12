@@ -1,7 +1,6 @@
 package output;
 
 import entities.WordList;
-import entities.phonetics.Vowel;
 import knowledgeBase.SoundsBank;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFRichTextString;
@@ -278,7 +277,7 @@ public class OutputFile {
             rightBorderCellNum.add(Header.vowSh.get(SoundsBank.Height.CLOSE).getColumn());
             rightBorderCellNum.add(Header.vowSh.get(SoundsBank.Backness.BACK).getColumn());
             rightBorderCellNum.add(Header.vowSh.get(SoundsBank.Roundness.UNROUNDED).getColumn());
-            rightBorderCellNum.add(Header.vowSh.get(SoundsBank.Nasalization.NON_NAZAL).getColumn());
+            rightBorderCellNum.add(Header.vowSh.get(SoundsBank.Nasalization.NON_NASAL).getColumn());
 
             // draw borders
             for (Sheet sh : sheets) {

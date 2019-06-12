@@ -1,6 +1,5 @@
 package output;
 
-import entities.phonetics.Vowel;
 import knowledgeBase.SoundsBank;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
@@ -150,7 +149,7 @@ public class Header {
         vowSh.put(SoundsBank.Roundness.UNROUNDED, new Header(2,12, "Unround"));
 
         vowSh.put(SoundsBank.Nasalization.NASAL, new Header(2, 13, "Nasal"));
-        vowSh.put(SoundsBank.Nasalization.NON_NAZAL, new Header(2, 14, "Non-Nasal"));
+        vowSh.put(SoundsBank.Nasalization.NON_NASAL, new Header(2, 14, "Non-Nasal"));
 
         // TODO: избавиться от этого поля
         VOWEL_HEADER_WIDTH = vowSh.size();
@@ -172,7 +171,7 @@ public class Header {
         int colRound = vowSh.get(SoundsBank.Roundness.ROUNDED).column;
         int colUnround = vowSh.get(SoundsBank.Roundness.UNROUNDED).column;
         int colNasal = vowSh.get(SoundsBank.Nasalization.NASAL).column;
-        int colNonNasal = vowSh.get(SoundsBank.Nasalization.NON_NAZAL).column;
+        int colNonNasal = vowSh.get(SoundsBank.Nasalization.NON_NASAL).column;
 
         sheet.addMergedRegion(new CellRangeAddress(0,0, colOpen, colNonNasal));
         sheet.addMergedRegion(new CellRangeAddress(1,1,colOpen, colClose));

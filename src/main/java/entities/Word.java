@@ -122,32 +122,36 @@ public class Word {
             // So we need to check the symbol after the current on every step.
             for (int i = 0; i < word.length(); i++) {
 
-                // For last symbol
-                if (i == word.length() - 1) {
-                    Phoneme ph = allPhonemes.get(phonemes[i]);
-                    this.transcription.add(ph);
-                    this.getLanguage().categorizePh(ph);
-                } else {
+                // For extra symbols, accents, tones etc.
+                if (!SoundsBank.isExtraSign(phonemes[i])) {
 
-                    // For 2-graph phoneme
-                    Phoneme ph = allPhonemes.get(phonemes[i] + phonemes[i+1]);
-                    if (ph != null) {
+                    // For last symbol
+                    if (i == word.length() - 1) {
+                        Phoneme ph = allPhonemes.get(phonemes[i]);
                         this.transcription.add(ph);
                         this.getLanguage().categorizePh(ph);
-                        i++;
                     } else {
 
-                        // For 1-graph phoneme
-                        ph = allPhonemes.get(phonemes[i]);
+                        // For 2-graph phoneme
+                        Phoneme ph = allPhonemes.get(phonemes[i] + phonemes[i + 1]);
                         if (ph != null) {
                             this.transcription.add(ph);
                             this.getLanguage().categorizePh(ph);
+                            i++;
                         } else {
 
-                            // Empty phoneme
-                            this.transcription.add(null);
-                            if (Main.CONSOLE_UNKNOWN_PHONEMES) {
-                                System.out.println("  Phoneme " + phonemes[i] + " is not found in sounds bank");
+                            // For 1-graph phoneme
+                            ph = allPhonemes.get(phonemes[i]);
+                            if (ph != null) {
+                                this.transcription.add(ph);
+                                this.getLanguage().categorizePh(ph);
+                            } else {
+
+                                // Empty phoneme
+                                this.transcription.add(null);
+                                if (Main.CONSOLE_UNKNOWN_PHONEMES) {
+                                    System.out.println("  Phoneme " + phonemes[i] + " is not found in sounds bank");
+                                }
                             }
                         }
                     }

@@ -6,6 +6,8 @@ import entities.phonetics.Phoneme;
 import entities.phonetics.Vowel;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 /************ Singleton class
  *
@@ -40,7 +42,7 @@ public class SoundsBank {
     }
 
     public enum Nasalization {
-        NASAL, NON_NAZAL
+        NASAL, NON_NASAL
     }
 
     /**
@@ -199,40 +201,53 @@ public class SoundsBank {
     }
 
     private void addVowels() {
+        // HOW TO GET UNICODE IF NEEDED
+        /*String e = "ẽ";
+        for (int i = 0; i < e.length(); i++) {
+            System.out.print( "\\u" + Integer.toHexString(e.charAt(i) | 0x10000).substring(1));
+            System.out.print(" ");
+        }*/
+
         HashMap<String, Phoneme> table = this.allPhonemesTable;
 
         //vowels
         //front
-        table.put("i", new Vowel("i", Height.CLOSE, Backness.FRONT, Roundness.UNROUNDED,Nasalization.NON_NAZAL));
-        table.put("y", new Vowel("y", Height.CLOSE, Backness.FRONT, Roundness.ROUNDED, Nasalization.NON_NAZAL));
-        table.put("e", new Vowel("e", Height.CLOSE_MID, Backness.FRONT, Roundness.UNROUNDED, Nasalization.NON_NAZAL));
-        table.put("ø", new Vowel("ø", Height.CLOSE_MID, Backness.FRONT, Roundness.ROUNDED, Nasalization.NON_NAZAL));
-        table.put("ɛ", new Vowel("ɛ", Height.OPEN_MID, Backness.FRONT, Roundness.UNROUNDED, Nasalization.NON_NAZAL));
-        table.put("œ", new Vowel("œ", Height.OPEN_MID, Backness.FRONT, Roundness.ROUNDED, Nasalization.NON_NAZAL));
-        table.put("æ", new Vowel("æ", Height.NEAR_OPEN, Backness.FRONT, Roundness.UNROUNDED, Nasalization.NON_NAZAL));
-        table.put("a", new Vowel("a", Height.OPEN, Backness.FRONT, Roundness.UNROUNDED, Nasalization.NON_NAZAL));
-        table.put("ɶ", new Vowel("ɶ", Height.OPEN, Backness.FRONT, Roundness.ROUNDED, Nasalization.NON_NAZAL));
+        table.put("i", new Vowel("i", Height.CLOSE, Backness.FRONT, Roundness.UNROUNDED,Nasalization.NON_NASAL));
+        table.put("ĩ", new Vowel("ĩ", Height.CLOSE, Backness.FRONT, Roundness.UNROUNDED,Nasalization.NASAL));
+        table.put("y", new Vowel("y", Height.CLOSE, Backness.FRONT, Roundness.ROUNDED, Nasalization.NON_NASAL));
+        table.put("e", new Vowel("e", Height.CLOSE_MID, Backness.FRONT, Roundness.UNROUNDED, Nasalization.NON_NASAL));
+        table.put("ẽ", new Vowel("ẽ", Height.CLOSE_MID, Backness.FRONT, Roundness.UNROUNDED, Nasalization.NASAL));
+
+        table.put("ø", new Vowel("ø", Height.CLOSE_MID, Backness.FRONT, Roundness.ROUNDED, Nasalization.NON_NASAL));
+        table.put("ɛ", new Vowel("ɛ", Height.OPEN_MID, Backness.FRONT, Roundness.UNROUNDED, Nasalization.NON_NASAL));
+        table.put("œ", new Vowel("œ", Height.OPEN_MID, Backness.FRONT, Roundness.ROUNDED, Nasalization.NON_NASAL));
+        table.put("æ", new Vowel("æ", Height.NEAR_OPEN, Backness.FRONT, Roundness.UNROUNDED, Nasalization.NON_NASAL));
+        table.put("a", new Vowel("a", Height.OPEN, Backness.FRONT, Roundness.UNROUNDED, Nasalization.NON_NASAL));
+        table.put("ɶ", new Vowel("ɶ", Height.OPEN, Backness.FRONT, Roundness.ROUNDED, Nasalization.NON_NASAL));
 
         // central
-        table.put("ɨ", new Vowel("ɨ", Height.CLOSE, Backness.CENTRAL, Roundness.UNROUNDED, Nasalization.NON_NAZAL));
-        table.put("ʉ", new Vowel("ʉ", Height.CLOSE, Backness.CENTRAL, Roundness.ROUNDED, Nasalization.NON_NAZAL));
-        table.put("ɘ", new Vowel("ɘ", Height.CLOSE_MID, Backness.CENTRAL, Roundness.UNROUNDED, Nasalization.NON_NAZAL));
-        table.put("ɵ", new Vowel("ɵ", Height.CLOSE_MID, Backness.CENTRAL, Roundness.ROUNDED, Nasalization.NON_NAZAL));
-        table.put("ə", new Vowel("ə", Height.MID, Backness.CENTRAL, Roundness.UNROUNDED, Nasalization.NON_NAZAL));
-        table.put("ɜ", new Vowel("ɜ", Height.OPEN_MID, Backness.CENTRAL, Roundness.UNROUNDED, Nasalization.NON_NAZAL));
-        table.put("ɞ", new Vowel("ɞ", Height.OPEN_MID, Backness.CENTRAL, Roundness.ROUNDED, Nasalization.NON_NAZAL));
-        table.put("ä", new Vowel("ä", Height.OPEN, Backness.CENTRAL, Roundness.UNROUNDED, Nasalization.NON_NAZAL));
+        table.put("ɨ", new Vowel("ɨ", Height.CLOSE, Backness.CENTRAL, Roundness.UNROUNDED, Nasalization.NON_NASAL));
+        table.put("ʉ", new Vowel("ʉ", Height.CLOSE, Backness.CENTRAL, Roundness.ROUNDED, Nasalization.NON_NASAL));
+        table.put("ɘ", new Vowel("ɘ", Height.CLOSE_MID, Backness.CENTRAL, Roundness.UNROUNDED, Nasalization.NON_NASAL));
+        table.put("ɵ", new Vowel("ɵ", Height.CLOSE_MID, Backness.CENTRAL, Roundness.ROUNDED, Nasalization.NON_NASAL));
+        table.put("ə", new Vowel("ə", Height.MID, Backness.CENTRAL, Roundness.UNROUNDED, Nasalization.NON_NASAL)); // \u0259
+        table.put("ǝ", new Vowel("ǝ", Height.MID, Backness.CENTRAL, Roundness.UNROUNDED, Nasalization.NON_NASAL)); // \u01DD
+
+        table.put("ɜ", new Vowel("ɜ", Height.OPEN_MID, Backness.CENTRAL, Roundness.UNROUNDED, Nasalization.NON_NASAL));
+        table.put("ɞ", new Vowel("ɞ", Height.OPEN_MID, Backness.CENTRAL, Roundness.ROUNDED, Nasalization.NON_NASAL));
+        table.put("ä", new Vowel("ä", Height.OPEN, Backness.CENTRAL, Roundness.UNROUNDED, Nasalization.NON_NASAL));
 
         // back
-        table.put("ɯ", new Vowel("ɯ", Height.CLOSE, Backness.BACK, Roundness.UNROUNDED, Nasalization.NON_NAZAL));
-        table.put("u", new Vowel("u", Height.CLOSE, Backness.BACK, Roundness.ROUNDED, Nasalization.NON_NAZAL));
-        table.put("ʊ", new Vowel("ʊ", Height.NEAR_CLOSE, Backness.BACK, Roundness.ROUNDED, Nasalization.NON_NAZAL));
-        table.put("ɤ", new Vowel("ɤ", Height.CLOSE_MID, Backness.BACK, Roundness.UNROUNDED, Nasalization.NON_NAZAL));
-        table.put("o", new Vowel("o", Height.CLOSE_MID, Backness.BACK, Roundness.ROUNDED, Nasalization.NON_NAZAL));
-        table.put("ʌ", new Vowel("ʌ", Height.OPEN_MID, Backness.BACK, Roundness.UNROUNDED, Nasalization.NON_NAZAL));
-        table.put("ɔ", new Vowel("ɔ", Height.OPEN_MID, Backness.BACK, Roundness.ROUNDED, Nasalization.NON_NAZAL));
-        table.put("ɑ", new Vowel("ɑ", Height.OPEN, Backness.BACK, Roundness.UNROUNDED, Nasalization.NON_NAZAL));
-        table.put("ɒ", new Vowel("ɒ", Height.OPEN, Backness.BACK, Roundness.ROUNDED, Nasalization.NON_NAZAL));
+        table.put("ɯ", new Vowel("ɯ", Height.CLOSE, Backness.BACK, Roundness.UNROUNDED, Nasalization.NON_NASAL));
+        table.put("u", new Vowel("u", Height.CLOSE, Backness.BACK, Roundness.ROUNDED, Nasalization.NON_NASAL));
+        table.put("ʊ", new Vowel("ʊ", Height.NEAR_CLOSE, Backness.BACK, Roundness.ROUNDED, Nasalization.NON_NASAL));
+        table.put("ɤ", new Vowel("ɤ", Height.CLOSE_MID, Backness.BACK, Roundness.UNROUNDED, Nasalization.NON_NASAL));
+        table.put("o", new Vowel("o", Height.CLOSE_MID, Backness.BACK, Roundness.ROUNDED, Nasalization.NON_NASAL));
+        table.put("õ", new Vowel("õ", Height.CLOSE_MID, Backness.BACK, Roundness.ROUNDED, Nasalization.NASAL));
+        table.put("ʌ", new Vowel("ʌ", Height.OPEN_MID, Backness.BACK, Roundness.UNROUNDED, Nasalization.NON_NASAL));
+        table.put("ɔ", new Vowel("ɔ", Height.OPEN_MID, Backness.BACK, Roundness.ROUNDED, Nasalization.NON_NASAL));
+        table.put("ɑ", new Vowel("ɑ", Height.OPEN, Backness.BACK, Roundness.UNROUNDED, Nasalization.NON_NASAL));
+        table.put("ɒ", new Vowel("ɒ", Height.OPEN, Backness.BACK, Roundness.ROUNDED, Nasalization.NON_NASAL));
     }
 
     private void addAffricates() {
@@ -254,5 +269,20 @@ public class SoundsBank {
 
     public Phoneme find(String requestedSymbol) {
         return allPhonemesTable.get(requestedSymbol);
+    }
+
+    public static boolean isExtraSign(String symbol) {
+        String[] symbols = {
+                ".", ",", "-", "="
+        };
+        boolean result = false;
+
+        for (String s :symbols) {
+            if (s.equals(symbol)) {
+                result = true;
+                break;
+            }
+        }
+        return result;
     }
 }

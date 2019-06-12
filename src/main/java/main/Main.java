@@ -18,7 +18,7 @@ public class Main {
     // CONFIG --> should be transformed to logs later
     public static final boolean CONSOLE_SHOW_TRASCRIPTION = false;
     public static final Object CONSOLE_SHOW_WORDS_OF_CLASS = null; // SoundsBank.Roundness.ROUNDED;
-    public static final boolean CONSOLE_UNKNOWN_PHONEMES = false;
+    public static final boolean CONSOLE_UNKNOWN_PHONEMES = true;
     public static final boolean CONSOLE_SHOW_NUM_OF_WORDS_AND_PHONEMES = false;
     public static final boolean CONSOLE_SHOW_FOUND_MEANINGS_IN_INPUT_FILE = false;
     public static final boolean CONSOLE_SHOW_NOT_FOUND_MEANINGS_IN_INPUT_FILE = true;
@@ -33,7 +33,6 @@ public class Main {
     public static void main(String args[]) {
 
         newFullCycle();
-
 
         // test for one lang phon inventory
         //Language l = Language.getAllLanguages().get("Ket");
