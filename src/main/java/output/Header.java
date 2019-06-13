@@ -16,7 +16,7 @@ public class Header {
 
     // TODO размер хешмапы, а никакая не константа
     private static int VOWEL_HEADER_WIDTH;
-    private static final int CONS_MANNER_HEADER_WIDTH = 12;
+    private static int CONS_MANNER_HEADER_WIDTH;
 
     public static HashMap<Object, Header>  vowSh = new HashMap<>();
     public static HashMap<Object, Header>  consMannerSh = new HashMap<>();
@@ -208,8 +208,47 @@ public class Header {
             shift = VOWEL_HEADER_WIDTH;
         }
 
+
+        consMannerSh.put(SoundsBank.MannerApproximate.OBSTRUENT, new Header(2, 3 + shift, "All"));
+        consMannerSh.put(SoundsBank.MannerPricise.STOP, new Header(2, 4 + shift, "Stops"));
+
+        // TODO delete later
+        CONS_MANNER_HEADER_WIDTH = consMannerSh.size();
+
+        int startCol = consMannerSh.get(SoundsBank.MannerApproximate.OBSTRUENT).column;
+        int finCol = startCol + consMannerSh.size();
+
         // inicialization and style
-        for (int i=0; i <= 2; i++ ) {
+        for (int i = 0; i <= 2; i++ ) {
+            sheet.getRow(i);
+            for (int j = startCol; j < finCol; j++) {
+                sheet.getRow(i).createCell(j);
+                sheet.getRow(i).getCell(j).setCellStyle(OutputFile.getHeaderCellStyle());
+            }
+        }
+
+        // merging cells
+        // TODO всё поправить!!
+
+        System.out.println(startCol + " " + finCol);
+        sheet.addMergedRegion(new CellRangeAddress(0,0,startCol, finCol));
+        sheet.addMergedRegion(new CellRangeAddress(1,1,shift + 3, shift + 8));
+        sheet.addMergedRegion(new CellRangeAddress(1,1,shift + 9, shift + 13));
+
+        // вписываем значения хедеров
+        sheet.getRow(0).getCell(startCol).setCellValue("MANNER");
+        sheet.getRow(1).getCell(startCol).setCellValue("Obstruent");
+//        sheet.getRow(1).getCell(shift + 9).setCellValue("Sonorant");
+//        sheet.getRow(1).getCell(shift + 14).setCellValue("Liquid");
+
+        for (Header h : vowSh.values()) {
+            Cell cell = sheet.getRow(h.row).getCell(h.column);
+            cell.setCellValue(h.text);
+        }
+
+
+        // inicialization and style
+        /*for (int i=0; i <= 2; i++ ) {
             Row row = sheet.getRow(i);
             for (int j = shift + 3; j <= shift + 14; j++) {
                 row.createCell(j);
@@ -217,16 +256,12 @@ public class Header {
             }
         }
 
-        // merging cells
-        sheet.addMergedRegion(new CellRangeAddress(0,0,shift + 3, shift + 14));
-        sheet.addMergedRegion(new CellRangeAddress(1,1,shift + 3, shift + 8));
-        sheet.addMergedRegion(new CellRangeAddress(1,1,shift + 9, shift + 13));
-
         ArrayList<Header> list = new ArrayList<>();
         list.add(new Header(0,3, "MANNER"));
         list.add(new Header(1, 3, "Obstruent"));
         list.add(new Header(1, 9, "Sonorant"));
         list.add(new Header(1, 14, "Liquid"));
+
         list.add(new Header(2, 3, "All"));
         list.add(new Header(2, 4, "Stops"));
         list.add(new Header(2, 5, "Affric"));
@@ -245,7 +280,7 @@ public class Header {
         for (Header h : list) {
             Cell cell = sheet.getRow(h.row).getCell(h.column + shift);
             cell.setCellValue(h.text);
-        }
+        }*/
     }
 
 

@@ -1,12 +1,14 @@
 package entities.phonetics;
 
+import knowledgeBase.SoundsBank;
+
 public class Consonant extends Phoneme{
 
-    private PlaceApproximate placeApproximate;
-    private PlacePrecise placePrecise;
-    private MannerApproximate mannerApproximate;
-    private MannerPricise mannerPricise;
-    private boolean voiced = false;
+    private SoundsBank.PlaceApproximate placeApproximate;
+    private SoundsBank.PlacePrecise placePrecise;
+    private SoundsBank.MannerApproximate mannerApproximate;
+    private SoundsBank.MannerPricise mannerPricise;
+    private SoundsBank.Phonation voiced;
     private boolean longCons = false;
 
     // MANNERS
@@ -25,84 +27,64 @@ public class Consonant extends Phoneme{
 
 
     /**
-     * ENUMS
-     * **/
-    public enum PlaceApproximate {
-        LABIAL, CORONAL, DORSAL, LARYNGEAL
-    }
-
-    public enum PlacePrecise {
-        BILABIAL, LABIODENTAL,                      // LABIAL
-        DENTAL, ALVEOLAR, POSTALVEOLAR, RETROFLEX,  // CORONAL
-        PALATAL, VELAR, UVULAR,                     // DORSAL
-        EPIGLOTTAL, GLOTTAL
-    }
-
-    public enum MannerApproximate {
-        OBSTRUENT, SONORANT, LIQUID
-    }
-
-    public enum MannerPricise {
-        STOP, AFFRICATE, FRICATIVE, SIBILANT, SIBILANT_AFFRICATE,            // OBSTRUENT
-        NASAL, APPROXIMANT, TRILL, FLAP,  // SONORANT
-        LATERAL                         // LIQUID
-    }
-
-    /**
      * CONSTRUCTORS
      * **/
-    public Consonant(String symbol, PlacePrecise placePrecise, MannerPricise mannerPricise) {
+    public Consonant(String symbol, SoundsBank.PlacePrecise placePrecise, SoundsBank.MannerPricise mannerPricise) {
         super(symbol, SoundClass.CONSONANT);
         this.placePrecise = placePrecise;
         this.mannerPricise = mannerPricise;
         this.placeApproximate = placeApproximateFromPrecise(placePrecise);
         this.mannerApproximate = mannerApproximateFromPrecise(mannerPricise);
-        this.voiced = false;
+        this.voiced = SoundsBank.Phonation.DEVOICED;
         // by this point all the flags are marked
 
     }
 
-    public Consonant(String symbol, PlacePrecise placePrecise, MannerPricise mannerPricise, boolean voiced) {
+    public Consonant(String symbol, SoundsBank.PlacePrecise placePrecise, SoundsBank.MannerPricise mannerPricise, boolean voiced) {
         super(symbol, SoundClass.CONSONANT);
         this.placePrecise = placePrecise;
         this.mannerPricise = mannerPricise;
         this.placeApproximate = placeApproximateFromPrecise(placePrecise);
         this.mannerApproximate = mannerApproximateFromPrecise(mannerPricise);
-        this.voiced = voiced;
+        if (voiced) {
+            this.voiced = SoundsBank.Phonation.VOICED;
+        } else {
+            this.voiced = SoundsBank.Phonation.DEVOICED;
+        }
         // by this point all the flags are marked
     }
 
     /** Needed for constructor**/
-    private PlaceApproximate placeApproximateFromPrecise(PlacePrecise placePrecise) {
+    private SoundsBank.PlaceApproximate placeApproximateFromPrecise(SoundsBank.PlacePrecise placePrecise) {
         switch (placePrecise) {
             case BILABIAL:
-            case LABIODENTAL: { return PlaceApproximate.LABIAL; }
+            case LABIODENTAL: { return SoundsBank.PlaceApproximate.LABIAL; }
             case DENTAL:
             case ALVEOLAR:
             case POSTALVEOLAR:
-            case RETROFLEX: { return PlaceApproximate.CORONAL; }
+            case RETROFLEX: { return SoundsBank.PlaceApproximate.CORONAL; }
             case PALATAL:
             case VELAR:
-            case UVULAR: { return PlaceApproximate.DORSAL; }
+            case UVULAR: { return SoundsBank.PlaceApproximate.DORSAL; }
             case EPIGLOTTAL:
-            case GLOTTAL: { return PlaceApproximate.LARYNGEAL; }
+            case GLOTTAL: { return SoundsBank.PlaceApproximate.LARYNGEAL; }
             default: { return null; }
         }
     }
 
     /** Needed for constructor**/
-    private MannerApproximate mannerApproximateFromPrecise(MannerPricise mannerPricise) {
+    private SoundsBank.MannerApproximate mannerApproximateFromPrecise(SoundsBank.MannerPricise mannerPricise) {
         switch (mannerPricise) {
-            case STOP: { this.stop = true; return MannerApproximate.OBSTRUENT; }
-            case AFFRICATE: { this.affricate = true; return MannerApproximate.OBSTRUENT; }
-            case FRICATIVE: { this.fricative = true; return MannerApproximate.OBSTRUENT; }
-            case SIBILANT: { this.fricative = true; this.sibilant = true; return MannerApproximate.OBSTRUENT; }
-            case SIBILANT_AFFRICATE: { this.affricate = true; this.sibilant = true; this.fricative = true; return MannerApproximate.OBSTRUENT; }
-            case NASAL: { this.nasal = true; return MannerApproximate.SONORANT; }
-            case APPROXIMANT: { this.approximant = true; return MannerApproximate.SONORANT; }
-            case TRILL: { this.trill = true; return MannerApproximate.SONORANT; }
-            case FLAP: { this.flap = true; return MannerApproximate.SONORANT; }
-            case LATERAL: { this.lateral = true; return MannerApproximate.LIQUID; }
+            case STOP: { this.stop = true; return SoundsBank.MannerApproximate.OBSTRUENT; }
+            case AFFRICATE: { this.affricate = true; return SoundsBank.MannerApproximate.OBSTRUENT; }
+            case FRICATIVE: { this.fricative = true; return SoundsBank.MannerApproximate.OBSTRUENT; }
+            case SIBILANT: { this.fricative = true; this.sibilant = true; return SoundsBank.MannerApproximate.OBSTRUENT; }
+            case SIBILANT_AFFRICATE: { this.affricate = true; this.sibilant = true; this.fricative = true; return SoundsBank.MannerApproximate.OBSTRUENT; }
+            case NASAL: { this.nasal = true; return SoundsBank.MannerApproximate.SONORANT; }
+            case APPROXIMANT: { this.approximant = true; return SoundsBank.MannerApproximate.SONORANT; }
+            case TRILL: { this.trill = true; return SoundsBank.MannerApproximate.SONORANT; }
+            case FLAP: { this.flap = true; return SoundsBank.MannerApproximate.SONORANT; }
+            case LATERAL: { this.lateral = true; return SoundsBank.MannerApproximate.LIQUID; }
             default: {return null; }
         }
     }
@@ -110,19 +92,19 @@ public class Consonant extends Phoneme{
     /**
      * GETTERS FOR MAIN FIELDS
      * **/
-    public PlaceApproximate getPlaceApproximate() {
+    public SoundsBank.PlaceApproximate getPlaceApproximate() {
         return placeApproximate;
     }
-    public PlacePrecise getPlacePrecise() {
+    public SoundsBank.PlacePrecise getPlacePrecise() {
         return placePrecise;
     }
-    public MannerApproximate getMannerApproximate() {
+    public SoundsBank.MannerApproximate getMannerApproximate() {
         return mannerApproximate;
     }
-    public MannerPricise getMannerPricise() {
+    public SoundsBank.MannerPricise getMannerPricise() {
         return mannerPricise;
     }
-    public boolean isVoiced() {
+    public SoundsBank.Phonation isVoiced() {
         return voiced;
     }
     public boolean isLongCons() {

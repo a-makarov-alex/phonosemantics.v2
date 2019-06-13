@@ -231,28 +231,36 @@ public class OutputFile {
         r.createCell(1).setCellValue(size);
         r.createCell(2);
 
-        for (Map.Entry<Object, Header> entry : Header.vowSh.entrySet()) {
-            column = entry.getValue().getColumn();
-            Cell c = sh.getRow(row).createCell(column);
+        // TODO add more maps here
+        ArrayList<HashMap<Object, Header>> maps = new ArrayList<>();
+        maps.add(Header.vowSh);
+        maps.add(Header.consMannerSh);
 
-            // Make cells format (percents etc.)
-            DecimalFormat df = new DecimalFormat("#.#");
+        for (HashMap<Object, Header> map : maps) {
+            for (Map.Entry<Object, Header> entry : map.entrySet()) {
+                column = entry.getValue().getColumn();
+                Cell c = sh.getRow(row).createCell(column);
 
-            String s1;
-            if (sh == sheets.get(2)) {
-                s1 = df.format(mapResult.get(entry.getKey())) + " ";
-            } else {
-                s1 = df.format(mapResult.get(entry.getKey()) * 100) + "% ";
+                // Make cells format (percents etc.)
+                DecimalFormat df = new DecimalFormat("#.#");
+
+                String s1;
+                if (sh == sheets.get(2)) {
+                    s1 = df.format(mapResult.get(entry.getKey())) + " ";
+                } else {
+                    s1 = df.format(mapResult.get(entry.getKey()) * 100) + "% ";
+                }
+                String s2 = String.valueOf(wordList.getMapOfDividers().get(entry.getKey()));
+                Font font = wb.createFont();
+                font.setTypeOffset(Font.SS_SUPER);
+                RichTextString richString = new XSSFRichTextString(s1 + s2);
+                richString.applyFont(s1.length(), s1.length() + s2.length(), font);
+
+                c.setCellValue(richString);
             }
-            String s2 = String.valueOf(wordList.getMapOfDividers().get(entry.getKey()));
-            Font font = wb.createFont();
-            font.setTypeOffset(Font.SS_SUPER);
-            RichTextString richString = new XSSFRichTextString(s1 + s2);
-            richString.applyFont(s1.length(), s1.length() + s2.length(), font);
-
-            c.setCellValue(richString);
         }
     }
+
 
 
     // TODO: удалить в GENERAL файле
@@ -278,6 +286,7 @@ public class OutputFile {
             rightBorderCellNum.add(Header.vowSh.get(SoundsBank.Backness.BACK).getColumn());
             rightBorderCellNum.add(Header.vowSh.get(SoundsBank.Roundness.UNROUNDED).getColumn());
             rightBorderCellNum.add(Header.vowSh.get(SoundsBank.Nasalization.NON_NASAL).getColumn());
+            rightBorderCellNum.add(Header.consMannerSh.get(SoundsBank.MannerPricise.STOP).getColumn());
 
             // draw borders
             for (Sheet sh : sheets) {

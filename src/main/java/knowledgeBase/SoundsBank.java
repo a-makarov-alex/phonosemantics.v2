@@ -27,7 +27,7 @@ public class SoundsBank {
     private static HashMap<Object, Integer> allPhTypesMap = null;
 
     /**
-     *  **************************  ENUMS
+     *  **************************  ENUMS VOWELS
      */
     public enum Height {
         OPEN, NEAR_OPEN, OPEN_MID, MID, CLOSE_MID, NEAR_CLOSE, CLOSE
@@ -43,6 +43,34 @@ public class SoundsBank {
 
     public enum Nasalization {
         NASAL, NON_NASAL
+    }
+
+    /**
+     *  **************************  ENUMS CONSONANTS
+     */
+    public enum PlaceApproximate {
+        LABIAL, CORONAL, DORSAL, LARYNGEAL
+    }
+
+    public enum PlacePrecise {
+        BILABIAL, LABIODENTAL,                      // LABIAL
+        DENTAL, ALVEOLAR, POSTALVEOLAR, RETROFLEX,  // CORONAL
+        PALATAL, VELAR, UVULAR,                     // DORSAL
+        EPIGLOTTAL, GLOTTAL
+    }
+
+    public enum MannerApproximate {
+        OBSTRUENT, SONORANT, LIQUID
+    }
+
+    public enum MannerPricise {
+        STOP, AFFRICATE, FRICATIVE, SIBILANT, SIBILANT_AFFRICATE,            // OBSTRUENT
+        NASAL, APPROXIMANT, TRILL, FLAP,  // SONORANT
+        LATERAL                         // LIQUID
+    }
+
+    public enum Phonation {
+        VOICED, DEVOICED
     }
 
     /**
@@ -76,6 +104,7 @@ public class SoundsBank {
         } else {
             HashMap<Object, Integer> map = new HashMap<>();
 
+            /* **********************  VOWELS ***************************/
             // Height
             Object[] hArr = Height.values();
             for (Object ob : hArr) {
@@ -100,26 +129,27 @@ public class SoundsBank {
                 map.put(ob, 0);
             }
 
+            /* **********************  CONSONANTS ***************************/
             // Cons.MannerApprox
-            hArr = Consonant.MannerApproximate.values();
+            hArr = MannerApproximate.values();
             for (Object ob : hArr) {
                 map.put(ob, 0);
             }
 
             // Cons.MannerPrecise
-            hArr = Consonant.MannerPricise.values();
+            hArr = MannerPricise.values();
             for (Object ob : hArr) {
                 map.put(ob, 0);
             }
 
             // Cons.PlaceApprox
-            hArr = Consonant.PlaceApproximate.values();
+            hArr = PlaceApproximate.values();
             for (Object ob : hArr) {
                 map.put(ob, 0);
             }
 
             // Cons.PlacePrecise
-            hArr = Consonant.PlacePrecise.values();
+            hArr = PlacePrecise.values();
             for (Object ob : hArr) {
                 map.put(ob, 0);
             }
@@ -133,69 +163,69 @@ public class SoundsBank {
 
         // consonants
         // STOPS
-        table.put("p", new Consonant("p", Consonant.PlacePrecise.BILABIAL, Consonant.MannerPricise.STOP));
-        table.put("b", new Consonant("b", Consonant.PlacePrecise.BILABIAL, Consonant.MannerPricise.STOP, true));
-        table.put("p̪", new Consonant("p̪", Consonant.PlacePrecise.LABIODENTAL, Consonant.MannerPricise.STOP));
-        table.put("b̪", new Consonant("b̪", Consonant.PlacePrecise.LABIODENTAL, Consonant.MannerPricise.STOP, true));
-        //table.put("t̼̪", new Consonant("t̼", Consonant.PlacePrecise.LABIODENTAL, Consonant.MannerPricise.STOP));
-        //table.put("d̼̪", new Consonant("d̼̪", Consonant.PlacePrecise.LABIODENTAL, Consonant.MannerPricise.STOP, true));
-        table.put("t", new Consonant("t", Consonant.PlacePrecise.ALVEOLAR, Consonant.MannerPricise.STOP));
-        table.put("d", new Consonant("d", Consonant.PlacePrecise.ALVEOLAR, Consonant.MannerPricise.STOP, true));
-        table.put("ʈ", new Consonant("ʈ", Consonant.PlacePrecise.RETROFLEX, Consonant.MannerPricise.STOP));
-        table.put("ɖ", new Consonant("ɖ", Consonant.PlacePrecise.RETROFLEX, Consonant.MannerPricise.STOP, true));
-        table.put("c", new Consonant("c", Consonant.PlacePrecise.PALATAL, Consonant.MannerPricise.STOP));
-        table.put("ɟ", new Consonant("ɟ", Consonant.PlacePrecise.PALATAL, Consonant.MannerPricise.STOP, true));
-        table.put("k", new Consonant("k", Consonant.PlacePrecise.VELAR, Consonant.MannerPricise.STOP));
-        table.put("g", new Consonant("g", Consonant.PlacePrecise.VELAR, Consonant.MannerPricise.STOP, true));
-        table.put("q", new Consonant("q", Consonant.PlacePrecise.UVULAR, Consonant.MannerPricise.STOP));
-        table.put("ɢ", new Consonant("ɢ", Consonant.PlacePrecise.UVULAR, Consonant.MannerPricise.STOP, true));
-        table.put("ʡ", new Consonant("ʡ", Consonant.PlacePrecise.EPIGLOTTAL, Consonant.MannerPricise.STOP));
-        table.put("ʔ", new Consonant("ʔ", Consonant.PlacePrecise.GLOTTAL, Consonant.MannerPricise.STOP));
+        table.put("p", new Consonant("p", PlacePrecise.BILABIAL, MannerPricise.STOP));
+        table.put("b", new Consonant("b", PlacePrecise.BILABIAL, MannerPricise.STOP, true));
+        table.put("p̪", new Consonant("p̪", PlacePrecise.LABIODENTAL, MannerPricise.STOP));
+        table.put("b̪", new Consonant("b̪", PlacePrecise.LABIODENTAL, MannerPricise.STOP, true));
+        //table.put("t̼̪", new Consonant("t̼", PlacePrecise.LABIODENTAL, MannerPricise.STOP));
+        //table.put("d̼̪", new Consonant("d̼̪", PlacePrecise.LABIODENTAL, MannerPricise.STOP, true));
+        table.put("t", new Consonant("t", PlacePrecise.ALVEOLAR, MannerPricise.STOP));
+        table.put("d", new Consonant("d", PlacePrecise.ALVEOLAR, MannerPricise.STOP, true));
+        table.put("ʈ", new Consonant("ʈ", PlacePrecise.RETROFLEX, MannerPricise.STOP));
+        table.put("ɖ", new Consonant("ɖ", PlacePrecise.RETROFLEX, MannerPricise.STOP, true));
+        table.put("c", new Consonant("c", PlacePrecise.PALATAL, MannerPricise.STOP));
+        table.put("ɟ", new Consonant("ɟ", PlacePrecise.PALATAL, MannerPricise.STOP, true));
+        table.put("k", new Consonant("k", PlacePrecise.VELAR, MannerPricise.STOP));
+        table.put("g", new Consonant("g", PlacePrecise.VELAR, MannerPricise.STOP, true));
+        table.put("q", new Consonant("q", PlacePrecise.UVULAR, MannerPricise.STOP));
+        table.put("ɢ", new Consonant("ɢ", PlacePrecise.UVULAR, MannerPricise.STOP, true));
+        table.put("ʡ", new Consonant("ʡ", PlacePrecise.EPIGLOTTAL, MannerPricise.STOP));
+        table.put("ʔ", new Consonant("ʔ", PlacePrecise.GLOTTAL, MannerPricise.STOP));
 
         // FRICATIVES
         // SIBILANTS
-        table.put("s", new Consonant("s", Consonant.PlacePrecise.ALVEOLAR, Consonant.MannerPricise.SIBILANT));
-        table.put("z", new Consonant("z", Consonant.PlacePrecise.ALVEOLAR, Consonant.MannerPricise.SIBILANT, true));
-        table.put("ʃ", new Consonant("ʃ", Consonant.PlacePrecise.POSTALVEOLAR, Consonant.MannerPricise.SIBILANT));
+        table.put("s", new Consonant("s", PlacePrecise.ALVEOLAR, MannerPricise.SIBILANT));
+        table.put("z", new Consonant("z", PlacePrecise.ALVEOLAR, MannerPricise.SIBILANT, true));
+        table.put("ʃ", new Consonant("ʃ", PlacePrecise.POSTALVEOLAR, MannerPricise.SIBILANT));
         // TODO подтвердить характериситки š
-        table.put("š", new Consonant("š", Consonant.PlacePrecise.POSTALVEOLAR, Consonant.MannerPricise.SIBILANT));
-        table.put("ʒ", new Consonant("ʒ", Consonant.PlacePrecise.POSTALVEOLAR, Consonant.MannerPricise.SIBILANT, true));
-        table.put("ʂ", new Consonant("ʂ", Consonant.PlacePrecise.RETROFLEX, Consonant.MannerPricise.SIBILANT));
-        table.put("ʐ", new Consonant("ʐ", Consonant.PlacePrecise.RETROFLEX, Consonant.MannerPricise.SIBILANT, true));
-        table.put("ɕ", new Consonant("ɕ", Consonant.PlacePrecise.PALATAL, Consonant.MannerPricise.SIBILANT));
-        table.put("ʑ", new Consonant("ʑ", Consonant.PlacePrecise.PALATAL, Consonant.MannerPricise.SIBILANT, true));
+        table.put("š", new Consonant("š", PlacePrecise.POSTALVEOLAR, MannerPricise.SIBILANT));
+        table.put("ʒ", new Consonant("ʒ", PlacePrecise.POSTALVEOLAR, MannerPricise.SIBILANT, true));
+        table.put("ʂ", new Consonant("ʂ", PlacePrecise.RETROFLEX, MannerPricise.SIBILANT));
+        table.put("ʐ", new Consonant("ʐ", PlacePrecise.RETROFLEX, MannerPricise.SIBILANT, true));
+        table.put("ɕ", new Consonant("ɕ", PlacePrecise.PALATAL, MannerPricise.SIBILANT));
+        table.put("ʑ", new Consonant("ʑ", PlacePrecise.PALATAL, MannerPricise.SIBILANT, true));
 
         // NON_SIBILANTS
-        table.put("ɸ", new Consonant("ɸ", Consonant.PlacePrecise.BILABIAL, Consonant.MannerPricise.FRICATIVE));
-        table.put("β", new Consonant("β", Consonant.PlacePrecise.BILABIAL, Consonant.MannerPricise.FRICATIVE, true));
-        table.put("f", new Consonant("f", Consonant.PlacePrecise.LABIODENTAL, Consonant.MannerPricise.FRICATIVE));
-        table.put("v", new Consonant("v", Consonant.PlacePrecise.LABIODENTAL, Consonant.MannerPricise.FRICATIVE, true));
-        table.put("θ", new Consonant("θ", Consonant.PlacePrecise.DENTAL, Consonant.MannerPricise.FRICATIVE));
-        table.put("ð", new Consonant("ð", Consonant.PlacePrecise.DENTAL, Consonant.MannerPricise.FRICATIVE, true));
-        table.put("ç", new Consonant("ç", Consonant.PlacePrecise.PALATAL, Consonant.MannerPricise.FRICATIVE));
-        table.put("ʝ", new Consonant("ʝ", Consonant.PlacePrecise.PALATAL, Consonant.MannerPricise.FRICATIVE, true));
-        table.put("x", new Consonant("x", Consonant.PlacePrecise.VELAR, Consonant.MannerPricise.FRICATIVE));
-        table.put("ɣ", new Consonant("ɣ", Consonant.PlacePrecise.VELAR, Consonant.MannerPricise.FRICATIVE, true));
-        table.put("χ", new Consonant("χ", Consonant.PlacePrecise.UVULAR, Consonant.MannerPricise.FRICATIVE));
-        table.put("ʁ", new Consonant("ʁ", Consonant.PlacePrecise.UVULAR, Consonant.MannerPricise.FRICATIVE, true));
-        table.put("ħ", new Consonant("ħ", Consonant.PlacePrecise.EPIGLOTTAL, Consonant.MannerPricise.FRICATIVE));
-        table.put("ʕ", new Consonant("ʕ", Consonant.PlacePrecise.EPIGLOTTAL, Consonant.MannerPricise.FRICATIVE, true));
-        table.put("h", new Consonant("h", Consonant.PlacePrecise.GLOTTAL, Consonant.MannerPricise.FRICATIVE));
-        table.put("ɦ", new Consonant("ɦ", Consonant.PlacePrecise.GLOTTAL, Consonant.MannerPricise.FRICATIVE, true));
+        table.put("ɸ", new Consonant("ɸ", PlacePrecise.BILABIAL, MannerPricise.FRICATIVE));
+        table.put("β", new Consonant("β", PlacePrecise.BILABIAL, MannerPricise.FRICATIVE, true));
+        table.put("f", new Consonant("f", PlacePrecise.LABIODENTAL, MannerPricise.FRICATIVE));
+        table.put("v", new Consonant("v", PlacePrecise.LABIODENTAL, MannerPricise.FRICATIVE, true));
+        table.put("θ", new Consonant("θ", PlacePrecise.DENTAL, MannerPricise.FRICATIVE));
+        table.put("ð", new Consonant("ð", PlacePrecise.DENTAL, MannerPricise.FRICATIVE, true));
+        table.put("ç", new Consonant("ç", PlacePrecise.PALATAL, MannerPricise.FRICATIVE));
+        table.put("ʝ", new Consonant("ʝ", PlacePrecise.PALATAL, MannerPricise.FRICATIVE, true));
+        table.put("x", new Consonant("x", PlacePrecise.VELAR, MannerPricise.FRICATIVE));
+        table.put("ɣ", new Consonant("ɣ", PlacePrecise.VELAR, MannerPricise.FRICATIVE, true));
+        table.put("χ", new Consonant("χ", PlacePrecise.UVULAR, MannerPricise.FRICATIVE));
+        table.put("ʁ", new Consonant("ʁ", PlacePrecise.UVULAR, MannerPricise.FRICATIVE, true));
+        table.put("ħ", new Consonant("ħ", PlacePrecise.EPIGLOTTAL, MannerPricise.FRICATIVE));
+        table.put("ʕ", new Consonant("ʕ", PlacePrecise.EPIGLOTTAL, MannerPricise.FRICATIVE, true));
+        table.put("h", new Consonant("h", PlacePrecise.GLOTTAL, MannerPricise.FRICATIVE));
+        table.put("ɦ", new Consonant("ɦ", PlacePrecise.GLOTTAL, MannerPricise.FRICATIVE, true));
 
         // SONORANT
         // NASAL
-        table.put("m", new Consonant("m", Consonant.PlacePrecise.BILABIAL, Consonant.MannerPricise.NASAL, true));
-        table.put("n", new Consonant("n", Consonant.PlacePrecise.ALVEOLAR, Consonant.MannerPricise.NASAL, true));
-        table.put("ɳ", new Consonant("ɳ", Consonant.PlacePrecise.RETROFLEX, Consonant.MannerPricise.NASAL, true));
-        table.put("ɲ", new Consonant("ɲ", Consonant.PlacePrecise.PALATAL, Consonant.MannerPricise.NASAL, true));
-        table.put("ŋ", new Consonant("ŋ", Consonant.PlacePrecise.VELAR, Consonant.MannerPricise.NASAL, true));
-        table.put("ɴ", new Consonant("ɴ", Consonant.PlacePrecise.UVULAR, Consonant.MannerPricise.NASAL, true));
+        table.put("m", new Consonant("m", PlacePrecise.BILABIAL, MannerPricise.NASAL, true));
+        table.put("n", new Consonant("n", PlacePrecise.ALVEOLAR, MannerPricise.NASAL, true));
+        table.put("ɳ", new Consonant("ɳ", PlacePrecise.RETROFLEX, MannerPricise.NASAL, true));
+        table.put("ɲ", new Consonant("ɲ", PlacePrecise.PALATAL, MannerPricise.NASAL, true));
+        table.put("ŋ", new Consonant("ŋ", PlacePrecise.VELAR, MannerPricise.NASAL, true));
+        table.put("ɴ", new Consonant("ɴ", PlacePrecise.UVULAR, MannerPricise.NASAL, true));
 
         // TRILL
-        table.put("r", new Consonant("r", Consonant.PlacePrecise.ALVEOLAR, Consonant.MannerPricise.TRILL, true));
-        table.put("ʀ", new Consonant("ʀ", Consonant.PlacePrecise.UVULAR, Consonant.MannerPricise.TRILL, true));
-        table.put("ʢ", new Consonant("ʢ", Consonant.PlacePrecise.EPIGLOTTAL, Consonant.MannerPricise.TRILL, true));
+        table.put("r", new Consonant("r", PlacePrecise.ALVEOLAR, MannerPricise.TRILL, true));
+        table.put("ʀ", new Consonant("ʀ", PlacePrecise.UVULAR, MannerPricise.TRILL, true));
+        table.put("ʢ", new Consonant("ʢ", PlacePrecise.EPIGLOTTAL, MannerPricise.TRILL, true));
 
         // APPROXIMANT
     }
@@ -255,12 +285,12 @@ public class SoundsBank {
 
         //vowels
         //front
-        table.put("ts", new Consonant("ts", Consonant.PlacePrecise.ALVEOLAR, Consonant.MannerPricise.SIBILANT_AFFRICATE, false));
-        table.put("dz", new Consonant("dz", Consonant.PlacePrecise.ALVEOLAR, Consonant.MannerPricise.SIBILANT_AFFRICATE, true));
-        table.put("ʈʂ", new Consonant("ʈʂ", Consonant.PlacePrecise.RETROFLEX, Consonant.MannerPricise.SIBILANT_AFFRICATE, false));
-        table.put("ɖʐ", new Consonant("ɖʐ", Consonant.PlacePrecise.RETROFLEX, Consonant.MannerPricise.SIBILANT_AFFRICATE, true));
-        table.put("tɕ", new Consonant("tɕ", Consonant.PlacePrecise.PALATAL, Consonant.MannerPricise.SIBILANT_AFFRICATE, false));
-        table.put("dʑ", new Consonant("dʑ", Consonant.PlacePrecise.PALATAL, Consonant.MannerPricise.SIBILANT_AFFRICATE, true));
+        table.put("ts", new Consonant("ts", PlacePrecise.ALVEOLAR, MannerPricise.SIBILANT_AFFRICATE, false));
+        table.put("dz", new Consonant("dz", PlacePrecise.ALVEOLAR, MannerPricise.SIBILANT_AFFRICATE, true));
+        table.put("ʈʂ", new Consonant("ʈʂ", PlacePrecise.RETROFLEX, MannerPricise.SIBILANT_AFFRICATE, false));
+        table.put("ɖʐ", new Consonant("ɖʐ", PlacePrecise.RETROFLEX, MannerPricise.SIBILANT_AFFRICATE, true));
+        table.put("tɕ", new Consonant("tɕ", PlacePrecise.PALATAL, MannerPricise.SIBILANT_AFFRICATE, false));
+        table.put("dʑ", new Consonant("dʑ", PlacePrecise.PALATAL, MannerPricise.SIBILANT_AFFRICATE, true));
 
 
 

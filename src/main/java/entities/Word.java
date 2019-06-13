@@ -173,15 +173,20 @@ public class Word {
     public int countPhonotype(Object object) {
         Class objClass = object.getClass();
 
-        if (objClass.equals(Consonant.PlacePrecise.class)) {
-            return countConsPhonotypeBy(cons -> cons.getPlacePrecise().equals((Consonant.PlacePrecise)object));
+        if (objClass.equals(SoundsBank.PlacePrecise.class)) {
+            return countConsPhonotypeBy(cons -> cons.getPlacePrecise().equals((SoundsBank.PlacePrecise)object));
         }
 
-        else if (objClass.equals(Consonant.MannerPricise.class)){
-            return countConsPhonotypeBy(cons -> cons.getMannerPricise().equals((Consonant.MannerPricise)object));
+        else if (objClass.equals(SoundsBank.MannerPricise.class)){
+            if (object.equals(Main.CONSOLE_SHOW_WORDS_OF_CLASS)) { System.out.print("Manner Precise :   "); }
+            return countConsPhonotypeBy(cons -> cons.getMannerPricise().equals((SoundsBank.MannerPricise)object));
         }
 
-        // VOWELS
+        else if (objClass.equals(SoundsBank.Phonation.class)){
+            return countConsPhonotypeBy(cons -> cons.isVoiced().equals((SoundsBank.Phonation)object));
+        }
+
+        //* ************************** VOWELS **********************************//
         else if (objClass.equals(SoundsBank.Height.class)){
             if (object.equals(Main.CONSOLE_SHOW_WORDS_OF_CLASS)) { System.out.print("Height :   ");}
             return countVowPhonotypeBy(vow -> vow.getHeight().equals((SoundsBank.Height)object));

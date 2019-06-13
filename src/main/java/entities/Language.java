@@ -1,5 +1,6 @@
 package entities;
 
+import entities.phonetics.Consonant;
 import entities.phonetics.Phoneme;
 import entities.phonetics.Vowel;
 import knowledgeBase.SoundsBank;
@@ -139,7 +140,7 @@ public class Language {
         int i = 0;
         Class phTypeClass = phType.getClass();
 
-        // VOWELS
+        // *************************** VOWELS
         if (phTypeClass.equals(SoundsBank.Height.class)) {
             return findVowByPredicate(vow -> vow.getHeight().equals((SoundsBank.Height)phType));
         }
@@ -154,6 +155,11 @@ public class Language {
 
         else if (phTypeClass.equals(SoundsBank.Nasalization.class)) {
             return findVowByPredicate(vow -> vow.isNasalization().equals((SoundsBank.Nasalization)phType));
+        }
+
+        // **************************CONSONANTS
+        if (phTypeClass.equals(SoundsBank.Phonation.class)) {
+            return findConsByPredicate(cons -> cons.isVoiced().equals((SoundsBank.Phonation)phType));
         }
 
         else {
@@ -180,6 +186,27 @@ public class Language {
             }
         }
 
+        return count;
+    }
+
+
+    private int findConsByPredicate(Predicate<Consonant> p) {
+        int count = 0;
+
+        for (Phoneme ph : phonology) {
+            if (ph != null) {
+                if (ph.getClass().equals(Consonant.class)) {
+                    Consonant cons = (Consonant) ph;
+                    if (p.test(cons)) {
+                        count++;
+
+                        if (Main.CONSOLE_LANG_PHONOTYPES) {
+                            System.out.println(cons.getSymbol());
+                        }
+                    }
+                }
+            }
+        }
         return count;
     }
 
