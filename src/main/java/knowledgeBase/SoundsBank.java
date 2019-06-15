@@ -220,6 +220,7 @@ public class SoundsBank {
         table.put("ɳ", new Consonant("ɳ", PlacePrecise.RETROFLEX, MannerPricise.NASAL, true));
         table.put("ɲ", new Consonant("ɲ", PlacePrecise.PALATAL, MannerPricise.NASAL, true));
         table.put("ŋ", new Consonant("ŋ", PlacePrecise.VELAR, MannerPricise.NASAL, true));
+        table.put("ng", new Consonant("ng", PlacePrecise.VELAR, MannerPricise.NASAL, true));
         table.put("ɴ", new Consonant("ɴ", PlacePrecise.UVULAR, MannerPricise.NASAL, true));
 
         // TRILL

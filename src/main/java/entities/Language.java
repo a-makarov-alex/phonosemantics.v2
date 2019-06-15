@@ -56,6 +56,7 @@ public class Language {
             Row row = sheet.getRow(rowNum);
             Cell cell = row.getCell(0);
             SoundsBank cBank = SoundsBank.getInstance();
+            String[] allPhArr = null;
 
             // LOOKING FOR LANGUAGE
             while (cell.getCellType() != CellType.BLANK) {
@@ -68,18 +69,29 @@ public class Language {
                         System.out.print("PHONOLOGY for LANG " + this.getTitle() + ": ");
                     }
 
+
                     // CREATING A PHONEMES BANK FOR THE LANGUAGE
                     for (Map.Entry<String, Phoneme> entry : cBank.getAllPhonemesTable().entrySet()) {
-                        String allPh = sheet.getRow(rowNum).getCell(1).getStringCellValue();
-                        String[] allPhArr = allPh.split(" ");
+                        if (allPhArr == null) {
+                            int NUM_OF_PHONOLOGY_COLUMNS = 7;
+                            String allPh = " ";
+                            Row r = sheet.getRow(rowNum);
+
+                            for (int i = 1; i <= NUM_OF_PHONOLOGY_COLUMNS; i++) {
+                                if (r.getCell(i) != null) {
+                                    allPh += r.getCell(i).getStringCellValue() + " ";
+                                }
+                            }
+                            allPhArr = allPh.split(" ");
+                        }
 
                         for (String ph: allPhArr) {
-                            if (ph.equals(entry.getKey())) {
-                                if (Main.CONSOLE_LANG_PHONOLOGY) {
-                                    System.out.print(entry.getKey() + " "); //check all phonemes in console
+                                if (ph.equals(entry.getKey())) {
+                                    if (Main.CONSOLE_LANG_PHONOLOGY) {
+                                        System.out.print(entry.getKey() + " "); //check all phonemes in console
+                                    }
+                                    allPhonemes.add(entry.getValue());
                                 }
-                                allPhonemes.add(entry.getValue());
-                            }
                         }
                     }
                     if (Main.CONSOLE_LANG_PHONOLOGY) {System.out.println();}

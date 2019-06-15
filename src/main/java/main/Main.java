@@ -22,7 +22,7 @@ public class Main {
     public static final boolean CONSOLE_SHOW_NUM_OF_WORDS_AND_PHONEMES = false;
     public static final boolean CONSOLE_SHOW_FOUND_MEANINGS_IN_INPUT_FILE = false;
     public static final boolean CONSOLE_SHOW_NOT_FOUND_MEANINGS_IN_INPUT_FILE = true;
-    public static final boolean CONSOLE_LANG_PHONOLOGY = false;
+    public static final boolean CONSOLE_LANG_PHONOLOGY = true;
     public static final boolean CONSOLE_LANG_PHONOTYPES = false;
 
     public static final boolean DEBUG_STATS = false;
