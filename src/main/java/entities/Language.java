@@ -174,6 +174,14 @@ public class Language {
             return findConsByPredicate(cons -> cons.isVoiced().equals((SoundsBank.Phonation)phType));
         }
 
+        if (phTypeClass.equals(SoundsBank.MannerPricise.class)) {
+            return findConsByPredicate(cons -> cons.getMannerPricise().equals((SoundsBank.MannerPricise)phType));
+        }
+
+        if (phTypeClass.equals(SoundsBank.MannerApproximate.class)) {
+            return findConsByPredicate(cons -> cons.getMannerApproximate().equals((SoundsBank.MannerApproximate)phType));
+        }
+
         else {
             return i;
         }

@@ -244,7 +244,9 @@ public class SoundsBank {
         //vowels
         //front
         table.put("i", new Vowel("i", Height.CLOSE, Backness.FRONT, Roundness.UNROUNDED,Nasalization.NON_NASAL));
-        table.put("ĩ", new Vowel("ĩ", Height.CLOSE, Backness.FRONT, Roundness.UNROUNDED,Nasalization.NASAL));
+        table.put("ĩ", new Vowel("ĩ", Height.CLOSE, Backness.FRONT, Roundness.UNROUNDED,Nasalization.NASAL)); // \u0129
+        table.put("ĩ", new Vowel("ĩ", Height.CLOSE, Backness.FRONT, Roundness.UNROUNDED,Nasalization.NASAL)); // vow + \u0303
+
         table.put("y", new Vowel("y", Height.CLOSE, Backness.FRONT, Roundness.ROUNDED, Nasalization.NON_NASAL));
         table.put("e", new Vowel("e", Height.CLOSE_MID, Backness.FRONT, Roundness.UNROUNDED, Nasalization.NON_NASAL));
         table.put("ẽ", new Vowel("ẽ", Height.CLOSE_MID, Backness.FRONT, Roundness.UNROUNDED, Nasalization.NASAL));
@@ -254,6 +256,7 @@ public class SoundsBank {
         table.put("œ", new Vowel("œ", Height.OPEN_MID, Backness.FRONT, Roundness.ROUNDED, Nasalization.NON_NASAL));
         table.put("æ", new Vowel("æ", Height.NEAR_OPEN, Backness.FRONT, Roundness.UNROUNDED, Nasalization.NON_NASAL));
         table.put("a", new Vowel("a", Height.OPEN, Backness.FRONT, Roundness.UNROUNDED, Nasalization.NON_NASAL));
+        table.put("ã", new Vowel("ã", Height.OPEN, Backness.FRONT, Roundness.UNROUNDED, Nasalization.NASAL));
         table.put("ɶ", new Vowel("ɶ", Height.OPEN, Backness.FRONT, Roundness.ROUNDED, Nasalization.NON_NASAL));
 
         // central

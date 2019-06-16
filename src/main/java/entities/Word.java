@@ -148,7 +148,7 @@ public class Word {
                             } else {
 
                                 // Empty phoneme
-                                this.transcription.add(null);
+                                // this.transcription.add(null);
                                 if (Main.CONSOLE_UNKNOWN_PHONEMES) {
                                     System.out.println("  Phoneme " + phonemes[i] + " is not found in sounds bank");
                                 }
@@ -173,8 +173,8 @@ public class Word {
     public int countPhonotype(Object object) {
         Class objClass = object.getClass();
 
-        if (objClass.equals(SoundsBank.PlacePrecise.class)) {
-            return countConsPhonotypeBy(cons -> cons.getPlacePrecise().equals((SoundsBank.PlacePrecise)object));
+        if (objClass.equals(SoundsBank.MannerApproximate.class)) {
+            return countConsPhonotypeBy(cons -> cons.getMannerApproximate().equals((SoundsBank.MannerApproximate)object));
         }
 
         else if (objClass.equals(SoundsBank.MannerPricise.class)){
@@ -203,7 +203,7 @@ public class Word {
 
         else if (objClass.equals(SoundsBank.Nasalization.class)) {
             if (object.equals(Main.CONSOLE_SHOW_WORDS_OF_CLASS)) { System.out.print("Nasalization :   "); }
-            return countVowPhonotypeBy(vow -> vow.isRoundedness().equals((SoundsBank.Nasalization)object));
+            return countVowPhonotypeBy(vow -> vow.isNasalization().equals((SoundsBank.Nasalization)object));
         }
 
         else {

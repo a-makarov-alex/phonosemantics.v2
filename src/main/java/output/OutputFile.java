@@ -286,12 +286,27 @@ public class OutputFile {
             rightBorderCellNum.add(Header.vowSh.get(SoundsBank.Backness.BACK).getColumn());
             rightBorderCellNum.add(Header.vowSh.get(SoundsBank.Roundness.UNROUNDED).getColumn());
             rightBorderCellNum.add(Header.vowSh.get(SoundsBank.Nasalization.NON_NASAL).getColumn());
+            rightBorderCellNum.add(Header.consMannerSh.get(SoundsBank.MannerApproximate.OBSTRUENT).getColumn());
             rightBorderCellNum.add(Header.consMannerSh.get(SoundsBank.MannerPricise.STOP).getColumn());
 
             // draw borders
             for (Sheet sh : sheets) {
                 for (int i = 3; i < 3 + recordsCounter; i++) {
-                    for (int col = 0; col < 3 + Header.vowSh.size(); col++) {
+                    int vowFinCol = Header.vowSh.size();
+                    int mannnerFinCol = vowFinCol + Header.consMannerSh.size();
+
+                    for (int col = 0; col < 3 + vowFinCol; col++) {
+                        Cell c = sh.getRow(i).getCell(col);
+                        style = wb.createCellStyle();
+
+                        style.setBorderBottom(BorderStyle.DASHED);
+                        if (rightBorderCellNum.contains(col)) {
+                            style.setBorderRight(BorderStyle.THIN);
+                        }
+                        c.setCellStyle(style);
+                    }
+
+                    for (int col = vowFinCol; col < mannnerFinCol; col++) {
                         Cell c = sh.getRow(i).getCell(col);
                         style = wb.createCellStyle();
 

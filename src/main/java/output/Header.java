@@ -211,6 +211,10 @@ public class Header {
 
         consMannerSh.put(SoundsBank.MannerApproximate.OBSTRUENT, new Header(2, 3 + shift, "All"));
         consMannerSh.put(SoundsBank.MannerPricise.STOP, new Header(2, 4 + shift, "Stops"));
+        consMannerSh.put(SoundsBank.MannerPricise.FRICATIVE, new Header(2, 5 + shift, "Fricat"));
+        consMannerSh.put(SoundsBank.MannerPricise.AFFRICATE, new Header(2, 6 + shift, "Affric"));
+        consMannerSh.put(SoundsBank.MannerPricise.NASAL, new Header(2, 7 + shift, "Sonorant"));
+        consMannerSh.put(SoundsBank.MannerPricise.LATERAL, new Header(2, 8 + shift, "Lateral"));
 
         // TODO delete later
         CONS_MANNER_HEADER_WIDTH = consMannerSh.size();
@@ -238,10 +242,10 @@ public class Header {
         // вписываем значения хедеров
         sheet.getRow(0).getCell(startCol).setCellValue("MANNER");
         sheet.getRow(1).getCell(startCol).setCellValue("Obstruent");
-//        sheet.getRow(1).getCell(shift + 9).setCellValue("Sonorant");
-//        sheet.getRow(1).getCell(shift + 14).setCellValue("Liquid");
+        sheet.getRow(1).getCell(shift + 9).setCellValue("Sonorant");
+        sheet.getRow(1).getCell(shift + 14).setCellValue("Liquid");
 
-        for (Header h : vowSh.values()) {
+        for (Header h : consMannerSh.values()) {
             Cell cell = sheet.getRow(h.row).getCell(h.column);
             cell.setCellValue(h.text);
         }
