@@ -307,7 +307,7 @@ public class SoundsBank {
 
     public static boolean isExtraSign(String symbol) {
         String[] symbols = {
-                ".", ",", "-", "="
+                ".", ",", "-", "=", "˗"
         };
         boolean result = false;
 

@@ -6,6 +6,7 @@ import entities.phonetics.Phoneme;
 import entities.phonetics.Vowel;
 import knowledgeBase.SoundsBank;
 import main.Main;
+import statistics.Statistics;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,7 +17,7 @@ public class Word {
     private ArrayList<Phoneme> transcription;
     private Meaning meaning;
     private Language language;
-    private int length;
+    private int length = 0;
     private PartOfSpeech partOfSpeech;  // TODO think about shifting field to meaning
 
     public enum PartOfSpeech {
@@ -84,6 +85,7 @@ public class Word {
 
     public void printTranscription() {
         // Print transcription to console
+        System.out.println("Word: " + this.word);
         System.out.print("Transcription: ");
         for (Phoneme p : this.transcription) {
             if (p != null) {
@@ -110,9 +112,6 @@ public class Word {
     public void setTranscriptionFromWord() {
         this.transcription = new ArrayList<>();
         String word = this.getWord();
-        if (Main.CONSOLE_SHOW_TRASCRIPTION) {
-            System.out.println("Word: " + word);
-        }
 
         if (word != null) {
             String[] phonemes = word.split("");
@@ -128,14 +127,20 @@ public class Word {
                     // For last symbol
                     if (i == word.length() - 1) {
                         Phoneme ph = allPhonemes.get(phonemes[i]);
-                        this.transcription.add(ph);
-                        this.getLanguage().categorizePh(ph);
+                        if (ph != null) {
+                            this.transcription.add(ph);
+                            this.getLanguage().categorizePh(ph);
+                        } else {
+                            Statistics.addUnknownSymbol(phonemes[i]);
+                        }
+                        incrementLength();
                     } else {
 
                         // For 2-graph phoneme
                         Phoneme ph = allPhonemes.get(phonemes[i] + phonemes[i + 1]);
                         if (ph != null) {
                             this.transcription.add(ph);
+                            incrementLength();
                             this.getLanguage().categorizePh(ph);
                             i++;
                         } else {
@@ -144,26 +149,30 @@ public class Word {
                             ph = allPhonemes.get(phonemes[i]);
                             if (ph != null) {
                                 this.transcription.add(ph);
+                                incrementLength();
                                 this.getLanguage().categorizePh(ph);
                             } else {
-
                                 // Empty phoneme
-                                // this.transcription.add(null);
-                                if (Main.CONSOLE_UNKNOWN_PHONEMES) {
-                                    System.out.println("  Phoneme " + phonemes[i] + " is not found in sounds bank");
-                                }
+                                Statistics.addUnknownSymbol(phonemes[i]);
+                                incrementLength();
                             }
                         }
                     }
                 }
+                else {
+                    System.out.println("Extra: " + phonemes[i]);
+                }
             }
-
-            this.length = transcription.size();
             if (Main.CONSOLE_SHOW_TRASCRIPTION) {
                 printTranscription();
             }
-
         }
+    }
+
+    // Увеличивает как счетчик длины конкретного слова, так и сумму ВСЕХ фонем в исследовании
+    private void incrementLength() {
+        this.length += 1;
+        Statistics.incrementNumOfAllPhonemes();
     }
 
 

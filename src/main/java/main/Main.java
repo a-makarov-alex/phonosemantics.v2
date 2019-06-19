@@ -10,15 +10,17 @@ import output.OutputFile;
 import statistics.ShapiroWilk;
 import statistics.Statistics;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Main {
 
     // CONFIG --> should be transformed to logs later
     public static final boolean CONSOLE_SHOW_TRASCRIPTION = false;
     public static final Object CONSOLE_SHOW_WORDS_OF_CLASS = null; //SoundsBank.MannerPricise.STOP;
-    public static final boolean CONSOLE_UNKNOWN_PHONEMES = false;
+    public static final boolean CONSOLE_SHOW_ALL_UNKNOWN_PHONEMES = true;
     public static final boolean CONSOLE_SHOW_NUM_OF_WORDS_AND_PHONEMES = false;
     public static final boolean CONSOLE_SHOW_FOUND_MEANINGS_IN_INPUT_FILE = false;
     public static final boolean CONSOLE_SHOW_NOT_FOUND_MEANINGS_IN_INPUT_FILE = true;
@@ -33,6 +35,18 @@ public class Main {
     public static void main(String args[]) {
 
         newFullCycle();
+
+        if (CONSOLE_SHOW_ALL_UNKNOWN_PHONEMES) {
+            System.out.println();
+            double div_1 = Statistics.getNumOfUnknownPhonemes() * 1.0;
+            int div_2 = Statistics.getNumOfAllPhonemes();
+            DecimalFormat df = new DecimalFormat("#.#");
+
+            System.out.println("ALL THE UNKNOWN PHONEMES = " + df.format((div_1/div_2) * 100) + "% (of all phonemes)");
+            for (Map.Entry<String, Integer> unknownSymbol : Statistics.getUnknownPhonemes().entrySet()) {
+                System.out.println(unknownSymbol.getKey() + " : " + unknownSymbol.getValue());
+            }
+        }
 
         // test for one lang phon inventory
         //Language l = Language.getAllLanguages().get("Ket");

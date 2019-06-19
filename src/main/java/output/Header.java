@@ -242,8 +242,8 @@ public class Header {
         // вписываем значения хедеров
         sheet.getRow(0).getCell(startCol).setCellValue("MANNER");
         sheet.getRow(1).getCell(startCol).setCellValue("Obstruent");
-        sheet.getRow(1).getCell(shift + 9).setCellValue("Sonorant");
-        sheet.getRow(1).getCell(shift + 14).setCellValue("Liquid");
+//        sheet.getRow(1).getCell(shift + 9).setCellValue("Sonorant");
+//        sheet.getRow(1).getCell(shift + 14).setCellValue("Liquid");
 
         for (Header h : consMannerSh.values()) {
             Cell cell = sheet.getRow(h.row).getCell(h.column);

@@ -4,6 +4,9 @@ import entities.Word;
 import entities.WordList;
 import main.Main;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Statistics {
 
     // kinds of calculations
@@ -13,37 +16,49 @@ public class Statistics {
         PHTYPES_AVERAGE_PER_WORD
     }
 
+
+    private static HashMap<String, Integer> unknownPhonemes = new HashMap<>();
+
+    private static int numOfAllPhonemes = 0;
+
+    public static HashMap<String, Integer> getUnknownPhonemes() {
+        return unknownPhonemes;
+    }
+
+    public static int getNumOfAllPhonemes() {
+        return numOfAllPhonemes;
+    }
+
+    // Сумма всех неизвестных символов в исследовании
+    public static int getNumOfUnknownPhonemes() {
+        int count = 0;
+        for (Map.Entry<String, Integer> elem : unknownPhonemes.entrySet()) {
+            count += elem.getValue();
+        }
+        return count;
+    }
+
+    // Добавляет новый неизвестный символ или инкрементит его количество, если он уже существует в hashmap
+    public static void addUnknownSymbol(String symbol) {
+        if (!unknownPhonemes.containsKey(symbol)) {
+            unknownPhonemes.put(symbol, 1);
+        } else {
+            unknownPhonemes.put(symbol, unknownPhonemes.get(symbol) + 1);
+        }
+    }
+
+
+    // Увеличивает счетчик всех фонем в исследовании.
+    // Инкрементится для ФОНЕМЫ (1 или 2 графемы) и для НЕИЗВЕСТНЫХ знаков
+    public static void incrementNumOfAllPhonemes() {
+        numOfAllPhonemes ++;
+    }
+
     // Wordlists are added here with semantics as a key
     // TODO: create a Semantics class
     // Remember that Word has Semantics field. No need of HashMap
     private WordList globalWordlist = Main.getInputFile().composeWordList("Big"); //TODO: =getGlobalWordlist() в классе InputFile
 
-
-    /**
-     *  Class for calculating statistics for some sample
-     *  **/
-    public class Sample {
-        // TODO: выборка и методы по ней
-    }
-
-
-    // TODO метод был не додуман
-    // подумать, как удобно смотреть данные в консоли
-    public void printStatsToConsole() {
-
-        System.out.println("ALL STATS FOR WORDLIST \"" + this.globalWordlist.getMeaning() + "\"");
-        System.out.println("----- Word ----|-- words/List -|- phTypes/List -|- aver phType/Word");
-        System.out.println("---------------|---------------|----------------|-------------------");
-        int wordMaxSymb = 15;
-
-        for (Word w : this.globalWordlist.getList()) {
-            System.out.print(w.getWord());
-            for (int i=0; i<(wordMaxSymb-w.getWord().length()); i++) {
-                System.out.println( );
-            }
-            System.out.println("| ");
-        }
-    }
 
     /** GETTERS AND SETTERS **/
     public WordList getGlobalWordlist() {

@@ -45,15 +45,6 @@ public class WordList {
         return null;
     }
 
-    // counts all phonemes of all words in list
-    public int countAllPhonemes() {
-        int count = 0;
-        for (Word w : this.getList()) {
-            count += w.getLength();
-        }
-        return count;
-    }
-
 
     // Counts all ph-types for further statistics and write result to the Statistics object
     public void countAllPhonotypes() {
@@ -120,7 +111,7 @@ public class WordList {
             if (!allPho) {
                 divider = mapOfDividers.get(entry.getKey());
             } else {
-                divider = this.countAllPhonemes();
+                divider = Statistics.getNumOfAllPhonemes();
             }
             resultMap.put(entry.getKey(), entry.getValue()/divider);
 
