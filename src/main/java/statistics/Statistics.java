@@ -4,8 +4,7 @@ import entities.Word;
 import entities.WordList;
 import main.Main;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Statistics {
 
@@ -14,6 +13,31 @@ public class Statistics {
         WORDS_WITH_PHTYPE_PER_LIST,
         PHTYPES_PER_LIST,
         PHTYPES_AVERAGE_PER_WORD
+    }
+
+
+    // Медиана
+    public static double calculateMean(ArrayList<Double> sample) {
+        double d = 0.0;
+        int size = sample.size();
+        Collections.sort(sample);
+        if (size % 2 == 1) {
+            d = sample.get(size/2);
+        } else {
+            d = (sample.get((size/2) - 1) + sample.get(size/2))/2.0;
+        }
+        return d;
+    }
+
+    // Среднее арифметическое
+    public static double calculateAverage(ArrayList<Double> sample) {
+        double d = 0.0;
+        double sum = 0.0;
+        for (Double elem : sample) {
+            sum += elem;
+        }
+        d = sum / sample.size();
+        return d;
     }
 
 

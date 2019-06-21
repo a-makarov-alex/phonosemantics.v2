@@ -121,6 +121,8 @@ public class OutputFile {
                 }
             }
         }
+
+        addMeanAndAverage(Statistics.KindOfStats.WORDS_WITH_PHTYPE_PER_LIST);
     }
 
     private void writeToGeneralFile(WordList wordList) {
@@ -262,6 +264,41 @@ public class OutputFile {
     }
 
 
+    // Добавляем медиану и среднее арифметическое
+    private void addMeanAndAverage(Statistics.KindOfStats kindOfStats) {
+        try {
+            FileOutputStream fileOut = new FileOutputStream(this.filePath);
+
+            Sheet sh = sheets.get(0);
+
+
+            // MEAN
+            // 3 - высота хедеров
+            Row rowMean = sh.createRow(3 + recordsCounter + 2);
+            Row rowAver = sh.createRow(3 + recordsCounter + 3);
+
+            HashMap<Object, ArrayList<Double>> samples = readAllSamplesAsList(kindOfStats);
+            HashMap<Object, Header> headers = Header.vowSh;
+
+            DecimalFormat df = new DecimalFormat("#.#");
+
+            for (Map.Entry<Object, Header> entry : headers.entrySet()) {
+                Cell cell = rowMean.createCell(entry.getValue().getColumn());
+                cell.setCellValue(df.format(Statistics.calculateMean(samples.get(entry.getKey()))) + "%");
+
+                cell = rowAver.createCell(entry.getValue().getColumn());
+                cell.setCellValue(df.format(Statistics.calculateAverage(samples.get(entry.getKey()))) + "%");
+            }
+
+            wb.write(fileOut);
+            fileOut.close();
+
+        } catch (IOException e) {
+            System.out.println("IOException caught");
+        }
+    }
+
+
 
     // TODO: удалить в GENERAL файле
     private CellStyle createCellStyleWithDataFormat(String format) {
@@ -328,30 +365,47 @@ public class OutputFile {
     }
 
     // Считывает столбик каждого фонотипа как выборку для расчета статистики
-    public HashMap<Object, Double[]> readAllSamples(Statistics.KindOfStats kindOfStats) {
-
+    public HashMap<Object, ArrayList<Double>> readAllSamplesAsList(Statistics.KindOfStats kindOfStats) {
+        HashMap<Object, ArrayList<Double>> result = new HashMap<>();
         Sheet sh = null;
         if (kindOfStats == Statistics.KindOfStats.WORDS_WITH_PHTYPE_PER_LIST) {
             sh = sheets.get(0);
         }
 
+        ArrayList<Double> dList;
+        for (Map.Entry<Object, Header> entry : Header.vowSh.entrySet()) {
+            dList = new ArrayList<>();
 
-        HashMap<Object, Integer> buf = SoundsBank.getAllPhonotypes();
+            for (int i = 3; i < this.recordsCounter + 3; i++) {
+                // TODO: костыли запилены за неимением времени
+                String s = sh.getRow(i).getCell(entry.getValue().getColumn()).getStringCellValue();
+                String[] str = s.split("%")[0].split(",");
+                if (str.length == 1) {
+                    s = str[0];
+                } else {
+                    s = str[0] + "." + str[1];
+                }
+                dList.add(Double.valueOf(s));
+            }
+            result.put(entry.getKey(), dList);
+        }
+        return result;
+    }
+
+
+    // Считывает столбик каждого фонотипа как выборку для расчета статистики
+    public HashMap<Object, Double[]> readAllSamplesAsArray(Statistics.KindOfStats kindOfStats) {
+
         HashMap<Object, Double[]> allSamples = new HashMap<>();
-
-        Object o = SoundsBank.Backness.FRONT;
-        ArrayList<Double> dList = new ArrayList<>();
-        for (int i = 3; i < this.recordsCounter + 3; i+=2) {
-            dList.add(Double.valueOf(sh.getRow(i).getCell(Header.getColumnNum(o)).getNumericCellValue()));
+        HashMap<Object, ArrayList<Double>> dLists = readAllSamplesAsList(kindOfStats);
+        for (Map.Entry<Object, ArrayList<Double>> entry : dLists.entrySet()) {
+            ArrayList<Double> dList = entry.getValue();
+            Double[] dArr = new Double[dList.size()];
+            for (int i = 0; i < dList.size(); i++) {
+                dArr[i] = dList.get(i);
+            }
+            allSamples.put(entry.getKey(), dArr);
         }
-
-        Double[] dArr = new Double[dList.size()];
-        for (int i = 0; i < dList.size(); i++) {
-            dArr[i] = dList.get(i);
-        }
-
-        allSamples.put(o, dArr);
-
         return allSamples;
     }
 

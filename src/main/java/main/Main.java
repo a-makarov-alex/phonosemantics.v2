@@ -20,7 +20,7 @@ public class Main {
     // CONFIG --> should be transformed to logs later
     public static final boolean CONSOLE_SHOW_TRASCRIPTION = false;
     public static final Object CONSOLE_SHOW_WORDS_OF_CLASS = null; //SoundsBank.MannerPricise.STOP;
-    public static final boolean CONSOLE_SHOW_ALL_UNKNOWN_PHONEMES = true;
+    public static final boolean CONSOLE_SHOW_ALL_UNKNOWN_PHONEMES = false;
     public static final boolean CONSOLE_SHOW_NUM_OF_WORDS_AND_PHONEMES = false;
     public static final boolean CONSOLE_SHOW_FOUND_MEANINGS_IN_INPUT_FILE = false;
     public static final boolean CONSOLE_SHOW_NOT_FOUND_MEANINGS_IN_INPUT_FILE = true;
@@ -36,17 +36,7 @@ public class Main {
 
         newFullCycle();
 
-        if (CONSOLE_SHOW_ALL_UNKNOWN_PHONEMES) {
-            System.out.println();
-            double div_1 = Statistics.getNumOfUnknownPhonemes() * 1.0;
-            int div_2 = Statistics.getNumOfAllPhonemes();
-            DecimalFormat df = new DecimalFormat("#.#");
-
-            System.out.println("ALL THE UNKNOWN PHONEMES = " + df.format((div_1/div_2) * 100) + "% (of all phonemes)");
-            for (Map.Entry<String, Integer> unknownSymbol : Statistics.getUnknownPhonemes().entrySet()) {
-                System.out.println(unknownSymbol.getKey() + " : " + unknownSymbol.getValue());
-            }
-        }
+        showAllUnknownPhonemes();
 
         // test for one lang phon inventory
         //Language l = Language.getAllLanguages().get("Ket");
@@ -81,7 +71,7 @@ public class Main {
 
 
         /* ПОЗЖЕ РАСКОММЕНТИТЬ
-        HashMap<Object, Double[]> map = normalityFile.readAllSamples(Statistics.KindOfStats.WORDS_WITH_PHTYPE_PER_LIST);
+        HashMap<Object, Double[]> map = normalityFile.readAllSamplesAsArray(Statistics.KindOfStats.WORDS_WITH_PHTYPE_PER_LIST);
 
 
         for (int i=0; i < map.get(Vowel.Backness.FRONT).length; i++) {
@@ -93,5 +83,20 @@ public class Main {
         System.out.println("Prob:" + (1 - pvalue));*/
 
         normalityFile.finalDesign();
+    }
+
+    // Выполнять только после FullCycle()
+    private static void showAllUnknownPhonemes() {
+        if (CONSOLE_SHOW_ALL_UNKNOWN_PHONEMES) {
+            System.out.println();
+            double div_1 = Statistics.getNumOfUnknownPhonemes() * 1.0;
+            int div_2 = Statistics.getNumOfAllPhonemes();
+            DecimalFormat df = new DecimalFormat("#.#");
+
+            System.out.println("ALL THE UNKNOWN PHONEMES = " + df.format((div_1/div_2) * 100) + "% (of all phonemes)");
+            for (Map.Entry<String, Integer> unknownSymbol : Statistics.getUnknownPhonemes().entrySet()) {
+                System.out.println(unknownSymbol.getKey() + " : " + unknownSymbol.getValue());
+            }
+        }
     }
 }

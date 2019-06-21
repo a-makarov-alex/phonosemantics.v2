@@ -297,8 +297,6 @@ public class SoundsBank {
         table.put("dʑ", new Consonant("dʑ", PlacePrecise.PALATAL, MannerPricise.SIBILANT_AFFRICATE, true));
 
 
-
-
     }
 
     public Phoneme find(String requestedSymbol) {
