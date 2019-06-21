@@ -5,6 +5,7 @@ import knowledgeBase.SoundsBank;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFRichTextString;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import statistics.Sample;
 import statistics.Statistics;
 
 import java.io.FileOutputStream;
@@ -22,6 +23,8 @@ public class OutputFile {
     private int recordsCounter;
     private Workbook wb;
     private static CellStyle headerCellStyle;
+
+    private HashMap<Object, Sample> allSamplesSheet1 = null;
 
     public enum Type {
         GENERAL, NORMALITY
@@ -271,23 +274,22 @@ public class OutputFile {
 
             Sheet sh = sheets.get(0);
 
-
             // MEAN
             // 3 - высота хедеров
             Row rowMean = sh.createRow(3 + recordsCounter + 2);
             Row rowAver = sh.createRow(3 + recordsCounter + 3);
 
-            HashMap<Object, ArrayList<Double>> samples = readAllSamplesAsList(kindOfStats);
+            HashMap<Object, Sample> samples = readAllSamples(kindOfStats);
             HashMap<Object, Header> headers = Header.vowSh;
 
             DecimalFormat df = new DecimalFormat("#.#");
 
             for (Map.Entry<Object, Header> entry : headers.entrySet()) {
                 Cell cell = rowMean.createCell(entry.getValue().getColumn());
-                cell.setCellValue(df.format(Statistics.calculateMean(samples.get(entry.getKey()))) + "%");
+                cell.setCellValue(df.format(samples.get(entry.getKey()).getMean()) + "%");
 
                 cell = rowAver.createCell(entry.getValue().getColumn());
-                cell.setCellValue(df.format(Statistics.calculateAverage(samples.get(entry.getKey()))) + "%");
+                cell.setCellValue(df.format(samples.get(entry.getKey()).getAverage()) + "%");
             }
 
             wb.write(fileOut);
@@ -297,7 +299,6 @@ public class OutputFile {
             System.out.println("IOException caught");
         }
     }
-
 
 
     // TODO: удалить в GENERAL файле
@@ -314,6 +315,10 @@ public class OutputFile {
         try {
             FileOutputStream fileOut = new FileOutputStream(this.filePath);
             CellStyle style;
+
+            /** ВСТАВИТЬ ЗДЕСЬ ОКРАШИВАНИЕ В ЗАВИСИМОСТИ ОТ КВАРТИЛЯ
+             * ПЕРЕБОР ПО Sample.getAllSamples
+             * **/
 
             Set<Integer> rightBorderCellNum = new HashSet<>();
             rightBorderCellNum.add(0);
@@ -365,8 +370,12 @@ public class OutputFile {
     }
 
     // Считывает столбик каждого фонотипа как выборку для расчета статистики
-    public HashMap<Object, ArrayList<Double>> readAllSamplesAsList(Statistics.KindOfStats kindOfStats) {
-        HashMap<Object, ArrayList<Double>> result = new HashMap<>();
+    public HashMap<Object, Sample> readAllSamples(Statistics.KindOfStats kindOfStats) {
+        if (allSamplesSheet1 != null) {
+            return allSamplesSheet1;
+        }
+
+        HashMap<Object, Sample> result = new HashMap<>();
         Sheet sh = null;
         if (kindOfStats == Statistics.KindOfStats.WORDS_WITH_PHTYPE_PER_LIST) {
             sh = sheets.get(0);
@@ -387,8 +396,11 @@ public class OutputFile {
                 }
                 dList.add(Double.valueOf(s));
             }
-            result.put(entry.getKey(), dList);
+
+            Sample sample = new Sample(dList, entry.getKey());
+            result.put(entry.getKey(), sample);
         }
+        allSamplesSheet1 = result;
         return result;
     }
 
@@ -397,9 +409,9 @@ public class OutputFile {
     public HashMap<Object, Double[]> readAllSamplesAsArray(Statistics.KindOfStats kindOfStats) {
 
         HashMap<Object, Double[]> allSamples = new HashMap<>();
-        HashMap<Object, ArrayList<Double>> dLists = readAllSamplesAsList(kindOfStats);
-        for (Map.Entry<Object, ArrayList<Double>> entry : dLists.entrySet()) {
-            ArrayList<Double> dList = entry.getValue();
+        HashMap<Object, Sample> dLists = readAllSamples(kindOfStats);
+        for (Map.Entry<Object, Sample> entry : dLists.entrySet()) {
+            ArrayList<Double> dList = entry.getValue().getSample();
             Double[] dArr = new Double[dList.size()];
             for (int i = 0; i < dList.size(); i++) {
                 dArr[i] = dList.get(i);

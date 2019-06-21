@@ -16,31 +16,6 @@ public class Statistics {
     }
 
 
-    // Медиана
-    public static double calculateMean(ArrayList<Double> sample) {
-        double d = 0.0;
-        int size = sample.size();
-        Collections.sort(sample);
-        if (size % 2 == 1) {
-            d = sample.get(size/2);
-        } else {
-            d = (sample.get((size/2) - 1) + sample.get(size/2))/2.0;
-        }
-        return d;
-    }
-
-    // Среднее арифметическое
-    public static double calculateAverage(ArrayList<Double> sample) {
-        double d = 0.0;
-        double sum = 0.0;
-        for (Double elem : sample) {
-            sum += elem;
-        }
-        d = sum / sample.size();
-        return d;
-    }
-
-
     private static HashMap<String, Integer> unknownPhonemes = new HashMap<>();
 
     private static int numOfAllPhonemes = 0;
