@@ -319,6 +319,10 @@ public class OutputFile {
             /** ВСТАВИТЬ ЗДЕСЬ ОКРАШИВАНИЕ В ЗАВИСИМОСТИ ОТ КВАРТИЛЯ
              * ПЕРЕБОР ПО Sample.getAllSamples
              * **/
+            /*HashMap<Object, Sample> allSamples = Sample.getAllSamples();
+            for (Map.Entry<Object, Sample> entry : allSamples.entrySet()) {
+
+            }*/
 
             Set<Integer> rightBorderCellNum = new HashSet<>();
             rightBorderCellNum.add(0);
@@ -331,8 +335,32 @@ public class OutputFile {
             rightBorderCellNum.add(Header.consMannerSh.get(SoundsBank.MannerApproximate.OBSTRUENT).getColumn());
             rightBorderCellNum.add(Header.consMannerSh.get(SoundsBank.MannerPricise.STOP).getColumn());
 
+            colorTheColumn(sheets.get(0), SoundsBank.Height.CLOSE);
+            /*Object phType = SoundsBank.Height.CLOSE;
+            Sheet sh = sheets.get(0);
+
+            int startRow = 3;
+            Row row;
+            int col = 0;
+            Sample sample = Sample.getAllSamples().get(phType);
+
+            for (int i = startRow; i < startRow + recordsCounter; i++) {
+                col = Header.vowSh.get(phType).getColumn();
+                row = sh.getRow(i);
+                Cell c = row.getCell(col);
+                style = wb.createCellStyle();
+
+                //short color = 0;
+
+                short color = IndexedColors.GREEN.getIndex();
+                style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+                style.setFillBackgroundColor(color);
+                style.setFillForegroundColor(color);
+                c.setCellStyle(style);
+            }*/
+
             // draw borders
-            for (Sheet sh : sheets) {
+           /* for (Sheet sh : sheets) {
                 for (int i = 3; i < 3 + recordsCounter; i++) {
                     int vowFinCol = Header.vowSh.size();
                     int mannnerFinCol = vowFinCol + Header.consMannerSh.size();
@@ -359,8 +387,7 @@ public class OutputFile {
                         c.setCellStyle(style);
                     }
                 }
-            }
-
+            }*/
             wb.write(fileOut);
             fileOut.close();
 
@@ -377,6 +404,7 @@ public class OutputFile {
 
         HashMap<Object, Sample> result = new HashMap<>();
         Sheet sh = null;
+        Cell cell;
         if (kindOfStats == Statistics.KindOfStats.WORDS_WITH_PHTYPE_PER_LIST) {
             sh = sheets.get(0);
         }
@@ -387,14 +415,8 @@ public class OutputFile {
 
             for (int i = 3; i < this.recordsCounter + 3; i++) {
                 // TODO: костыли запилены за неимением времени
-                String s = sh.getRow(i).getCell(entry.getValue().getColumn()).getStringCellValue();
-                String[] str = s.split("%")[0].split(",");
-                if (str.length == 1) {
-                    s = str[0];
-                } else {
-                    s = str[0] + "." + str[1];
-                }
-                dList.add(Double.valueOf(s));
+                cell = sh.getRow(i).getCell(entry.getValue().getColumn());
+                dList.add(parseNormalityCell(cell));
             }
 
             Sample sample = new Sample(dList, entry.getKey());
@@ -402,6 +424,19 @@ public class OutputFile {
         }
         allSamplesSheet1 = result;
         return result;
+    }
+
+
+    // Возвращает первое число из ячейки файла Normality
+    private double parseNormalityCell(Cell cell) {
+        String s = cell.getStringCellValue();
+        String[] str = s.split("%")[0].split(",");
+        if (str.length == 1) {
+            s = str[0];
+        } else {
+            s = str[0] + "." + str[1];
+        }
+        return Double.valueOf(s);
     }
 
 
@@ -419,6 +454,40 @@ public class OutputFile {
             allSamples.put(entry.getKey(), dArr);
         }
         return allSamples;
+    }
+
+
+    // Раскрашиваем значения сэмпла (столбика) по квартилям
+    public void colorTheColumn(Sheet sh, Object phType) {
+        int startRow = 3;
+        Row row;
+        int col = 0;
+        Sample sample = Sample.getAllSamples().get(phType);
+        CellStyle style;
+
+        for (int i = startRow; i < startRow + recordsCounter; i++) {
+            col = Header.vowSh.get(phType).getColumn();
+            row = sh.getRow(i);
+            Cell c = row.getCell(col);
+            style = wb.createCellStyle();
+
+            short color = 0;
+
+            if (parseNormalityCell(c) >= sample.getQuartile_25()) {
+                color = IndexedColors.GREEN.getIndex();
+            } else if (parseNormalityCell(c) >= sample.getMean()) {
+                color = IndexedColors.LIGHT_GREEN.getIndex();
+            } else if (parseNormalityCell(c) >= sample.getQuartile_75()) {
+                color = IndexedColors.CORAL.getIndex();
+            } else {
+                color = IndexedColors.RED.getIndex();
+            }
+
+            style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+            //style.setFillBackgroundColor(color);
+            style.setFillForegroundColor(color);
+            c.setCellStyle(style);
+        }
     }
 
 
