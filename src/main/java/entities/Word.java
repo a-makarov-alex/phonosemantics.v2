@@ -160,7 +160,9 @@ public class Word {
                     }
                 }
                 else {
-                    System.out.println("Extra: " + phonemes[i]);
+                    if (Main.CONSOLE_EXTRA_SYMBOLS) {
+                        System.out.println("Extra: " + phonemes[i]);
+                    }
                 }
             }
             if (Main.CONSOLE_SHOW_TRASCRIPTION) {

@@ -26,6 +26,8 @@ public class Main {
     public static final boolean CONSOLE_SHOW_NOT_FOUND_MEANINGS_IN_INPUT_FILE = true;
     public static final boolean CONSOLE_LANG_PHONOLOGY = false;
     public static final boolean CONSOLE_LANG_PHONOTYPES = false;
+    public static final boolean CONSOLE_EXTRA_SYMBOLS = false;
+
 
     public static final boolean DEBUG_STATS = false;
 

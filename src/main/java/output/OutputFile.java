@@ -335,39 +335,32 @@ public class OutputFile {
             rightBorderCellNum.add(Header.consMannerSh.get(SoundsBank.MannerApproximate.OBSTRUENT).getColumn());
             rightBorderCellNum.add(Header.consMannerSh.get(SoundsBank.MannerPricise.STOP).getColumn());
 
-            colorTheColumn(sheets.get(0), SoundsBank.Height.CLOSE);
-            /*Object phType = SoundsBank.Height.CLOSE;
-            Sheet sh = sheets.get(0);
+            //colorTheColumn(sheets.get(0), SoundsBank.Height.CLOSE);
+            Sheet sheet = sheets.get(0);
 
-            int startRow = 3;
-            Row row;
-            int col = 0;
-            Sample sample = Sample.getAllSamples().get(phType);
+            for (Map.Entry<Object, Header> entry : Header.vowSh.entrySet()) {
+                colorTheColumn(sheet, entry.getKey());
+                //System.out.println(entry.getKey());
+            }
 
-            for (int i = startRow; i < startRow + recordsCounter; i++) {
-                col = Header.vowSh.get(phType).getColumn();
-                row = sh.getRow(i);
-                Cell c = row.getCell(col);
-                style = wb.createCellStyle();
+            for (Map.Entry<Object, Header> entry : Header.consMannerSh.entrySet()) {
+                try {
+                    //colorTheColumn(sheet, entry.getKey());
+                    System.out.println(entry.getKey());
+                } catch (NullPointerException e) {
 
-                //short color = 0;
-
-                short color = IndexedColors.GREEN.getIndex();
-                style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-                style.setFillBackgroundColor(color);
-                style.setFillForegroundColor(color);
-                c.setCellStyle(style);
-            }*/
+                }
+            }
 
             // draw borders
-           /* for (Sheet sh : sheets) {
+           for (Sheet sh : sheets) {
                 for (int i = 3; i < 3 + recordsCounter; i++) {
                     int vowFinCol = Header.vowSh.size();
                     int mannnerFinCol = vowFinCol + Header.consMannerSh.size();
 
                     for (int col = 0; col < 3 + vowFinCol; col++) {
                         Cell c = sh.getRow(i).getCell(col);
-                        style = wb.createCellStyle();
+                        style = c.getCellStyle();
 
                         style.setBorderBottom(BorderStyle.DASHED);
                         if (rightBorderCellNum.contains(col)) {
@@ -378,7 +371,7 @@ public class OutputFile {
 
                     for (int col = vowFinCol; col < mannnerFinCol; col++) {
                         Cell c = sh.getRow(i).getCell(col);
-                        style = wb.createCellStyle();
+                        style = c.getCellStyle();
 
                         style.setBorderBottom(BorderStyle.DASHED);
                         if (rightBorderCellNum.contains(col)) {
@@ -387,7 +380,7 @@ public class OutputFile {
                         c.setCellStyle(style);
                     }
                 }
-            }*/
+            }
             wb.write(fileOut);
             fileOut.close();
 
@@ -484,7 +477,6 @@ public class OutputFile {
             }
 
             style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-            //style.setFillBackgroundColor(color);
             style.setFillForegroundColor(color);
             c.setCellStyle(style);
         }
