@@ -283,7 +283,17 @@ public class OutputFile {
             HashMap<Object, Header> headers = Header.vowSh;
 
             DecimalFormat df = new DecimalFormat("#.#");
+            // VOWELS MANNER
+            for (Map.Entry<Object, Header> entry : headers.entrySet()) {
+                Cell cell = rowMean.createCell(entry.getValue().getColumn());
+                cell.setCellValue(df.format(samples.get(entry.getKey()).getMean()) + "%");
 
+                cell = rowAver.createCell(entry.getValue().getColumn());
+                cell.setCellValue(df.format(samples.get(entry.getKey()).getAverage()) + "%");
+            }
+
+            // CONSONANT MANNER
+            headers = Header.consMannerSh;
             for (Map.Entry<Object, Header> entry : headers.entrySet()) {
                 Cell cell = rowMean.createCell(entry.getValue().getColumn());
                 cell.setCellValue(df.format(samples.get(entry.getKey()).getMean()) + "%");
@@ -339,16 +349,16 @@ public class OutputFile {
             Sheet sheet = sheets.get(0);
 
             for (Map.Entry<Object, Header> entry : Header.vowSh.entrySet()) {
-                colorTheColumn(sheet, entry.getKey());
+                colorTheColumn(sheet, entry.getKey(), Header.vowSh);
                 //System.out.println(entry.getKey());
             }
 
             for (Map.Entry<Object, Header> entry : Header.consMannerSh.entrySet()) {
                 try {
-                    //colorTheColumn(sheet, entry.getKey());
+                    colorTheColumn(sheet, entry.getKey(), Header.consMannerSh);
                     System.out.println(entry.getKey());
                 } catch (NullPointerException e) {
-
+                    System.out.println("NullPointer colorConsManner");
                 }
             }
 
@@ -403,6 +413,7 @@ public class OutputFile {
         }
 
         ArrayList<Double> dList;
+        //VOWELS
         for (Map.Entry<Object, Header> entry : Header.vowSh.entrySet()) {
             dList = new ArrayList<>();
 
@@ -415,6 +426,21 @@ public class OutputFile {
             Sample sample = new Sample(dList, entry.getKey());
             result.put(entry.getKey(), sample);
         }
+
+        // CONSONANTS MANNER
+        for (Map.Entry<Object, Header> entry : Header.consMannerSh.entrySet()) {
+            dList = new ArrayList<>();
+
+            for (int i = 3; i < this.recordsCounter + 3; i++) {
+                // TODO: костыли запилены за неимением времени
+                cell = sh.getRow(i).getCell(entry.getValue().getColumn());
+                dList.add(parseNormalityCell(cell));
+            }
+
+            Sample sample = new Sample(dList, entry.getKey());
+            result.put(entry.getKey(), sample);
+        }
+
         allSamplesSheet1 = result;
         return result;
     }
@@ -422,14 +448,19 @@ public class OutputFile {
 
     // Возвращает первое число из ячейки файла Normality
     private double parseNormalityCell(Cell cell) {
-        String s = cell.getStringCellValue();
-        String[] str = s.split("%")[0].split(",");
-        if (str.length == 1) {
-            s = str[0];
-        } else {
-            s = str[0] + "." + str[1];
+        try {
+            String s = cell.getStringCellValue();
+            String[] str = s.split("%")[0].split(",");
+            if (str.length == 1) {
+                s = str[0];
+            } else {
+                s = str[0] + "." + str[1];
+            }
+            return Double.valueOf(s);
+        } catch (NumberFormatException e) {
+            System.out.println("NumberFormatException OutputFile - ParseNormalityCell");
+            return 0.0;
         }
-        return Double.valueOf(s);
     }
 
 
@@ -451,7 +482,7 @@ public class OutputFile {
 
 
     // Раскрашиваем значения сэмпла (столбика) по квартилям
-    public void colorTheColumn(Sheet sh, Object phType) {
+    public void colorTheColumn(Sheet sh, Object phType, HashMap<Object, Header> typeSheet) {
         int startRow = 3;
         Row row;
         int col = 0;
@@ -459,7 +490,7 @@ public class OutputFile {
         CellStyle style;
 
         for (int i = startRow; i < startRow + recordsCounter; i++) {
-            col = Header.vowSh.get(phType).getColumn();
+            col = typeSheet.get(phType).getColumn();
             row = sh.getRow(i);
             Cell c = row.getCell(col);
             style = wb.createCellStyle();

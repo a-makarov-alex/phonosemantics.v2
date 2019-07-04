@@ -229,6 +229,19 @@ public class SoundsBank {
         table.put("ʢ", new Consonant("ʢ", PlacePrecise.EPIGLOTTAL, MannerPricise.TRILL, true));
 
         // APPROXIMANT
+        table.put("l", new Consonant("l", PlacePrecise.ALVEOLAR, MannerPricise.LATERAL, true));
+        table.put("ɭ", new Consonant("ɭ", PlacePrecise.RETROFLEX, MannerPricise.LATERAL, true));
+        table.put("w", new Consonant("w", PlacePrecise.BILABIAL, MannerPricise.APPROXIMANT, true));
+        table.put("j", new Consonant("j", PlacePrecise.PALATAL, MannerPricise.APPROXIMANT, true));
+
+
+        // AFFRICATES
+        // TODO
+        table.put("ts", new Consonant("ts", PlacePrecise.ALVEOLAR, MannerPricise.SIBILANT, false));
+        table.put("tʃ", new Consonant("tʃ", PlacePrecise.POSTALVEOLAR, MannerPricise.SIBILANT, false));
+        table.put("d̠ʒ", new Consonant("d̠ʒ", PlacePrecise.POSTALVEOLAR, MannerPricise.SIBILANT, true));
+
+
     }
 
     private void addVowels() {
