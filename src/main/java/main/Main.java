@@ -6,16 +6,21 @@ import entities.phonetics.Phoneme;
 import entities.phonetics.Vowel;
 import input.InputFile;
 import knowledgeBase.SoundsBank;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import output.OutputFile;
 import statistics.ShapiroWilk;
 import statistics.Statistics;
 
+import java.io.FileInputStream;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Main {
+    //static final Logger rootLogger = org.apache.logging.log4j.LogManager.getRootLogger();
+    static final Logger userLogger = LogManager.getLogger(Main.class);
 
     // CONFIG --> should be transformed to logs later
     public static final boolean CONSOLE_SHOW_TRASCRIPTION = false;
@@ -28,14 +33,13 @@ public class Main {
     public static final boolean CONSOLE_LANG_PHONOTYPES = false;
     public static final boolean CONSOLE_EXTRA_SYMBOLS = false;
 
-
     public static final boolean DEBUG_STATS = false;
 
 
     private static InputFile inputFile;
 
     public static void main(String args[]) {
-
+        userLogger.info("start point");
         newFullCycle();
 
         showAllUnknownPhonemes();
@@ -62,9 +66,7 @@ public class Main {
 
     public static void newFullCycle() {
         inputFile = new InputFile("Input.xlsx");
-
         SoundsBank cBank = SoundsBank.getInstance();
-
         ArrayList<WordList> allWordlists = inputFile.getAllWordLists();
 
         // Запись результатов в файл

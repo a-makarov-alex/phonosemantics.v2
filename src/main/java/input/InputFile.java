@@ -5,6 +5,8 @@ import entities.Meaning;
 import entities.Word;
 import entities.WordList;
 import main.Main;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.poi.ss.usermodel.*;
 
 import java.io.FileInputStream;
@@ -16,20 +18,20 @@ import java.util.ArrayList;
  * Every file can be specified manually
  */
 public class InputFile {
-
     private String filePath;
     private static final String INPUT_DIRECTORY = "D:\\JavaProjects2019\\word\\src\\main\\java\\input\\";
+    static final Logger userLogger = LogManager.getLogger(InputFile.class);
 
     //TODO: add wordlists files to input directory
     public InputFile(String filePath) {
         this.filePath = filePath;
-
     }
 
     /**
      * Reads all the words from inputFile and write them to one list of Word entities
      */
     public ArrayList<WordList> getAllWordLists() {
+        userLogger.info("getting wordlists started");
 
         // open file for reading
         InputStream inputStream = null;
@@ -46,22 +48,20 @@ public class InputFile {
             // read all the headers with words' Meanings
             while (sheet.getRow(rowNum).getCell(colNum) != null) {
                 if (Main.CONSOLE_SHOW_FOUND_MEANINGS_IN_INPUT_FILE) {
-                    System.out.println(sheet.getRow(rowNum).getCell(colNum).getStringCellValue());
+                    userLogger.debug("meaning found: " + sheet.getRow(rowNum).getCell(colNum).getStringCellValue());
                 }
                 allWordlists.add(this.composeWordList(sheet.getRow(rowNum).getCell(colNum).getStringCellValue()));
                 colNum++;
             }
-
-            System.out.println();
             inputStream.close();
+            userLogger.info(colNum + " wordlists are composed from input file");
             return allWordlists;
 
         } catch (IOException e) {
-            System.out.println("exception");    //TODO: logs
+            userLogger.debug(e.getStackTrace());
             return null;
         }
     }
-
 
     /**
      * Reads a list of words from inputFile by meaning
@@ -74,6 +74,7 @@ public class InputFile {
 
         try {
             inputStream = new FileInputStream(INPUT_DIRECTORY + filePath);
+            userLogger.info("wordlist composing for " + meaning);
             Workbook wb = WorkbookFactory.create(inputStream);
             Sheet sheet;
             sheet = wb.getSheetAt(0);
@@ -84,33 +85,28 @@ public class InputFile {
             // Find meaning in the headers
             for (int col = 1; col <= sheet.getLastRowNum(); col++) {
                 cell = nullRow.getCell(col);
-
                 // stop on the first empty column
                 if (cell == null) {
                     if (Main.CONSOLE_SHOW_NOT_FOUND_MEANINGS_IN_INPUT_FILE) {
-                        System.out.println("ERROR: There is no words for " + meaning + " in the input file");
+                        userLogger.debug("PROBLEM: There is no words for " + meaning + " in the input file");
                     }
                     break;
                 } else {
-
                     // Meaning is found successfully
                     if (cell.getStringCellValue().toLowerCase().equals(meaning.toLowerCase())) {
                         if (Main.CONSOLE_SHOW_FOUND_MEANINGS_IN_INPUT_FILE) {
-                            System.out.println("SUCCESS: Words for " + meaning +
+                            userLogger.debug("SUCCESS: Words for " + meaning +
                                     " found in the " + col + " column of the input file");
                         }
-
                         int lastRow = sheet.getLastRowNum();
                         for (int i = 1; i <=  lastRow + 1; i++) {
-
                             // Stop on the first empty row
                             if (sheet.getRow(i) == null) {
                                 if (Main.CONSOLE_SHOW_FOUND_MEANINGS_IN_INPUT_FILE) {
-                                    System.out.println("Number of words for " + meaning + " : " + (count));
+                                    userLogger.debug("Number of words for " + meaning + " : " + (count));
                                 }
                                 break;
                             }
-
                             cell = sheet.getRow(i).getCell(col);
                             if (cell != null && cell.getCellType() != CellType.BLANK) {
                                 Word word = new Word(
@@ -121,7 +117,7 @@ public class InputFile {
                                 list.add(word);
                                 count++;
                             } else {
-                                System.out.println("No value for word \"" + nullRow.getCell(col).getStringCellValue() +
+                                userLogger.debug("No value for word \"" + nullRow.getCell(col).getStringCellValue() +
                                         "\" of language " + sheet.getRow(i).getCell(0).getStringCellValue());
                             }
                         }
@@ -130,17 +126,16 @@ public class InputFile {
                     }
                 }
             }
+
             if (Main.CONSOLE_SHOW_FOUND_MEANINGS_IN_INPUT_FILE) {
                 System.out.println();
             }
             inputStream.close();
-
             return new WordList(list);
 
         } catch (IOException e) {
-            System.out.println("exception");    // TODO: logs
+            userLogger.debug(e.getStackTrace());
             return null;
         }
     }
-
 }

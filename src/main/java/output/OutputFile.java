@@ -2,6 +2,9 @@ package output;
 
 import entities.WordList;
 import knowledgeBase.SoundsBank;
+import main.Main;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFRichTextString;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -14,6 +17,7 @@ import java.text.DecimalFormat;
 import java.util.*;
 
 public class OutputFile {
+    static final Logger userLogger = LogManager.getLogger(OutputFile.class);
 
     private String title;
     private String filePath;
@@ -42,6 +46,8 @@ public class OutputFile {
         this.filePath = OUTPUT_DIRECTORY + title + ".xlsx";
         this.wb = new XSSFWorkbook();
         this.createOutputFile();
+
+        userLogger.debug("output file created");
     }
 
     private void createOutputFile() {
@@ -117,14 +123,15 @@ public class OutputFile {
         for (WordList wordList : wordLists) {
             switch (this.type) {
                 case GENERAL: {
+                    userLogger.info("writing to general file...");
                     writeToGeneralFile(wordList);
                 }
                 case NORMALITY: {
+                    userLogger.info("writing to normality file...");
                     writeToNormalityFile(wordList);
                 }
             }
         }
-
         addMeanAndAverage(Statistics.KindOfStats.WORDS_WITH_PHTYPE_PER_LIST);
     }
 
@@ -181,10 +188,11 @@ public class OutputFile {
             }
 
             wb.write(fileOut);
+            userLogger.debug("vowels are written to general file");
             fileOut.close();
 
         } catch (IOException e) {
-            System.out.println("IOException caught");
+            userLogger.debug("IOException caught: " + e.getStackTrace());
         }
     }
 
@@ -193,18 +201,21 @@ public class OutputFile {
             FileOutputStream fileOut = new FileOutputStream(this.filePath);
 
             // SHEET WORDS_WITH_PHTYPE_PER_LIST
+            userLogger.debug("writing WORDS_WITH_PHTYPE_PER_LIST...");
             writeOneKindOfStats(
                     sheets.get(0),
                     wordList.getStats(Statistics.KindOfStats.WORDS_WITH_PHTYPE_PER_LIST),
                     wordList);
 
             // SHEET PHTYPES_PER_LIST
+            userLogger.debug("writing PHTYPES_PER_LIST...");
             writeOneKindOfStats(
                     sheets.get(1),
                     wordList.getStats(Statistics.KindOfStats.PHTYPES_PER_LIST),
                     wordList);
 
             // SHEET PHTYPES_AVERAGE_PER_WORD
+            userLogger.debug("writing PHTYPES_AVERAGE_PER_WORD...");
             writeOneKindOfStats(
                     sheets.get(2),
                     wordList.getStats(Statistics.KindOfStats.PHTYPES_AVERAGE_PER_WORD),
@@ -214,10 +225,11 @@ public class OutputFile {
             recordsCounter++;
 
             wb.write(fileOut);
+            userLogger.info("writing to normality file is finished \n");
             fileOut.close();
 
         } catch (IOException e) {
-            System.out.println("IOException caught");
+            userLogger.debug("IOException caught: " + e.getStackTrace());
         }
     }
 
@@ -271,6 +283,7 @@ public class OutputFile {
     private void addMeanAndAverage(Statistics.KindOfStats kindOfStats) {
         try {
             FileOutputStream fileOut = new FileOutputStream(this.filePath);
+            userLogger.info("adding mean and average...");
 
             Sheet sh = sheets.get(0);
 
@@ -291,6 +304,7 @@ public class OutputFile {
                 cell = rowAver.createCell(entry.getValue().getColumn());
                 cell.setCellValue(df.format(samples.get(entry.getKey()).getAverage()) + "%");
             }
+            userLogger.debug("vowels manner stats added");
 
             // CONSONANT MANNER
             headers = Header.consMannerSh;
@@ -301,12 +315,14 @@ public class OutputFile {
                 cell = rowAver.createCell(entry.getValue().getColumn());
                 cell.setCellValue(df.format(samples.get(entry.getKey()).getAverage()) + "%");
             }
+            userLogger.debug("consonants manner stats added");
 
             wb.write(fileOut);
+            userLogger.debug("mean and average are written to file");
             fileOut.close();
 
         } catch (IOException e) {
-            System.out.println("IOException caught");
+            userLogger.info(e.toString());
         }
     }
 
@@ -324,6 +340,7 @@ public class OutputFile {
     public void finalDesign() {
         try {
             FileOutputStream fileOut = new FileOutputStream(this.filePath);
+            userLogger.info("designing and coloring...");
             CellStyle style;
 
             /** ВСТАВИТЬ ЗДЕСЬ ОКРАШИВАНИЕ В ЗАВИСИМОСТИ ОТ КВАРТИЛЯ
@@ -352,18 +369,19 @@ public class OutputFile {
                 colorTheColumn(sheet, entry.getKey(), Header.vowSh);
                 //System.out.println(entry.getKey());
             }
+            userLogger.debug("vowels manner colored");
 
             for (Map.Entry<Object, Header> entry : Header.consMannerSh.entrySet()) {
                 try {
                     colorTheColumn(sheet, entry.getKey(), Header.consMannerSh);
-                    System.out.println(entry.getKey());
+                    //System.out.println(entry.getKey());
                 } catch (NullPointerException e) {
-                    System.out.println("NullPointer colorConsManner");
+                    userLogger.error(e.toString());
                 }
             }
 
             // draw borders
-           for (Sheet sh : sheets) {
+            for (Sheet sh : sheets) {
                 for (int i = 3; i < 3 + recordsCounter; i++) {
                     int vowFinCol = Header.vowSh.size();
                     int mannnerFinCol = vowFinCol + Header.consMannerSh.size();
@@ -391,7 +409,9 @@ public class OutputFile {
                     }
                 }
             }
+            userLogger.debug("borders are drawn");
             wb.write(fileOut);
+            userLogger.info("design is finished");
             fileOut.close();
 
         } catch (IOException e) {
@@ -446,7 +466,8 @@ public class OutputFile {
     }
 
 
-    // Возвращает первое число из ячейки файла Normality
+    // Возвращает первое число (процент, среднее...) из ячейки файла Normality
+    // второе число - это делитель
     private double parseNormalityCell(Cell cell) {
         try {
             String s = cell.getStringCellValue();
@@ -458,7 +479,7 @@ public class OutputFile {
             }
             return Double.valueOf(s);
         } catch (NumberFormatException e) {
-            System.out.println("NumberFormatException OutputFile - ParseNormalityCell");
+            userLogger.debug(e.toString());
             return 0.0;
         }
     }

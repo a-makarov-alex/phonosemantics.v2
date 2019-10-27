@@ -5,6 +5,8 @@ import entities.phonetics.Phoneme;
 import entities.phonetics.Vowel;
 import knowledgeBase.SoundsBank;
 import main.Main;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.poi.ss.usermodel.*;
 
 import java.io.FileInputStream;
@@ -15,6 +17,7 @@ import java.util.function.Predicate;
 
 // TODO: idea is for future. Should be realized later
 public class Language {
+    static final Logger userLogger = LogManager.getLogger(Language.class);
 
     public static final String INPUT_LANGUAGES_PATH =
             "D:\\JavaProjects2019\\word\\src\\main\\java\\knowledgeBase\\AllLanguages.xlsx";
@@ -121,28 +124,27 @@ public class Language {
         }
     }
 
-    // Вычисляем все фонотипы, имеющиеся в языке
+    // Count all the phonotypes present in a specific language
     public HashMap<Object, Integer> calculatePhTypeCoverage() {
+        //userLogger.debug("PhType coverage calculating is started");
         HashMap<Object, Integer> mapPhType = SoundsBank.getAllPhonotypes();
 
         if (Main.CONSOLE_LANG_PHONOTYPES) {
-            System.out.println(this.title);
+            userLogger.debug(this.title);
         }
 
         for (Map.Entry<Object, Integer> entry : mapPhType.entrySet()) {
 
             if (Main.CONSOLE_LANG_PHONOTYPES) {
-                System.out.println(entry.getKey() + " : ");
+                userLogger.debug(entry.getKey() + " : ");
             }
 
             entry.setValue(entry.getValue() + findPhType(entry.getKey()));
 
             if (Main.CONSOLE_LANG_PHONOTYPES) {
-                System.out.println("TOTAL : " + entry.getValue());
-                System.out.println("");
+                userLogger.debug("TOTAL : " + entry.getValue());
             }
         }
-
         return mapPhType;
     }
 

@@ -4,6 +4,9 @@ package knowledgeBase;
 import entities.phonetics.Consonant;
 import entities.phonetics.Phoneme;
 import entities.phonetics.Vowel;
+import main.Main;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -17,18 +20,15 @@ import java.util.Set;
  *
  * *********************/
 public class SoundsBank {
+    static final Logger userLogger = LogManager.getLogger(SoundsBank.class);
 
     private HashMap<String, Phoneme> allPhonemesTable;
-
     public HashMap<String, Phoneme> getAllPhonemesTable() {
         return allPhonemesTable;
     }
-
     private static HashMap<Object, Integer> allPhTypesMap = null;
 
-    /**
-     *  **************************  ENUMS VOWELS
-     */
+    /****************************  ENUMS VOWELS ************************/
     public enum Height {
         OPEN, NEAR_OPEN, OPEN_MID, MID, CLOSE_MID, NEAR_CLOSE, CLOSE
     }
@@ -45,9 +45,7 @@ public class SoundsBank {
         NASAL, NON_NASAL
     }
 
-    /**
-     *  **************************  ENUMS CONSONANTS
-     */
+    /**************************  ENUMS CONSONANTS ************************/
     public enum PlaceApproximate {
         LABIAL, CORONAL, DORSAL, LARYNGEAL
     }
@@ -73,21 +71,18 @@ public class SoundsBank {
         VOICED, DEVOICED
     }
 
-    /**
-     * *************************  SINGLETON
-     * **/
+    /***************************  SINGLETON ************************/
     private static SoundsBank instance;
 
     public static SoundsBank getInstance() {
         if (instance == null) {
             instance = new SoundsBank();
+            userLogger.debug("sounds bank instance initialized");
         }
         return instance;
     }
 
-    /**
-     * ************************* CONSTRUCTOR
-     * **/
+    /*************************** CONSTRUCTOR ************************/
     public SoundsBank() {
         this.allPhonemesTable = new HashMap<>();
         addConsonants();
@@ -97,7 +92,6 @@ public class SoundsBank {
     }
 
     public static HashMap<Object, Integer> getAllPhonotypes() {
-
         if (allPhTypesMap != null) {
             return allPhTypesMap;
 
@@ -154,6 +148,8 @@ public class SoundsBank {
                 map.put(ob, 0);
             }
 
+            userLogger.debug("map of phonotypes is created");
+            allPhTypesMap = map;
             return map;
         }
     }
@@ -241,7 +237,7 @@ public class SoundsBank {
         table.put("tʃ", new Consonant("tʃ", PlacePrecise.POSTALVEOLAR, MannerPricise.SIBILANT, false));
         table.put("d̠ʒ", new Consonant("d̠ʒ", PlacePrecise.POSTALVEOLAR, MannerPricise.SIBILANT, true));
 
-
+        userLogger.info("consonants map is filled up");
     }
 
     private void addVowels() {
@@ -295,6 +291,8 @@ public class SoundsBank {
         table.put("ɔ", new Vowel("ɔ", Height.OPEN_MID, Backness.BACK, Roundness.ROUNDED, Nasalization.NON_NASAL));
         table.put("ɑ", new Vowel("ɑ", Height.OPEN, Backness.BACK, Roundness.UNROUNDED, Nasalization.NON_NASAL));
         table.put("ɒ", new Vowel("ɒ", Height.OPEN, Backness.BACK, Roundness.ROUNDED, Nasalization.NON_NASAL));
+
+        userLogger.info("vowels map is filled up");
     }
 
     private void addAffricates() {
@@ -309,7 +307,7 @@ public class SoundsBank {
         table.put("tɕ", new Consonant("tɕ", PlacePrecise.PALATAL, MannerPricise.SIBILANT_AFFRICATE, false));
         table.put("dʑ", new Consonant("dʑ", PlacePrecise.PALATAL, MannerPricise.SIBILANT_AFFRICATE, true));
 
-
+        userLogger.info("affricates map is filled up");
     }
 
     public Phoneme find(String requestedSymbol) {

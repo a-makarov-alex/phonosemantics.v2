@@ -3,6 +3,8 @@ package entities;
 import com.google.gson.Gson;
 import knowledgeBase.SoundsBank;
 import main.Main;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import statistics.Statistics;
 
 import java.util.ArrayList;
@@ -10,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class WordList {
+    static final Logger userLogger = LogManager.getLogger(WordList.class);
 
     private String meaning;
     private Language language;
@@ -50,7 +53,6 @@ public class WordList {
     public void countAllPhonotypes() {
         mapPhTypesPerList = SoundsBank.getAllPhonotypes();
 
-
         // Все фонотипы каждой фонемы из каждого слова в вордлисте суммируем в хашмапе
         for (Map.Entry<Object, Integer> entry : mapPhTypesPerList.entrySet()) {
             Object phType = entry.getKey();
@@ -65,7 +67,7 @@ public class WordList {
 
                 // TODO
                 if (phType.equals(Main.CONSOLE_SHOW_WORDS_OF_CLASS)) {
-                    System.out.println(phType + " : " + w.getWord() + " " + incr);
+                    userLogger.debug(phType + " : " + w.getWord() + " " + incr);
                 }
 
                 counterPh += incr;
@@ -77,6 +79,7 @@ public class WordList {
             entry.setValue(counterPh);
             mapWordsPerList.put(entry.getKey(), counterW);
         }
+        userLogger.info("phonotypes for wordlist " + this.meaning + " are counted");
     }
 
 
@@ -124,6 +127,11 @@ public class WordList {
     }
 
 
+    /**
+     * Рассчитываем делитель для каждого фонотипа
+     * Т.е. количество языков, в которых существуют экземпляры данного фонотипа
+     * Применить ко всем листам сразу нельзя, т.к. некоторые значения в отдельных языках могут быть не зафиксированы
+     */
     public HashMap<Object, Integer> calculateDividers() {
         HashMap<Object, Integer> mapOfDividers = SoundsBank.getAllPhonotypes();
 
@@ -137,9 +145,9 @@ public class WordList {
                     count++;
                 }
             }
-
             entry.setValue(count);
         }
+        userLogger.debug("calculating dividers for wordlist " + this.meaning + " is finished");
         return mapOfDividers;
     }
 
