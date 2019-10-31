@@ -58,7 +58,7 @@ public class InputFile {
             return allWordlists;
 
         } catch (IOException e) {
-            userLogger.debug(e.getStackTrace());
+            userLogger.error(e.toString());
             return null;
         }
     }
@@ -134,8 +134,29 @@ public class InputFile {
             return new WordList(list);
 
         } catch (IOException e) {
-            userLogger.debug(e.getStackTrace());
+            userLogger.error(e.toString());
             return null;
+        }
+    }
+
+    public void prepareLanguagesMap() {
+        try {
+            userLogger.debug(INPUT_DIRECTORY + this.filePath);
+            FileInputStream inputStream = new FileInputStream(this.filePath);
+
+            Workbook wb = WorkbookFactory.create(inputStream);
+            Sheet sheet = wb.getSheetAt(0);
+            int rowNum = 1;
+
+            // read all languages names one by one
+            // and create their objects
+            while (sheet.getRow(rowNum) != null) {
+                Language l = new Language(sheet.getRow(rowNum).getCell(0).getStringCellValue());
+            }
+            inputStream.close();
+
+        } catch (IOException e) {
+            userLogger.error("file not found by path: " + this.filePath + ". " + e.toString());
         }
     }
 }

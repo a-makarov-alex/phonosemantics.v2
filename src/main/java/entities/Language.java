@@ -15,7 +15,7 @@ import java.io.InputStream;
 import java.util.*;
 import java.util.function.Predicate;
 
-// TODO: idea is for future. Should be realized later
+// TODO: idea is for future. Should be implemented later
 public class Language {
     static final Logger userLogger = LogManager.getLogger(Language.class);
 
@@ -40,7 +40,6 @@ public class Language {
         this.phTypeCoverage = calculatePhTypeCoverage();
         phCoverage = new HashSet<>();
         phNotDescribed = new HashSet<>();
-
 
         allLanguages.put(this.title, this);
     }
@@ -302,6 +301,7 @@ public class Language {
         if (allLanguages.containsKey(title)) {
             return allLanguages.get(title);
         } else {
+            userLogger.debug("language " + title + " is not found and will be added now");
             Language l = new Language(title);
             return l;
         }

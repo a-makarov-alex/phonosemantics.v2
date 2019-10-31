@@ -2,7 +2,6 @@ package output;
 
 import entities.WordList;
 import knowledgeBase.SoundsBank;
-import main.Main;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.poi.ss.usermodel.*;
@@ -158,20 +157,20 @@ public class OutputFile {
                 switch (row) {
                     // WORDS_WITH_PHTYPE_PER_LIST
                     case 3 : {
-                        mapResult = wordList.getStats(Statistics.KindOfStats.WORDS_WITH_PHTYPE_PER_LIST);
+                        //mapResult = wordList.getStats(Statistics.KindOfStats.WORDS_WITH_PHTYPE_PER_LIST);
                         styleFormat = "0.0%";
                         break;
                     }
                     // PHTYPES_PER_LIST
                     case 4 : {
-                        mapResult = wordList.getStats(Statistics.KindOfStats.PHTYPES_PER_LIST);
+                        //mapResult = wordList.getStats(Statistics.KindOfStats.PHTYPES_PER_LIST);
                         styleFormat = "0.0%";
                         break;
                     }
 
                     // PHTYPES_AVERAGE_PER_WORD
                     case 5 : {
-                        mapResult = wordList.getStats(Statistics.KindOfStats.PHTYPES_AVERAGE_PER_WORD);
+                        //mapResult = wordList.getStats(Statistics.KindOfStats.PHTYPES_AVERAGE_PER_WORD);
                         styleFormat = "0.0";
                         break;
                     }
@@ -202,23 +201,23 @@ public class OutputFile {
 
             // SHEET WORDS_WITH_PHTYPE_PER_LIST
             userLogger.debug("writing WORDS_WITH_PHTYPE_PER_LIST...");
-            writeOneKindOfStats(
+            writeBasicStats(
                     sheets.get(0),
-                    wordList.getStats(Statistics.KindOfStats.WORDS_WITH_PHTYPE_PER_LIST),
+                    Statistics.KindOfStats.WORDS_WITH_PHTYPE_PER_LIST,
                     wordList);
 
             // SHEET PHTYPES_PER_LIST
             userLogger.debug("writing PHTYPES_PER_LIST...");
-            writeOneKindOfStats(
+            writeBasicStats(
                     sheets.get(1),
-                    wordList.getStats(Statistics.KindOfStats.PHTYPES_PER_LIST),
+                    Statistics.KindOfStats.PHTYPES_PER_LIST,
                     wordList);
 
             // SHEET PHTYPES_AVERAGE_PER_WORD
             userLogger.debug("writing PHTYPES_AVERAGE_PER_WORD...");
-            writeOneKindOfStats(
+            writeBasicStats(
                     sheets.get(2),
-                    wordList.getStats(Statistics.KindOfStats.PHTYPES_AVERAGE_PER_WORD),
+                   Statistics.KindOfStats.PHTYPES_AVERAGE_PER_WORD,
                     wordList);
 
             // count a new record
@@ -233,7 +232,7 @@ public class OutputFile {
         }
     }
 
-    private void writeOneKindOfStats(Sheet sh, HashMap<Object, Double> mapResult, WordList wordList) {
+    private void writeBasicStats(Sheet sh, Statistics.KindOfStats kindOfStats, WordList wordList) {
         String meaning = wordList.getMeaning();
         int size = wordList.getList().size();
 
@@ -260,14 +259,24 @@ public class OutputFile {
 
                 // Make cells format (percents etc.)
                 DecimalFormat df = new DecimalFormat("#.#");
+                String s1 = "";
 
-                String s1;
-                if (sh == sheets.get(2)) {
-                    s1 = df.format(mapResult.get(entry.getKey())) + " ";
-                } else {
-                    s1 = df.format(mapResult.get(entry.getKey()) * 100) + "% ";
+                switch (kindOfStats) {
+                    case WORDS_WITH_PHTYPE_PER_LIST: {
+                        s1 = df.format(wordList.getPhTypeStatsMap().get(entry.getKey()).getWordsWithPhTypePerAllWords() * 100) + "% ";
+                        break;
+                    }
+                    case PHTYPES_PER_LIST: {
+                        s1 = df.format(wordList.getPhTypeStatsMap().get(entry.getKey()).getPhTypePerAllPhonemes() * 100) + "% ";
+                        break;
+                    }
+                    case PHTYPES_AVERAGE_PER_WORD: {
+                        s1 = df.format(wordList.getPhTypeStatsMap().get(entry.getKey()).getPhTypeAvaragePerWord()) + " ";
+                        break;
+                    }
                 }
-                String s2 = String.valueOf(wordList.getMapOfDividers().get(entry.getKey()));
+
+                String s2 = String.valueOf(wordList.getPhTypeStatsMap().get(entry.getKey()).getPotentialWordsWithPhType());
                 Font font = wb.createFont();
                 font.setTypeOffset(Font.SS_SUPER);
                 RichTextString richString = new XSSFRichTextString(s1 + s2);

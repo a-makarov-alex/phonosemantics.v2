@@ -11,22 +11,46 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+
+
+/**
+ *  FLOW IS LIKE THAT:
+ *  1. CONSTRUCTOR INITIALIZE PHTYPESTATS MAP
+ *  2. METHOD calculatePotentialWordsWithPhType() PROVIDES NUM OF WORDS WHERE POTENTIALLY PHTYPE COULD BE FOUND
+ *          PS: SOME PHTYPES COULD ABSENT IN SOME LANGUAGE
+ *  3. METHOD countAllPhonotypesInstances() ADDS NUM OF PHTYPES INSTANCES AND NUM OF WORD WITH THEM
+ *  4. METHOD calculateBasicStats() ADDS 3 BASIC STATS:
+ *          - WORDS WITH PH TYPE PER ALL WORDS
+ *          - PHTYPE INSTANCES PER ALL PHTYPES
+ *          - AVERAGE PHTYPE INSTANCES NUM PER WORD
+ **/
 public class WordList {
     static final Logger userLogger = LogManager.getLogger(WordList.class);
 
     private String meaning;
     private Language language;
     private ArrayList<Word> list;
-    private HashMap<Object, Integer> mapPhTypesPerList = new HashMap<>();
-    private HashMap<Object, Integer> mapWordsPerList = new HashMap<>();
-    private HashMap<Object, Integer> mapOfDividers = new HashMap<>();
+    private HashMap<Object, PhTypeStats> phTypeStatsMap = new HashMap<>();
 
     public WordList(ArrayList<Word> list) {
         this.meaning = list.get(0).getMeaning().getDefinition();
         this.list = list;
         this.language = list.get(0).getLanguage();
 
-        countAllPhonotypes();
+        // Заполняем статсМапу парами "фонотип : пустой объект статов"
+        HashMap<Object, Integer> allPhTypes = SoundsBank.getAllPhonotypes();
+        for (Map.Entry<Object, Integer> phT : allPhTypes.entrySet()) {
+            PhTypeStats stats = new PhTypeStats(phT.getKey());
+            phTypeStatsMap.put(phT.getKey(), stats);
+        }
+        // рассчитываем, в скольки языках из представленных присутствует каждый фонотип
+        calculatePotentialWordsWithPhType();
+        // рассчитываем, сколько в WL: 1. экземпляров каждого фонотипа, 2. слов с наличием экземпляра фонотипа
+        countAllPhonotypesInstances();
+        // рассчитываем 3 базовых параметра для оценки результатов
+        calculateBasicStats();
+
+        System.out.println(this.phTypeStatsMap.get(SoundsBank.Height.CLOSE).serialize());
     }
 
     public String serialize() {
@@ -50,11 +74,9 @@ public class WordList {
 
 
     // Counts all ph-types for further statistics and write result to the Statistics object
-    public void countAllPhonotypes() {
-        mapPhTypesPerList = SoundsBank.getAllPhonotypes();
-
+    public void countAllPhonotypesInstances() {
         // Все фонотипы каждой фонемы из каждого слова в вордлисте суммируем в хашмапе
-        for (Map.Entry<Object, Integer> entry : mapPhTypesPerList.entrySet()) {
+        for (Map.Entry<Object, PhTypeStats> entry : phTypeStatsMap.entrySet()) {
             Object phType = entry.getKey();
 
             //TODO    System.out.println("");
@@ -76,54 +98,34 @@ public class WordList {
                 }
                 //TODO    System.out.println(w.getWord() + " " + counterPh + " " + counterW);
             }
-            entry.setValue(counterPh);
-            mapWordsPerList.put(entry.getKey(), counterW);
+            entry.getValue().phTypeCounter = counterPh;
+            entry.getValue().wordsWithPhTypeCounter = counterW;
         }
         userLogger.info("phonotypes for wordlist " + this.meaning + " are counted");
     }
 
 
-    public HashMap<Object, Double> getStats(Statistics.KindOfStats kindOfStats) {
-        HashMap<Object, Double> resultMap = new HashMap<>();
-        HashMap<Object, Integer> inputMap = mapPhTypesPerList;
-        boolean allPho = false;
+    public void calculateBasicStats() {
+        HashMap<Object, PhTypeStats> inputMap = phTypeStatsMap;
 
-        // Рассчитываем делитель для каждого Meaning в зависимости от того, в скольких языках встречен фонотип
-        mapOfDividers = this.calculateDividers();
+        for (Map.Entry<Object, PhTypeStats> stats : inputMap.entrySet()) {
+            PhTypeStats st = stats.getValue();
 
-        double divider = 0.0;
+            // PHTYPES_PER_LIST
+            st.phTypePerAllPhonemes = (st.phTypeCounter * 1.0)/Statistics.getNumOfAllPhonemes();
 
-        switch (kindOfStats) {
-            case WORDS_WITH_PHTYPE_PER_LIST : { inputMap = mapWordsPerList; break; }
-            case PHTYPES_PER_LIST : { allPho = true; break; }
-            case PHTYPES_AVERAGE_PER_WORD : { break; }
-        }
+            //TODO: делить на ноль нельзя
+            if (st.potentialWordsWithPhType != 0) {
+                // WORDS_WITH_PHTYPE_PER_LIST
+                st.wordsWithPhTypePerAllWords = (st.wordsWithPhTypeCounter * 1.0) / st.potentialWordsWithPhType;
 
-        // TODO short "if"
-        if (Main.CONSOLE_SHOW_NUM_OF_WORDS_AND_PHONEMES) {
-            System.out.println(kindOfStats);
-        }
-
-        for (Map.Entry<Object, Integer> entry : inputMap.entrySet()) {
-            //TODO
-            if (Main.CONSOLE_SHOW_NUM_OF_WORDS_AND_PHONEMES) {
-                System.out.println(entry.getKey() + " --- " + entry.getValue());
-            }
-
-            // костыли. возможно, позже будет заменено на что-то более элегантное
-            if (!allPho) {
-                divider = mapOfDividers.get(entry.getKey());
+                // PHTYPES_AVERAGE_PER_WORD
+                st.phTypeAvaragePerWord = (st.phTypeCounter * 1.0) / st.potentialWordsWithPhType;
             } else {
-                divider = Statistics.getNumOfAllPhonemes();
-            }
-            resultMap.put(entry.getKey(), entry.getValue()/divider);
-
-            if (Main.DEBUG_STATS) {
-                System.out.println(entry.getKey() + " " + entry.getValue() + " " + divider + " " + allPho + " WL class line 128");
+                st.wordsWithPhTypePerAllWords = 0;
+                st.phTypeAvaragePerWord = 0;
             }
         }
-
-        return resultMap;
     }
 
 
@@ -132,7 +134,7 @@ public class WordList {
      * Т.е. количество языков, в которых существуют экземпляры данного фонотипа
      * Применить ко всем листам сразу нельзя, т.к. некоторые значения в отдельных языках могут быть не зафиксированы
      */
-    public HashMap<Object, Integer> calculateDividers() {
+    public void calculatePotentialWordsWithPhType() {
         HashMap<Object, Integer> mapOfDividers = SoundsBank.getAllPhonotypes();
 
         for (Map.Entry<Object, Integer> entry : mapOfDividers.entrySet()) {
@@ -145,22 +147,15 @@ public class WordList {
                     count++;
                 }
             }
-            entry.setValue(count);
+            // записываем полученное значение в параметры WL
+            this.getPhTypeStatsMap().get(entry.getKey()).potentialWordsWithPhType = count;
+            userLogger.debug(entry.getKey() + " " + count);
         }
-        userLogger.debug("calculating dividers for wordlist " + this.meaning + " is finished");
-        return mapOfDividers;
+        userLogger.debug("calculating potential words with PhType for wordlist " + this.meaning + " is finished");
     }
 
 
     // GETTERS AND SETTERS
-    public HashMap<Object, Integer> getMapPhTypesPerList() {
-        return mapPhTypesPerList;
-    }
-
-    public HashMap<Object, Integer> getMapWordsPerList() {
-        return mapWordsPerList;
-    }
-
     public ArrayList<Word> getList() {
         return list;
     }
@@ -185,11 +180,67 @@ public class WordList {
         this.language = language;
     }
 
-    public HashMap<Object, Integer> getMapOfDividers() {
-        return mapOfDividers;
+    public HashMap<Object, PhTypeStats> getPhTypeStatsMap() {
+        return phTypeStatsMap;
     }
 
-    public void setMapOfDividers(HashMap<Object, Integer> mapOfDividers) {
-        this.mapOfDividers = mapOfDividers;
+    public void setPhTypeStatsMap(HashMap<Object, PhTypeStats> phTypeStatsMap) {
+        this.phTypeStatsMap = phTypeStatsMap;
+    }
+
+    public class PhTypeStats {
+        private Object phType;
+        // 3 базовых величины для последующей оценки
+        private double wordsWithPhTypePerAllWords;
+        private double phTypePerAllPhonemes;
+        private double phTypeAvaragePerWord;
+
+        // показатели для расчета базовых величин
+        // делители для них:
+        // либо Statistics.getNumOfAllPhonemes()
+        // либо результат метода calculatePotentialWordsWithPhType()
+        private int phTypeCounter;
+        private int wordsWithPhTypeCounter;
+        // количество слов, в которых потенциально мог бы быть данный фонотип (т.е. в скольки языках он присутствует)
+        // используется как делитель при получении некоторых параметров
+        private int potentialWordsWithPhType;
+
+        public PhTypeStats(Object phType) {
+            this.phType = phType;
+        }
+
+        public String serialize() {
+            Gson gson = new Gson();
+            String json = gson.toJson(this);
+            return json;
+        }
+
+        public Object getPhType() {
+            return phType;
+        }
+
+        public double getWordsWithPhTypePerAllWords() {
+            return wordsWithPhTypePerAllWords;
+        }
+
+        public double getPhTypePerAllPhonemes() {
+            return phTypePerAllPhonemes;
+        }
+
+        public double getPhTypeAvaragePerWord() {
+            return phTypeAvaragePerWord;
+        }
+
+        public int getPhTypeCounter() {
+            return phTypeCounter;
+        }
+
+        public int getWordsWithPhTypeCounter() {
+            return wordsWithPhTypeCounter;
+        }
+
+        public int getPotentialWordsWithPhType() {
+            return potentialWordsWithPhType;
+        }
     }
 }

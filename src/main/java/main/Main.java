@@ -66,7 +66,15 @@ public class Main {
 
     public static void newFullCycle() {
         inputFile = new InputFile("Input.xlsx");
+
+        // Создаем объекты всех фонем
         SoundsBank cBank = SoundsBank.getInstance();
+
+        // Считываем из входного файла названия языков,
+        // Метод не обязательный. Если его убрать, все будет работать.
+        inputFile.prepareLanguagesMap();
+
+        // Получаем все списки слов из входного файла
         ArrayList<WordList> allWordlists = inputFile.getAllWordLists();
 
         // Запись результатов в файл
