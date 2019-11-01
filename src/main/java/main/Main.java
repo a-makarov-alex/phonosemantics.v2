@@ -1,21 +1,15 @@
 package main;
 
-import entities.Language;
 import entities.WordList;
-import entities.phonetics.Phoneme;
-import entities.phonetics.Vowel;
 import input.InputFile;
 import knowledgeBase.SoundsBank;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import output.OutputFile;
-import statistics.ShapiroWilk;
 import statistics.Statistics;
 
-import java.io.FileInputStream;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 public class Main {
@@ -75,7 +69,15 @@ public class Main {
         inputFile.prepareLanguagesMap();
 
         // Получаем все списки слов из входного файла
+        // В полях wordlist уже будут записаны базовые статистические результаты. См. документацию
         ArrayList<WordList> allWordlists = inputFile.getAllWordLists();
+
+        // данные для 1 вордлиста. используются в качестве дебага
+        WordList wl = allWordlists.get(0);
+        for (Map.Entry<Object, WordList.PhTypeStats> stats : wl.getPhTypeStatsMap().entrySet()) {
+            userLogger.error(stats.getKey() + " : " + stats.getValue().getPercentOfWordsWithPhType() + " : " + stats.getValue().getAveragePhTypePerWord());
+        }
+        //*************************
 
         // Запись результатов в файл
         OutputFile normalityFile = new OutputFile("Normality", OutputFile.Type.NORMALITY);

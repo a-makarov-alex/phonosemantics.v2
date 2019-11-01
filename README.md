@@ -137,6 +137,11 @@ Class Statistics
 
 
         ПЛАНЫ
+        разделить класс OutputFile на General и Normality. В коде легко потеряться.
+        
+        FEATURES
+        Написать метод для создания файла с наглядным примером, какие фонемы обрабатываются в данной программе
+        
         Из-за нулей и бесконечностей при обработке parseNormalityCell валятся format exceptions
         Надо избегать деления нулей и деления на ноль!
         
@@ -146,17 +151,8 @@ Class Statistics
         Для работы с фонетикой (диакритики и т.д.): https://itpro.cz/juniconv/
         
         Глобально
+        КАК ПОНЯТЬ, ЧТО РАССЧЕТЫ ВЕРНЫ??!!
         Front, raised and retracted are the three articulatory dimensions of vowel space !!! Очень интересно для гласных
-        
-        Мелкие правки
-        - обязательно просмотреть циклы на предмет цепочек команд в одной строке. Пример:
-        
-        sheet.getRow(...).getCell(...).getValue()
-        
-        Row r = sheet.getRow(...);
-        Cell c = row.getCell(...);
-        и т.д.
-        Это даст выигрыш в производительности
         
         добавления
         - гипотетически лучше заменить чтение языков из экселя на чтение из .txt
@@ -171,15 +167,11 @@ Class Statistics
          Полигон частот
          График эмпирической функции
         
-        Крупные правки
-        - обезопасить конструктор Wordlist, чтобы нельзя было запихнуть в него слова с разными meaning (подумать про global WL)
-
    
         // bug list
         // TODO: standartization of phonemes transcription: sh => ʃ
         // TODO: fix the problem with /u0027 etc codes instead of symbols
         // TODO: unit tests
-        // TODO: do not read empty cells in inputFile and do not count them
         // TODO for some time a new field can be added двусмысленный знак или нет,
         // смысл в том, что многие знаки могут иметь несколько значений
         // такой шаг позволит в будущем заняться более подробным изучением отдельных знаков
@@ -192,6 +184,3 @@ Class Statistics
         // TODO all the affricates
         // TODO all the diacritics
         // TODO recalculate word's length after affricates and diacritics
-
-        // Small correction and additions
-        // TODO: add colors to OutputFile

@@ -1,6 +1,8 @@
 package output;
 
 import knowledgeBase.SoundsBank;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import statistics.Statistics;
@@ -9,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Header {
+    static final Logger userLogger = LogManager.getLogger(Header.class);
 
     private int row;
     private int column;
@@ -212,9 +215,20 @@ public class Header {
         consMannerSh.put(SoundsBank.MannerApproximate.OBSTRUENT, new Header(2, 3 + shift, "All"));
         consMannerSh.put(SoundsBank.MannerPricise.STOP, new Header(2, 4 + shift, "Stops"));
         consMannerSh.put(SoundsBank.MannerPricise.FRICATIVE, new Header(2, 5 + shift, "Fricat"));
-        consMannerSh.put(SoundsBank.MannerPricise.AFFRICATE, new Header(2, 6 + shift, "Affric"));
-        consMannerSh.put(SoundsBank.MannerPricise.NASAL, new Header(2, 7 + shift, "Sonorant"));
-        consMannerSh.put(SoundsBank.MannerPricise.LATERAL, new Header(2, 8 + shift, "Lateral"));
+        consMannerSh.put(SoundsBank.MannerPricise.SIBILANT, new Header(2, 6 + shift, "Sibil"));
+        consMannerSh.put(SoundsBank.MannerPricise.AFFRICATE, new Header(2, 7 + shift, "Affric"));
+        consMannerSh.put(SoundsBank.MannerPricise.SIBILANT_AFFRICATE, new Header(2, 8 + shift, "Sibil-Aff"));
+
+        consMannerSh.put(SoundsBank.MannerApproximate.SONORANT, new Header(2, 9 + shift, "All"));
+        consMannerSh.put(SoundsBank.MannerPricise.NASAL, new Header(2, 10 + shift, "Nasal"));
+        consMannerSh.put(SoundsBank.MannerPricise.APPROXIMANT, new Header(2, 11 + shift, "Approx"));
+        consMannerSh.put(SoundsBank.MannerPricise.TRILL, new Header(2, 12 + shift, "Trill"));
+        consMannerSh.put(SoundsBank.MannerPricise.FLAP, new Header(2, 13 + shift, "Flap"));
+
+        consMannerSh.put(SoundsBank.MannerPricise.LATERAL, new Header(2, 14 + shift, "Lateral"));
+
+        consMannerSh.put(SoundsBank.Phonation.VOICED, new Header(2, 15 + shift, "Voiced"));
+        consMannerSh.put(SoundsBank.Phonation.DEVOICED, new Header(2, 16 + shift, "DeVoiced"));
 
         // TODO delete later
         CONS_MANNER_HEADER_WIDTH = consMannerSh.size();
@@ -234,57 +248,23 @@ public class Header {
         // merging cells
         // TODO всё поправить!!
 
-        System.out.println(startCol + " " + finCol);
-        sheet.addMergedRegion(new CellRangeAddress(0,0,startCol, finCol));
-        sheet.addMergedRegion(new CellRangeAddress(1,1,shift + 3, shift + 8));
-        sheet.addMergedRegion(new CellRangeAddress(1,1,shift + 9, shift + 13));
+        userLogger.debug("start col: " + startCol + " , finish col: " + finCol);
+        sheet.addMergedRegion(new CellRangeAddress(0,0,startCol, finCol));      //Manner
+        sheet.addMergedRegion(new CellRangeAddress(1,1,shift + 3, shift + 8)); //Obstruent
+        sheet.addMergedRegion(new CellRangeAddress(1,1,shift + 9, shift + 13)); //Sonorant
+        sheet.addMergedRegion(new CellRangeAddress(1,1,shift + 15, shift + 16)); //Phonation
 
         // вписываем значения хедеров
         sheet.getRow(0).getCell(startCol).setCellValue("MANNER");
         sheet.getRow(1).getCell(startCol).setCellValue("Obstruent");
-//        sheet.getRow(1).getCell(shift + 9).setCellValue("Sonorant");
-//        sheet.getRow(1).getCell(shift + 14).setCellValue("Liquid");
+        sheet.getRow(1).getCell(shift + 9).setCellValue("Sonorant");
+        sheet.getRow(1).getCell(shift + 14).setCellValue("Liquid");
+        sheet.getRow(1).getCell(shift + 15).setCellValue("Phonation");
 
         for (Header h : consMannerSh.values()) {
             Cell cell = sheet.getRow(h.row).getCell(h.column);
             cell.setCellValue(h.text);
         }
-
-
-        // inicialization and style
-        /*for (int i=0; i <= 2; i++ ) {
-            Row row = sheet.getRow(i);
-            for (int j = shift + 3; j <= shift + 14; j++) {
-                row.createCell(j);
-                row.getCell(j).setCellStyle(OutputFile.getHeaderCellStyle());
-            }
-        }
-
-        ArrayList<Header> list = new ArrayList<>();
-        list.add(new Header(0,3, "MANNER"));
-        list.add(new Header(1, 3, "Obstruent"));
-        list.add(new Header(1, 9, "Sonorant"));
-        list.add(new Header(1, 14, "Liquid"));
-
-        list.add(new Header(2, 3, "All"));
-        list.add(new Header(2, 4, "Stops"));
-        list.add(new Header(2, 5, "Affric"));
-        list.add(new Header(2, 6, "Fricat all"));
-        list.add(new Header(2, 7, "Sibil"));
-        list.add(new Header(2, 8, "Non-sibil"));
-        list.add(new Header(2, 9, "All"));
-        list.add(new Header(2, 10, "Nasal"));
-        list.add(new Header(2, 11, "Approx"));
-        list.add(new Header(2, 12, "Trill"));
-        list.add(new Header(2, 13, "Flap"));
-        list.add(new Header(2, 14, "Lateral"));
-
-
-        // вписываем значения хедеров
-        for (Header h : list) {
-            Cell cell = sheet.getRow(h.row).getCell(h.column + shift);
-            cell.setCellValue(h.text);
-        }*/
     }
 
 

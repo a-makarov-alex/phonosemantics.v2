@@ -21,6 +21,8 @@ public class Language {
 
     public static final String INPUT_LANGUAGES_PATH =
             "D:\\JavaProjects2019\\word\\src\\main\\java\\knowledgeBase\\AllLanguages.xlsx";
+    // количество столбцов с фонемами в файле, описывающем языки
+    private static int NUM_OF_PHONOLOGY_COLUMNS = 7;
     private static HashMap<String, Language> allLanguages = new HashMap<>();
 
     private String title;
@@ -63,19 +65,15 @@ public class Language {
             // LOOKING FOR LANGUAGE
             while (cell.getCellType() != CellType.BLANK) {
                 String s = cell.getStringCellValue();
-                //System.out.println(rowNum + " LANG " + s);
 
                 if (this.title.toLowerCase().equals(s.toLowerCase())) {
-
                     if (Main.CONSOLE_LANG_PHONOLOGY) {
                         System.out.print("PHONOLOGY for LANG " + this.getTitle() + ": ");
                     }
 
-
                     // CREATING A PHONEMES BANK FOR THE LANGUAGE
                     for (Map.Entry<String, Phoneme> entry : cBank.getAllPhonemesTable().entrySet()) {
                         if (allPhArr == null) {
-                            int NUM_OF_PHONOLOGY_COLUMNS = 7;
                             String allPh = " ";
                             Row r = sheet.getRow(rowNum);
 
@@ -108,7 +106,7 @@ public class Language {
             return allPhonemes;
 
         } catch (IOException e) {
-            System.out.println("exception");    //TODO: logs
+            userLogger.error(e.toString());
             return null;
         }
     }

@@ -34,6 +34,13 @@ public class WordList {
 
     public WordList(ArrayList<Word> list) {
         this.meaning = list.get(0).getMeaning().getDefinition();
+        //check that all the words in input list have the same meaning
+        for (Word w : list) {
+            if (w.getMeaning().getDefinition() != this.meaning) {
+                userLogger.error("words in wordlist have different meanings: " + this.meaning + " != " + w.getMeaning().getDefinition());
+                break;
+            }
+        }
         this.list = list;
         this.language = list.get(0).getLanguage();
 
@@ -45,12 +52,12 @@ public class WordList {
         }
         // рассчитываем, в скольки языках из представленных присутствует каждый фонотип
         calculatePotentialWordsWithPhType();
+
         // рассчитываем, сколько в WL: 1. экземпляров каждого фонотипа, 2. слов с наличием экземпляра фонотипа
         countAllPhonotypesInstances();
+
         // рассчитываем 3 базовых параметра для оценки результатов
         calculateBasicStats();
-
-        System.out.println(this.phTypeStatsMap.get(SoundsBank.Height.CLOSE).serialize());
     }
 
     public String serialize() {
@@ -78,27 +85,19 @@ public class WordList {
         // Все фонотипы каждой фонемы из каждого слова в вордлисте суммируем в хашмапе
         for (Map.Entry<Object, PhTypeStats> entry : phTypeStatsMap.entrySet()) {
             Object phType = entry.getKey();
-
-            //TODO    System.out.println("");
-            //TODO    System.out.println(phType);
-
             int counterPh = 0;
             int counterW = 0;
             for (Word w : this.getList()) {
                 int incr = w.countPhonotype(phType);
-
-                // TODO
                 if (phType.equals(Main.CONSOLE_SHOW_WORDS_OF_CLASS)) {
                     userLogger.debug(phType + " : " + w.getWord() + " " + incr);
                 }
-
                 counterPh += incr;
                 if (incr > 0) {
                     counterW++;
                 }
-                //TODO    System.out.println(w.getWord() + " " + counterPh + " " + counterW);
             }
-            entry.getValue().phTypeCounter = counterPh;
+            entry.getValue().phonemesWithPhTypeCounter = counterPh;
             entry.getValue().wordsWithPhTypeCounter = counterW;
         }
         userLogger.info("phonotypes for wordlist " + this.meaning + " are counted");
@@ -112,18 +111,18 @@ public class WordList {
             PhTypeStats st = stats.getValue();
 
             // PHTYPES_PER_LIST
-            st.phTypePerAllPhonemes = (st.phTypeCounter * 1.0)/Statistics.getNumOfAllPhonemes();
+            st.percentOfPhonemesWithPhType = (st.phonemesWithPhTypeCounter * 1.0)/Statistics.getNumOfAllPhonemes();
 
             //TODO: делить на ноль нельзя
             if (st.potentialWordsWithPhType != 0) {
                 // WORDS_WITH_PHTYPE_PER_LIST
-                st.wordsWithPhTypePerAllWords = (st.wordsWithPhTypeCounter * 1.0) / st.potentialWordsWithPhType;
+                st.percentOfWordsWithPhType = (st.wordsWithPhTypeCounter * 1.0) / st.potentialWordsWithPhType;
 
                 // PHTYPES_AVERAGE_PER_WORD
-                st.phTypeAvaragePerWord = (st.phTypeCounter * 1.0) / st.potentialWordsWithPhType;
+                st.averagePhTypePerWord = (st.phonemesWithPhTypeCounter * 1.0) / st.potentialWordsWithPhType;
             } else {
-                st.wordsWithPhTypePerAllWords = 0;
-                st.phTypeAvaragePerWord = 0;
+                st.percentOfWordsWithPhType = 0;
+                st.averagePhTypePerWord = 0;
             }
         }
     }
@@ -149,7 +148,7 @@ public class WordList {
             }
             // записываем полученное значение в параметры WL
             this.getPhTypeStatsMap().get(entry.getKey()).potentialWordsWithPhType = count;
-            userLogger.debug(entry.getKey() + " " + count);
+            //TODO: userLogger.debug(entry.getKey() + " " + count);
         }
         userLogger.debug("calculating potential words with PhType for wordlist " + this.meaning + " is finished");
     }
@@ -191,15 +190,15 @@ public class WordList {
     public class PhTypeStats {
         private Object phType;
         // 3 базовых величины для последующей оценки
-        private double wordsWithPhTypePerAllWords;
-        private double phTypePerAllPhonemes;
-        private double phTypeAvaragePerWord;
+        private double percentOfWordsWithPhType;
+        private double percentOfPhonemesWithPhType;
+        private double averagePhTypePerWord;
 
         // показатели для расчета базовых величин
         // делители для них:
         // либо Statistics.getNumOfAllPhonemes()
         // либо результат метода calculatePotentialWordsWithPhType()
-        private int phTypeCounter;
+        private int phonemesWithPhTypeCounter;
         private int wordsWithPhTypeCounter;
         // количество слов, в которых потенциально мог бы быть данный фонотип (т.е. в скольки языках он присутствует)
         // используется как делитель при получении некоторых параметров
@@ -219,20 +218,20 @@ public class WordList {
             return phType;
         }
 
-        public double getWordsWithPhTypePerAllWords() {
-            return wordsWithPhTypePerAllWords;
+        public double getPercentOfWordsWithPhType() {
+            return percentOfWordsWithPhType;
         }
 
-        public double getPhTypePerAllPhonemes() {
-            return phTypePerAllPhonemes;
+        public double getPercentOfPhonemesWithPhType() {
+            return percentOfPhonemesWithPhType;
         }
 
-        public double getPhTypeAvaragePerWord() {
-            return phTypeAvaragePerWord;
+        public double getAveragePhTypePerWord() {
+            return averagePhTypePerWord;
         }
 
-        public int getPhTypeCounter() {
-            return phTypeCounter;
+        public int getPhonemesWithPhTypeCounter() {
+            return phonemesWithPhTypeCounter;
         }
 
         public int getWordsWithPhTypeCounter() {

@@ -4,7 +4,6 @@ package knowledgeBase;
 import entities.phonetics.Consonant;
 import entities.phonetics.Phoneme;
 import entities.phonetics.Vowel;
-import main.Main;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -91,6 +90,7 @@ public class SoundsBank {
         // TODO all the diacritics
     }
 
+    // Создает MAP со всеми фонотипами в качестве ключей. Значения нулевые.
     public static HashMap<Object, Integer> getAllPhonotypes() {
         if (allPhTypesMap != null) {
             return allPhTypesMap;
@@ -144,6 +144,12 @@ public class SoundsBank {
 
             // Cons.PlacePrecise
             hArr = PlacePrecise.values();
+            for (Object ob : hArr) {
+                map.put(ob, 0);
+            }
+
+            // Phonation
+            hArr = Phonation.values();
             for (Object ob : hArr) {
                 map.put(ob, 0);
             }

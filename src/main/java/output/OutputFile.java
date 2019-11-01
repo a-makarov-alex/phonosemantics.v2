@@ -104,7 +104,6 @@ public class OutputFile {
                         Header.addMannerHeader(sh, true);
                         //Header.addPlaceHeader(sheets.get(2));
                     }
-
                     break;
                 }
             }
@@ -263,15 +262,15 @@ public class OutputFile {
 
                 switch (kindOfStats) {
                     case WORDS_WITH_PHTYPE_PER_LIST: {
-                        s1 = df.format(wordList.getPhTypeStatsMap().get(entry.getKey()).getWordsWithPhTypePerAllWords() * 100) + "% ";
+                        s1 = df.format(wordList.getPhTypeStatsMap().get(entry.getKey()).getPercentOfWordsWithPhType() * 100) + "% ";
                         break;
                     }
                     case PHTYPES_PER_LIST: {
-                        s1 = df.format(wordList.getPhTypeStatsMap().get(entry.getKey()).getPhTypePerAllPhonemes() * 100) + "% ";
+                        s1 = df.format(wordList.getPhTypeStatsMap().get(entry.getKey()).getPercentOfPhonemesWithPhType() * 100) + "% ";
                         break;
                     }
                     case PHTYPES_AVERAGE_PER_WORD: {
-                        s1 = df.format(wordList.getPhTypeStatsMap().get(entry.getKey()).getPhTypeAvaragePerWord()) + " ";
+                        s1 = df.format(wordList.getPhTypeStatsMap().get(entry.getKey()).getAveragePhTypePerWord()) + " ";
                         break;
                     }
                 }
@@ -296,10 +295,13 @@ public class OutputFile {
 
             Sheet sh = sheets.get(0);
 
-            // MEAN
-            // 3 - высота хедеров
-            Row rowMean = sh.createRow(3 + recordsCounter + 2);
-            Row rowAver = sh.createRow(3 + recordsCounter + 3);
+            // HEADERS and row creation
+            int shiftForHeaders = 3;
+            Row rowMean = sh.createRow(shiftForHeaders + recordsCounter + 2);
+            rowMean.createCell(2).setCellValue("MEAN:");
+            Row rowAver = sh.createRow(shiftForHeaders + recordsCounter + 3);
+            rowAver.createCell(2).setCellValue("AVERAGE:");
+
 
             HashMap<Object, Sample> samples = readAllSamples(kindOfStats);
             HashMap<Object, Header> headers = Header.vowSh;
@@ -327,11 +329,11 @@ public class OutputFile {
             userLogger.debug("consonants manner stats added");
 
             wb.write(fileOut);
-            userLogger.debug("mean and average are written to file");
+            userLogger.info("mean and average are written to file");
             fileOut.close();
 
         } catch (IOException e) {
-            userLogger.info(e.toString());
+            userLogger.error(e.toString());
         }
     }
 
@@ -368,8 +370,10 @@ public class OutputFile {
             rightBorderCellNum.add(Header.vowSh.get(SoundsBank.Backness.BACK).getColumn());
             rightBorderCellNum.add(Header.vowSh.get(SoundsBank.Roundness.UNROUNDED).getColumn());
             rightBorderCellNum.add(Header.vowSh.get(SoundsBank.Nasalization.NON_NASAL).getColumn());
-            rightBorderCellNum.add(Header.consMannerSh.get(SoundsBank.MannerApproximate.OBSTRUENT).getColumn());
-            rightBorderCellNum.add(Header.consMannerSh.get(SoundsBank.MannerPricise.STOP).getColumn());
+            rightBorderCellNum.add(Header.consMannerSh.get(SoundsBank.MannerPricise.SIBILANT_AFFRICATE).getColumn());
+            rightBorderCellNum.add(Header.consMannerSh.get(SoundsBank.MannerPricise.FLAP).getColumn());
+            rightBorderCellNum.add(Header.consMannerSh.get(SoundsBank.MannerPricise.LATERAL).getColumn());
+            rightBorderCellNum.add(Header.consMannerSh.get(SoundsBank.Phonation.DEVOICED).getColumn());
 
             //colorTheColumn(sheets.get(0), SoundsBank.Height.CLOSE);
             Sheet sheet = sheets.get(0);
