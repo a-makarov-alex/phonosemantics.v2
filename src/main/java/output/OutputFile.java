@@ -16,7 +16,7 @@ import java.text.DecimalFormat;
 import java.util.*;
 
 public class OutputFile {
-    static final Logger userLogger = LogManager.getLogger(OutputFile.class);
+    private static final Logger userLogger = LogManager.getLogger(OutputFile.class);
 
     private String title;
     private String filePath;
@@ -57,8 +57,6 @@ public class OutputFile {
 
             // Create an Excel file draft
             sheets = new ArrayList<>();
-            Row row;
-            Cell cell;
 
             // Specify a style for headers
             headerCellStyle = wb.createCellStyle();

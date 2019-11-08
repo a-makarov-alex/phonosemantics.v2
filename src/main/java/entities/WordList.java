@@ -189,6 +189,7 @@ public class WordList {
 
     public class PhTypeStats {
         private Object phType;
+
         // 3 базовых величины для последующей оценки
         private double percentOfWordsWithPhType;
         private double percentOfPhonemesWithPhType;

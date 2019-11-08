@@ -2,9 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e58d30ed-a6ea-4021-9940-2c129a4ff7c6" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/test/java/output/PhonemesCoverageFileTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/output/PhonemesCoverage.xlsx" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/output/PhonemesCoverageFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/output/PhonemesCoverageFile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/output/PhonemesCoverageFileTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/output/PhonemesCoverageFileTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/output/PhonemesCoverageFile.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/output/PhonemesCoverageFile.class" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -21,22 +22,10 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/main/Main.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1207">
-              <caret line="83" column="26" selection-start-line="83" selection-start-column="26" selection-end-line="83" selection-end-column="26" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/output/PhonemesCoverageFile.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="191">
-              <caret line="97" column="37" selection-start-line="97" selection-start-column="37" selection-end-line="97" selection-end-column="37" />
+            <state relative-caret-position="252">
+              <caret line="104" column="81" selection-start-line="104" selection-start-column="81" selection-end-line="104" selection-end-column="81" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -47,8 +36,12 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/test/java/output/PhonemesCoverageFileTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="11" column="96" selection-start-line="11" selection-start-column="96" selection-end-line="11" selection-end-column="96" />
+            <state relative-caret-position="136">
+              <caret line="10" column="68" selection-start-line="10" selection-start-column="68" selection-end-line="10" selection-end-column="68" />
+              <folding>
+                <element signature="e#168#169#0" expanded="true" />
+                <element signature="e#243#244#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -227,8 +220,8 @@
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/entities/Word.java" />
         <option value="$PROJECT_DIR$/src/test/java/entities/WordTest.java" />
-        <option value="$PROJECT_DIR$/src/test/java/output/PhonemesCoverageFileTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/output/PhonemesCoverageFile.java" />
+        <option value="$PROJECT_DIR$/src/test/java/output/PhonemesCoverageFileTest.java" />
       </list>
     </option>
   </component>
@@ -505,34 +498,34 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="WordTest - 2019.11.06 at 23h 30m 33s.xml">
-      <configuration name="WordTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="WordTest - 2019.11.06 at 23h 35m 38s.xml">
-      <configuration name="WordTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="WordTest_digraphAffricate_FirstPosition - 2019.11.06 at 23h 40m 01s.xml">
-      <configuration name="WordTest.digraphAffricate_FirstPosition" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="WordTest_digraphAffricate_FirstPosition - 2019.11.06 at 23h 42m 00s.xml">
-      <configuration name="WordTest.digraphAffricate_FirstPosition" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="WordTest_digraphAffricate_FirstPosition - 2019.11.06 at 23h 43m 30s.xml">
-      <configuration name="WordTest.digraphAffricate_FirstPosition" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="WordTest - 2019.11.06 at 23h 45m 09s.xml">
-      <configuration name="WordTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="WordTest_getNumOfPhonemes - 2019.11.06 at 23h 48m 53s.xml">
-      <configuration name="WordTest.getNumOfPhonemes" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="PhonemesCoverageFileTest_definePhonemesCoverage - 2019.11.08 at 00h 24m 22s.xml">
+    <history-entry file="PhonemesCoverageFileTest_definePhonemesCoverage - 2019.11.09 at 00h 09m 09s.xml">
       <configuration name="PhonemesCoverageFileTest.definePhonemesCoverage" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="PhonemesCoverageFileTest_definePhonemesCoverage - 2019.11.08 at 00h 43m 35s.xml">
+    <history-entry file="PhonemesCoverageFileTest_definePhonemesCoverage - 2019.11.09 at 00h 13m 47s.xml">
       <configuration name="PhonemesCoverageFileTest.definePhonemesCoverage" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="PhonemesCoverageFileTest_definePhonemesCoverage - 2019.11.08 at 00h 45m 11s.xml">
+    <history-entry file="PhonemesCoverageFileTest_definePhonemesCoverage - 2019.11.09 at 00h 16m 38s.xml">
+      <configuration name="PhonemesCoverageFileTest.definePhonemesCoverage" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="PhonemesCoverageFileTest_definePhonemesCoverage - 2019.11.09 at 00h 18m 54s.xml">
+      <configuration name="PhonemesCoverageFileTest.definePhonemesCoverage" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="PhonemesCoverageFileTest_definePhonemesCoverage - 2019.11.09 at 00h 22m 44s.xml">
+      <configuration name="PhonemesCoverageFileTest.definePhonemesCoverage" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="PhonemesCoverageFileTest_definePhonemesCoverage - 2019.11.09 at 00h 27m 11s.xml">
+      <configuration name="PhonemesCoverageFileTest.definePhonemesCoverage" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="PhonemesCoverageFileTest_definePhonemesCoverage - 2019.11.09 at 00h 32m 24s.xml">
+      <configuration name="PhonemesCoverageFileTest.definePhonemesCoverage" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="PhonemesCoverageFileTest_definePhonemesCoverage - 2019.11.09 at 00h 34m 01s.xml">
+      <configuration name="PhonemesCoverageFileTest.definePhonemesCoverage" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="PhonemesCoverageFileTest_definePhonemesCoverage - 2019.11.09 at 00h 36m 26s.xml">
+      <configuration name="PhonemesCoverageFileTest.definePhonemesCoverage" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="PhonemesCoverageFileTest_definePhonemesCoverage - 2019.11.09 at 00h 37m 29s.xml">
       <configuration name="PhonemesCoverageFileTest.definePhonemesCoverage" configurationId="JUnit" />
     </history-entry>
   </component>
@@ -550,7 +543,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Designer" order="0" />
       <window_info id="UI Designer" order="1" />
@@ -560,11 +552,11 @@
       <window_info active="true" content_ui="combo" id="Project" order="5" sideWeight="0.48926014" visible="true" weight="0.21482602" />
       <window_info id="Structure" order="6" sideWeight="0.51073986" side_tool="true" weight="0.2118003" />
       <window_info anchor="bottom" id="Terminal" order="0" sideWeight="0.49848714" weight="0.3207856" />
-      <window_info anchor="bottom" id="Event Log" order="1" sideWeight="0.5015129" side_tool="true" weight="0.31423897" />
+      <window_info anchor="bottom" id="Event Log" order="1" sideWeight="0.50226927" side_tool="true" weight="0.31423897" />
       <window_info anchor="bottom" id="Version Control" order="2" weight="0.3289689" />
       <window_info anchor="bottom" id="Message" order="3" />
       <window_info anchor="bottom" id="Find" order="4" weight="0.3289689" />
-      <window_info anchor="bottom" id="Run" order="5" sideWeight="0.49848714" visible="true" weight="0.31423897" />
+      <window_info anchor="bottom" id="Run" order="5" sideWeight="0.4977307" visible="true" weight="0.31423897" />
       <window_info anchor="bottom" id="Debug" order="6" weight="0.39934534" />
       <window_info anchor="bottom" id="Cvs" order="7" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="8" weight="0.4" />
@@ -903,6 +895,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/entities/WordTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="21" column="5" selection-start-line="21" selection-start-column="5" selection-end-line="21" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/output/OutputFile.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1057">
@@ -914,17 +913,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/entities/WordTest.java">
+    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/poi/poi/4.0.1/poi-4.0.1.jar!/org/apache/poi/ss/usermodel/Workbook.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="21" column="5" selection-start-line="21" selection-start-column="5" selection-end-line="21" selection-end-column="5" />
+        <state relative-caret-position="748">
+          <caret line="55" column="10" selection-start-line="55" selection-start-column="10" selection-end-line="55" selection-end-column="10" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/output/PhonemesCoverageFile.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="191">
-          <caret line="97" column="37" selection-start-line="97" selection-start-column="37" selection-end-line="97" selection-end-column="37" />
+        <state relative-caret-position="252">
+          <caret line="104" column="81" selection-start-line="104" selection-start-column="81" selection-end-line="104" selection-end-column="81" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -933,8 +932,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/output/PhonemesCoverageFileTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="11" column="96" selection-start-line="11" selection-start-column="96" selection-end-line="11" selection-end-column="96" />
+        <state relative-caret-position="136">
+          <caret line="10" column="68" selection-start-line="10" selection-start-column="68" selection-end-line="10" selection-end-column="68" />
+          <folding>
+            <element signature="e#168#169#0" expanded="true" />
+            <element signature="e#243#244#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -92,13 +92,13 @@ public class PhonemesCoverageFile {
 
         for (CoverageSheet sh : shList) {
             for (int i = sh.firstRow; i <= sh.lastRow; i++) {
-                row = vowelsSheet.sheet.getRow(i);
+                row = sh.sheet.getRow(i);
                 for (int j = sh.firstCol; j <= sh.lastCol; j++) {
                     // ячейка может быть пустой! см. таблицу IPA
                     Cell cell = null;
                     try {
                         cell = row.getCell(j);
-                    } catch (Error e) {
+                    } catch (NullPointerException e) {
                         userLogger.error(e.toString() + "\n ROW: " + i + "\n COLUMN: " + j);
                     }
                     if (cell != null) {
